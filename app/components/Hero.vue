@@ -14,9 +14,9 @@
 
         <div class="text-1 mt-[10vh] md:mt-[12vh]">
           <h1 class="text-white text-2xl md:text-3xl text-white!">
-           <span class="uppercase">Exceptional Branded Residences </span> 
+           <span class="uppercase">{{ $t('title') }}</span> 
             <br />
-            Designed by Pininfarina
+            {{ $t('subtitle') }}
           </h1>
         </div>
 

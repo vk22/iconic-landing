@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/i18n": "^10.2.0",
     "@tailwindcss/vite": "^4.1.15",
     "nuxt": "^4.1.3",
     "resend": "^6.2.2",

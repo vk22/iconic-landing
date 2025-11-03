@@ -71,7 +71,6 @@
                   </select>
                 </div>
 
-                {{ form }}
               </div>
             </div>
 

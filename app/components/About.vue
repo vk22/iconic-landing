@@ -23,17 +23,15 @@
         <!--- --->
         <div class="flex flex-wrap mb-10">
           <div
-            class="param mb-5 basis-1/3 md:basis-1/3 pr-10"
+            class="param mb-5 basis-1/3 md:basis-1/3 pr-10 md:pr-1"
             v-for="(param, index) in parametrs"
             :key="index"
           >
             <p class="value text-[1.75rem] mb-1">{{ param.value }}</p>
             <p class="title text-[1rem]">{{ param.text }}</p>
           </div>
-
-
         </div>
-        <div class="flex flex-row items-center">
+        <div class="flex flex-col md:flex-row items-center mb-5 md:mb-0">
             <div class="btn p-1">
               <Button
                 :size="'big'"

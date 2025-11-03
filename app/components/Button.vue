@@ -27,7 +27,7 @@
     :href="link"
     target="_blank"
     download
-    :class="`btn ${size} text-center inline-flex items-center cursor-pointer text-white uppercase bg-[#0d1313] hover:bg-[#000000] focus:outline-none font-medium rounded-full ${textSize}`"
+    :class="`btn ${size} text-center inline-flex items-center cursor-pointer text-white uppercase bg-[#0d1313] hover:bg-[#000000] focus:outline-none font-small md:font-medium rounded-full ${textSize}`"
   >
     <svg
       v-if="icon"
@@ -84,7 +84,7 @@ const ySize = computed(() => {
 });
 
 const textSize = computed(() => {
-  return props.size === "big" ? "text-sm" : "text-xs";
+  return props.size === "big" ? "text-xs md:text-sm" : "text-xs";
 });
 
 const scrollToForm = () => {
