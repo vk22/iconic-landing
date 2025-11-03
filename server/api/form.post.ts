@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
       from: 'iconic@resend.dev',
       to: ['v.kushnir22@gmail.com'],
       subject: 'Iconic New Interest',
-      text: `Full Name: ${full_name}\nEmail: ${email}\nPhone: ${phone}`,
+      text: `Full Name: ${full_name}\nEmail: ${email}\nPhone: ${phone}\nApartamet_type: ${apartamet_type}`,
     })
 
     return { success: true }
