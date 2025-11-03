@@ -1,7 +1,7 @@
 <template>
   <section
     id="morgage"
-    class="mx-auto w-full md:max-w-6xl flex flex-col pt-30 px-4 transition-all duration-2000"
+    class="mx-auto w-full md:max-w-6xl flex flex-col pt-20 md:pt-30 px-4 transition-all duration-2000"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,

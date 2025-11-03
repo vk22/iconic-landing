@@ -1,7 +1,7 @@
 <template>
   <section
     id="place"
-    class="mx-auto w-full md:max-w-5xl flex flex-col pt-30 px-4 transition-all duration-2000 items-center"
+    class="mx-auto w-full md:max-w-5xl flex flex-col pt-20 md:pt-30 px-4 transition-all duration-2000 items-center"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,
@@ -19,7 +19,7 @@
 
     <div class="flex flex-wrap pt-15 justify-center w-full md:max-w-5xl">
       <div
-        class="param mb-15 basis-1/4 md:basis-1/4 pr-10 text-center"
+        class="param mb-15 basis-1/2 md:basis-1/4 px-4 text-center"
         v-for="(param, index) in parametrs"
         :key="index"
         :class="borderNeed(parametrs.length, index)"
@@ -68,7 +68,7 @@ const parametrs = [
 
 const borderNeed = (length: number, index: number) => {
   if (index < length - 1) {
-    return 'border-r-1 border-grey-dark';
+    return 'border-r-1 border-grey-light';
   }
 }
 
