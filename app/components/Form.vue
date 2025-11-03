@@ -70,6 +70,8 @@
                     <option value="A2">A2</option>
                   </select>
                 </div>
+
+                {{ form }}
               </div>
             </div>
 
