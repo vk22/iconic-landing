@@ -48,7 +48,7 @@ const onSlideChange = () => {};
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 100% 100%;
+    /* object-position: 100% 100%; */
 }
 
 </style>

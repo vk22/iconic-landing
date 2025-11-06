@@ -1,7 +1,7 @@
 <template>
   <section
-    id="about"
-    class="hero-top mx-auto w-full md:max-w-6xl flex flex-col pt-10 md:pt-20 px-4 transition-all duration-2000"
+    id="overview"
+    class="hero-top mx-auto w-full md:max-w-6xl flex flex-col pt-16 md:pt-20 px-4 transition-all duration-2000"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,

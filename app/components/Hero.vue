@@ -24,7 +24,7 @@
           <!-- <a class="text-white text-lg md:text-2xl text-white! ">
           Premium Apartments starting from AED 3.5M / $970K
           </a> -->
-          <Button :type="'button'" :text="'Premium Apartments starting from AED 3.5M / $970Kt'" size="big"></Button>
+          <Button :type="'button'" :text="'Premium Apartments starting from AED 3.5M / $970K'" size="big"></Button>
         </div>
       </div>  
 

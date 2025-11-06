@@ -1,6 +1,6 @@
 <template>
   <section
-    id="place"
+    id="location"
     class="mx-auto w-full md:max-w-5xl flex flex-col pt-20 md:pt-30 px-4 transition-all duration-2000 items-center"
     :class="{
       'opacity-100 translate-y-0': contentVisible,

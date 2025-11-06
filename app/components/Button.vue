@@ -100,5 +100,6 @@ const scrollToForm = () => {
 
 .btn .small {
   padding: .25rem .5rem;
+  border: 1px solid #fff;
 }
 </style>

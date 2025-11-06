@@ -15,11 +15,11 @@ const others = computed(() => locales.value.filter(l => l.code !== locale.value)
 
     <!-- Меню остальных языков -->
     <div
-      class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-[80%]
+      class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[80%]
              flex flex-col gap-1 py-1
              opacity-0 pointer-events-none
              transition-all duration-300 ease-out
-             group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-x-[100%]"
+             group-hover:opacity-100 group-hover:pointer-events-auto group-hover:-translate-x-[100%]"
     >
       <NuxtLink
         v-for="l in others"

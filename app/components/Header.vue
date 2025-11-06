@@ -1,96 +1,169 @@
 <template>
   <header
-    class="header flex flex-row justify-between items-center px-6 py-4 transition-all duration-1000"
+    class="header flex items-center justify-between px-6 py-4 transition-all duration-1000"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-0 -translate-y-4': !contentVisible,
     }"
   >
-    <div class="w-[10rem]">
-      <Langs></Langs>
-    </div>
-    
-    <div class="logo">
-      <img class="w-[6rem]" src="../assets/img/mered2.svg" alt="" />
+    <!-- ЛЕВАЯ ЧАСТЬ: МЕНЮ (desktop) -->
+    <nav class="hidden md:flex md:w-[25rem]">
+      <div class="flex">
+        <nuxt-link
+          v-for="(item, index) in menu"
+          :key="index"
+          :to="{ hash: item.id }"
+          :external="true"
+          class="mr-5 text-white text-[.7rem] uppercase"
+        >
+          {{ item.text }}
+        </nuxt-link>
+      </div>
+    </nav>
+
+    <!-- ГАМБУРГЕР (mobile) -->
+    <button
+      class="md:hidden inline-flex items-center justify-center w-6 h-10 rounded focus:outline-none"
+      aria-label="Open menu"
+      @click="openMenu"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor" stroke-width="1">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+
+
+    <!-- ЛОГО -->
+    <div class="logo hidden md:flex">
+      <img class="w-[6rem]" src="../assets/img/mered2.svg" alt="Logo" />
     </div>
 
-    <div class="btn ml-3 w-[10rem] text-right">
-      <Button :type="'button'" :text="'Leave a Request'"></Button>
+    <!-- ПРАВАЯ ЧАСТЬ: ЯЗЫКИ + КНОПКА (desktop) -->
+    <div class="flex flex-row justify-end items-center md:w-[25rem]">
+      <Langs class="hidden md:flex"/>
+      <div class="btn ml-3">
+        <Button :type="'button'" :text="'Register your interest'"></Button>
+      </div>
     </div>
+
 
   </header>
-</template>
+
+  <!-- POPUP / OVERLAY МЕНЮ (mobile) -->
+  <Teleport to="body">
+    <transition name="fade">
+      <div
+        v-if="isMenuOpen"
+        class="fixed inset-0 z-[999] flex"
+        @keydown.esc="closeMenu"
+        role="dialog"
+        aria-modal="true"
+      >
+        <!-- backdrop -->
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="closeMenu" />
+
+        <!-- панель -->
+        <transition name="slide">
+          <div
+            class="relative ml-auto h-full w-[100%] bg-neutral-900 text-white px-6 py-6 flex flex-col"
+          >
+            <div class="flex items-center justify-between">
+              <!-- <img class="h-3" src="../assets/img/mered2.svg" alt="Logo" /> -->
+              <button
+                class="inline-flex items-center justify-center w-auto h-auto rounded focus:outline-none"
+                aria-label="Close menu"
+                @click="closeMenu"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+
+            <nav class="mt-8 flex justify-start">
+              <ul class="space-y-4 flex flex-col justify-start ml-1 mt-2">
+                <li v-for="(item, i) in menu" :key="i" class="text-left">
+                  <nuxt-link
+                    :to="{ hash: item.id }"
+                    :external="true"
+                    class="mr-5 text-white text-[.85rem] uppercase text-center"
+                    @click="closeMenu"
+                  >
+                    {{ item.text }}
+                  </nuxt-link>
+                </li>
+              </ul>
+            </nav>
+
+            <div class="mt-auto">
+              <img class="h-3" src="../assets/img/mered2.svg" alt="Logo" /> 
+              <!-- <Langs />
+              <div class="mt-4">
+                <Button :type="'button'" :text="'Register your interest'" @click="closeMenu" />
+              </div> -->
+            </div>
+          </div>
+        </transition>
+      </div>
+    </transition>
+  </Teleport>
+
+</template> 
+
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
-const { locale, locales, setLocale } = useI18n();
-const switchLocalePath = useSwitchLocalePath();
-const contentVisible = ref(false);
+import { ref, onMounted, watch, onBeforeUnmount } from 'vue'
+const { locale, locales } = useI18n()
+const contentVisible = ref(false)
 
-const current = computed(() => locales.value.find(l => l.code === locale.value))
-const others = computed(() => locales.value.filter(l => l.code !== locale.value))
+const menu = [
+  { id: '#overview', text: 'Overview' },
+  { id: '#location', text: 'Location' },
+  { id: '#payment',  text: 'Payment Plan' },
+]
 
 onMounted(() => {
-  setTimeout(() => (contentVisible.value = true), 400);
-});
+  setTimeout(() => (contentVisible.value = true), 400)
+})
+
+/* --- mobile popup state + UX --- */
+const isMenuOpen = ref(false)
+
+const openMenu  = () => ( isMenuOpen.value = true )
+const closeMenu = () => ( isMenuOpen.value = false )
+
+// Блокируем прокрутку фона, когда открыт попап
+watch(isMenuOpen, (open) => {
+  const cls = document.documentElement.classList
+  if (open) cls.add('overflow-hidden')
+  else cls.remove('overflow-hidden')
+})
+
+// Закрытие по Esc (на случай если фокус не в оверлее)
+const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeMenu() }
+onMounted(() => window.addEventListener('keydown', onKey))
+onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
 </script>
+
 
 <style scoped>
 .header {
   position: fixed;
-  left: 0;
-  top: 0;
+  left: 0; top: 0;
   width: 100%;
   background: rgba(0, 0, 0, 0.313);
   backdrop-filter: blur(0.5rem) brightness(0.8);
   z-index: 99;
 }
 
-.lang-switcher {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  user-select: none;
-  font-weight: 500;
-}
+/* transitions */
+.fade-enter-active, .fade-leave-active { transition: opacity .2s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
 
-/* активный язык */
-.current {
-  padding: 6px 10px;
-}
+.slide-enter-active, .slide-leave-active { transition: transform .25s ease; }
+.slide-enter-from, .slide-leave-to { transform: translateX(100%); }
 
-/* скрытое меню */
-.menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: white;
-  border-radius: 6px;
-  padding: 6px 0;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(4px);
-  transition: all 0.2s ease;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-}
-
-/* показываем при наведении */
-.lang-switcher:hover .menu {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-/* пункты */
-.option {
-  display: block;
-  padding: 6px 14px;
-  white-space: nowrap;
-  font-size: 14px;
-  color: #333;
-}
-
-.option:hover {
-  background: #f4f4f4;
-}
+/* (остальной твой стиль для lang-switcher и т.д. можно оставить как было) */
 </style>
