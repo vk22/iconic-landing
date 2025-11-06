@@ -8,7 +8,7 @@
       'opacity-90 translate-y-0': !contentVisible,
     }"
   >
-    <div class="flex flex-col md:flex-row justify-center pb-15">
+    <div class="flex flex-col md:flex-row justify-center pb-10">
       <div class="basis-1/2">
         <div class="flex flex-col items-center">
           <h3 class="text-[2.5rem] mb-10 uppercase text-center">

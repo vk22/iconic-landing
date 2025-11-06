@@ -1,24 +1,23 @@
 <template>
   <header
-    class="header flex flex-row justify-between items-center p-3 pl-6 transition-all duration-1000"
+    class="header flex flex-row justify-between items-center px-6 py-4 transition-all duration-1000"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-0 -translate-y-4': !contentVisible,
     }"
   >
+    <div class="w-[10rem]">
+      <Langs></Langs>
+    </div>
+    
     <div class="logo">
       <img class="w-[6rem]" src="../assets/img/mered2.svg" alt="" />
     </div>
-    <div class="flex flex-row">
-      <!-- <div class="langs flex flex-row items-center justify-center text-gray-400 text-[.7rem] mr-4 pt-1">
-          <NuxtLink :to="switchLocalePath('en')" class="px-1 opacity-0 hover:opacity-100" :class="{'text-white opacity-100!': locale == 'en'}">EN</NuxtLink>
-          <NuxtLink :to="switchLocalePath('ar')" class="px-1 opacity-0 hover:opacity-100" :class="{'text-white opacity-100!': locale == 'ar'}">AR</NuxtLink>
-      </div> -->
-      <Langs></Langs>
-      <div class="btn ml-3">
-        <Button :type="'button'" :text="'Leave a Request'"></Button>
-      </div>
+
+    <div class="btn ml-3 w-[10rem] text-right">
+      <Button :type="'button'" :text="'Leave a Request'"></Button>
     </div>
+
   </header>
 </template>
 

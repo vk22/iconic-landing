@@ -75,13 +75,13 @@ const props = defineProps({
 import { ref, computed } from "vue";
 const formSection = ref(null);
 
-const xSize = computed(() => {
-  return props.size === "big" ? 5.5 : 2.5;
-});
+// const xSize = computed(() => {
+//   return props.size === "big" ? 5.5 : 2.5;
+// });
 
-const ySize = computed(() => {
-  return props.size === "big" ? 3 : 1;
-});
+// const ySize = computed(() => {
+//   return props.size === "big" ? 3 : 1.5;
+// });
 
 const textSize = computed(() => {
   return props.size === "big" ? "text-xs md:text-sm" : "text-xs";
@@ -99,6 +99,6 @@ const scrollToForm = () => {
 }
 
 .btn .small {
-  padding: .15rem .5rem;
+  padding: .25rem .5rem;
 }
 </style>
