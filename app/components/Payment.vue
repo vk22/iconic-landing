@@ -8,7 +8,7 @@
     }"
   >
     <div class="flex flex-col md:flex-row">
-      <div class="basis-1/2 pl-0 md:pl-10">
+      <div class="basis-1/2 pl-0 md:pr-10">
         <div class="mb-10">
           <h3 class="text-[2.5rem] mb-10 uppercase text-center">
             Payment Plan
@@ -33,7 +33,7 @@
           </table>
         </div>
       </div>
-      <div class="basis-1/2 pr-0 md:pr-10 mb-10 md:mb-0">
+      <div class="basis-1/2 pr-0 md:pl-10 mb-10 md:mb-0">
         <div class="">
           <h3 class="text-[2.5rem] mb-10 uppercase text-center">
             Mortage options
