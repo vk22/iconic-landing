@@ -1,23 +1,23 @@
 <template>
   <section
     id="location"
-    class="mx-auto w-full md:max-w-5xl flex flex-col pt-20 md:pt-30 px-4 transition-all duration-2000 items-center"
+    class="mx-auto w-full md:max-w-5xl flex flex-col pt-16 md:pt-20 px-4 transition-all duration-2000 items-center"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,
     }"
   >
     <div class="flex flex-col items-center">
-      <div class="text-center mb-1 max-w-xl">
-        <h3 class="text-[2.5rem] mb-10">CENTRAL LOCATION</h3>
-        <p class="mb-3 ">
+      <div class="text-center mb-3 md:mb-6 max-w-xl">
+        <TitleH3 :text="'CENTRAL LOCATION'" :align="'center'"></TitleH3>
+        <p class="mb-3">
      Perfectly positioned in the heart of Dubai Internet City, ICONIC offers unparalleled connectivity and proximity to Dubai’s most renowned destinations.
         </p>
       </div>
     </div>
 
 
-    <div class="flex flex-wrap pt-15 justify-center w-full md:max-w-5xl">
+    <div class="flex flex-wrap pt-5 justify-center w-full md:max-w-5xl">
       <div
         class="param mb-15 basis-1/2 md:basis-1/4 px-4 text-center"
         v-for="(param, index) in parametrs"

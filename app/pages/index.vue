@@ -5,7 +5,6 @@
   <Overview></Overview>
   <Location></Location>
   <Payment></Payment>
-  <GoldenViza></GoldenViza>
   <Form></Form>
   <Footer></Footer>
   </div>

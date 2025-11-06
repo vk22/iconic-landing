@@ -3,7 +3,7 @@
     v-if="!link"
     :type="type"
     @click="scrollToForm"
-    :class="`btn ${size} text-center inline-flex items-center cursor-pointer text-white uppercase bg-[#0d1313] hover:bg-[#000000] focus:outline-none font-medium rounded-full ${textSize}`"
+    :class="`btn ${size} border-white md:border-white text-center inline-flex items-center cursor-pointer text-white uppercase bg-[#0d1313] hover:bg-[#000000] focus:outline-none font-medium rounded-full ${textSize}`"
   >
     <svg
       v-if="icon"
@@ -84,7 +84,7 @@ const formSection = ref(null);
 // });
 
 const textSize = computed(() => {
-  return props.size === "big" ? "text-xs md:text-sm" : "text-xs";
+  return props.size === "big" ? "text-[.65rem] md:text-[.75rem]" : "text-[.5rem] md:text-[.65rem]";
 });
 
 const scrollToForm = () => {

@@ -1,7 +1,7 @@
 <template>
   <section
     id="payment"
-    class="mx-auto w-full md:max-w-6xl flex flex-col pt-20 md:pt-30 px-4 transition-all duration-2000"
+    class="mx-auto w-full md:max-w-5xl flex flex-col pt-16 md:pt-20 px-4 transition-all duration-2000"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,
@@ -10,10 +10,8 @@
     <div class="flex flex-col md:flex-row">
       <div class="basis-1/2 pl-0 md:pr-10">
         <div class="mb-10">
-          <h3 class="text-[2.5rem] mb-10 uppercase text-center">
-            Payment Plan
-          </h3>
-          <p class="mb-3">
+          <TitleH3 :text="'Payment Plan'" :align="'center'"></TitleH3>
+          <p class="mb-6">
             Convenient payment schedule designed for comfort and flexibility.
           </p>
 
@@ -35,9 +33,7 @@
       </div>
       <div class="basis-1/2 pr-0 md:pl-10 mb-10 md:mb-0">
         <div class="">
-          <h3 class="text-[2.5rem] mb-10 uppercase text-center">
-            Mortage options
-          </h3>
+          <TitleH3 :text="'Mortage options'" :align="'center'"></TitleH3>
           <p class="mb-3">
             Mortgages are available even if you're not a UAE resident. You can
             finance up to half the property value and get full support
@@ -55,6 +51,29 @@
             <li>Non-residents with international income</li>
           </ul>
           <p>Up to 50% of property value can be financed.</p>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col md:flex-row justify-center pt-4">
+      <div class="basis-1/2">
+        <div class="flex flex-col items-center">
+          <TitleH3 :text="'SECURE YOUR 10-YEAR UAE GOLDEN VISA'" :align="'center'"></TitleH3>
+          <p class="mb-3 text-center">
+            Invest in Iconic Residences design by Pininfarina and enjoy the
+            exclusive benefits of a 10-year UAE Golden Visa.
+          </p>
+          <p class="mb-3 text-center">
+            Residency for you & your family. No restrictions on time spent
+            outside the UAE.
+          </p>
+
+          <div class="btn pt-10">
+            <Button
+              :size="'big'"
+              :type="'button'"
+              :text="'Leave a Request'"
+            ></Button>
+          </div>
         </div>
       </div>
     </div>

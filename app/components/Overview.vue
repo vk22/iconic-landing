@@ -1,7 +1,7 @@
 <template>
   <section
     id="overview"
-    class="hero-top mx-auto w-full md:max-w-6xl flex flex-col pt-16 md:pt-20 px-4 transition-all duration-2000"
+    class="hero-top mx-auto w-full md:max-w-5xl flex flex-col pt-16 md:pt-20 px-4 transition-all duration-2000"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,
@@ -31,7 +31,7 @@
             <p class="title text-[1rem]">{{ param.text }}</p>
           </div>
         </div>
-        <div class="flex flex-col md:flex-row items-center mb-5 md:mb-0">
+        <div class="flex flex-col md:flex-row mb-5 md:mb-0">
             <div class="btn p-1">
               <Button
                 :size="'big'"

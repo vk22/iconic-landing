@@ -2,13 +2,13 @@
   <section
     id="forma"
     ref="formSection"
-    class="mx-auto w-full md:max-w-4xl flex flex-col py-20 px-4 transition-all duration-2000 mb-20"
+    class="mx-auto w-full md:max-w-5xl flex flex-col py-20 transition-all duration-2000 mb-20"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,
     }"
   >
-    <div class="flex flex-col md:flex-row justify-center mb-6 md:mb-10 ">
+    <!-- <div class="flex flex-col md:flex-row justify-center mb-6 md:mb-10 ">
       <div class="basis-1/2">
         <div class="flex flex-col items-center">
           <h3 class="text-[1.5rem] md:text-[2.5rem] mb-6 md:mb-10 uppercase text-center">
@@ -20,7 +20,7 @@
           </p>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="flex flex-col md:flex-row">
       <div class="basis-1/2 relative px-5 mb-5 md:mb-0">
@@ -28,6 +28,14 @@
       </div>
       <div class="basis-1/2 pr-0">
         <div class="form-container w-full max-w-md px-5">
+        <div class="flex flex-col items mb-3 md:mb-6">
+          <TitleH3 :text="'Secure Your Residence at ICONIC'" :align="'left'"></TitleH3>
+          <p class="text">
+            Fill in your details and our team will contact you shortly with full
+            project information and personalized offers.
+          </p>
+        </div>
+
           <form @submit.prevent="onSubmit">
             <div class="flex flex-col md:flex-col">
               <div class="w-full">
