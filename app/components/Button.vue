@@ -84,7 +84,7 @@ const formSection = ref(null);
 // });
 
 const textSize = computed(() => {
-  return props.size === "big" ? "text-[.65rem] md:text-[.75rem]" : "text-[.5rem] md:text-[.65rem]";
+  return props.size === "big" ? "text-[.75rem] md:text-[.75rem]" : "text-[.65rem] md:text-[.7rem]";
 });
 
 const scrollToForm = () => {

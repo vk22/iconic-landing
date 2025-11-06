@@ -1,6 +1,6 @@
 <template>
   <header
-    class="header flex items-center justify-between px-6 py-4 transition-all duration-1000"
+    class="header flex items-center justify-between px-6 py-2 md:py-4 transition-all duration-1000"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-0 -translate-y-4': !contentVisible,
@@ -61,12 +61,12 @@
         aria-modal="true"
       >
         <!-- backdrop -->
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="closeMenu" />
+        <div class="absolute inset-0 bg-[#0d1313f0]" @click="closeMenu" />
 
         <!-- панель -->
         <transition name="slide">
           <div
-            class="relative ml-auto h-full w-[100%] bg-neutral-900 text-white px-6 py-6 flex flex-col"
+            class="relative ml-auto h-full w-[100%] text-white px-6 py-6 flex flex-col"
           >
             <div class="flex items-center justify-between">
               <!-- <img class="h-3" src="../assets/img/mered2.svg" alt="Logo" /> -->
