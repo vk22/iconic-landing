@@ -9,7 +9,7 @@
   >
     <div class="flex flex-col md:flex-row">
       <div class="basis-1/2">
-        <div class="mb-15 pr-10">
+        <div class="mb-10 pr-10">
           <p class="mb-3">
             In Dubai, it’s not easy to stand out for luxury — yet ICONIC goes
             beyond expectations. Every detail of these residences reflects
@@ -20,7 +20,17 @@
             the harmony of Italian sophistication and contemporary innovation.
           </p>
         </div>
-
+        <!--- parametrs --->
+        <div class="flex flex-wrap mb-6 bg-[#f2f2ffff2] p-0 md:mr-5">
+          <div
+            class="param mb-5 basis-1/2 md:basis-1/4 pr-1 pr-0 md:pr-10 "
+            v-for="(param, index) in parametrs"
+            :key="index"
+          >
+            <p class="value text-[1.25rem] md:text-[1.25rem] mb-1">{{ param.value }}</p>
+            <p class="title text-[0.75rem] md:text-[.85rem]">{{ param.text }}</p>
+          </div>
+        </div>
         <div class="flex flex-col md:flex-row mb-5 md:mb-0">
             <div class="btn p-1">
               <Button
@@ -40,21 +50,10 @@
                 :link="'https://mered.ae/assets/docs/Iconic%20Residences%20by%20Mered%20EN.pdf'"
               ></Button>
             </div>
-        </div>
+          </div>
       </div>
       <div class="basis-1/2 relative">
         <img :src="image" alt="" class="object-cover h-full w-full" />
-      </div>
-    </div>
-    <!--- parametrs --->
-    <div class="flex flex-wrap mt-10 bg-[#fbf9f7] p-10">
-      <div
-        class="param mb-5 basis-1/2 md:basis-1/4 md:pr-1 text-center"
-        v-for="(param, index) in parametrs"
-        :key="index"
-      >
-        <p class="value text-[1.25rem] md:text-[2rem] mb-1">{{ param.value }}</p>
-        <p class="title text-[0.85rem] md:text-[1rem]">{{ param.text }}</p>
       </div>
     </div>
   </section>
@@ -79,13 +78,14 @@ const parametrs = [
     text: "1-4 Bedrooms Apartments",
   },
   {
-    value: "1",
-    text: "Penthouse",
-  },
-  {
     value: "2",
     text: "Floors of Exclusive Amenities",
   },
+  {
+    value: "1",
+    text: "Penthouse",
+  },
+
   {
     value: "423",
     text: "Parking Spaces",

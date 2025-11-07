@@ -6,7 +6,7 @@
       'opacity-0 -translate-y-4': !contentVisible,
     }"
   >
-    <!-- ЛЕВАЯ ЧАСТЬ: МЕНЮ (desktop) -->
+    <!-- left -->
     <nav class="hidden md:flex md:w-[25rem]">
       <div class="flex">
         <nuxt-link
@@ -21,7 +21,7 @@
       </div>
     </nav>
 
-    <!-- ГАМБУРГЕР (mobile) -->
+    <!-- hanburger -->
     <button
       class="md:hidden inline-flex items-center justify-center w-6 h-10 rounded focus:outline-none"
       aria-label="Open menu"
@@ -34,12 +34,12 @@
     </button>
 
 
-    <!-- ЛОГО -->
+    <!-- center -->
     <div class="logo hidden md:flex">
       <img class="w-[6rem]" src="../assets/img/mered2.svg" alt="Logo" />
     </div>
 
-    <!-- ПРАВАЯ ЧАСТЬ: ЯЗЫКИ + КНОПКА (desktop) -->
+    <!-- right -->
     <div class="flex flex-row justify-end items-center md:w-[25rem]">
       <Langs class="hidden md:flex"/>
       <div class="btn ml-3">
@@ -50,7 +50,7 @@
 
   </header>
 
-  <!-- POPUP / OVERLAY МЕНЮ (mobile) -->
+  <!-- POPUP MENU -->
   <Teleport to="body">
     <transition name="fade">
       <div
@@ -63,7 +63,7 @@
         <!-- backdrop -->
         <div class="absolute inset-0 bg-[#0d1313f0]" @click="closeMenu" />
 
-        <!-- панель -->
+        <!-- panel -->
         <transition name="slide">
           <div
             class="relative ml-auto h-full w-[100%] text-white px-6 py-6 flex flex-col"

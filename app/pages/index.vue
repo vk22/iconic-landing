@@ -2,7 +2,7 @@
   <Header></Header>
   <div class="landing-index transition-opacity duration-1000"  :class="{ 'opacity-100': imageLoaded, 'opacity-0': !imageLoaded }">
   <Hero></Hero>  
-  <Overview></Overview>
+  <Overview2></Overview2>
   <Location></Location>
   <Payment></Payment>
   <Form></Form>
