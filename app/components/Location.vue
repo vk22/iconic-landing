@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <div class="flex mb-14 justify-center w-full h-[50vh]">
+    <div class="flex mb-15 justify-center w-full h-[50vh]">
         <img :src="image" alt="" @click="openMenu" class="object-cover h-full w-full md:max-w-5xl cursor-pointer"/>
     </div>
 
