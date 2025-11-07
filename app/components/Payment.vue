@@ -15,20 +15,28 @@
             Convenient payment schedule designed for comfort and flexibility.
           </p>
 
-          <table class="table-auto border-collapse border border-gray-400">
-            <thead>
-              <tr class="bold text-left">
-                <th class="border border-gray-300 p-2">Percent (%)</th>
-                <th class="border border-gray-300 p-2">Paying date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(item, index) in planList" :key="index">
-                <td class="border border-gray-300 p-2">{{ item.percent }}</td>
-                <td class="border border-gray-300 p-2">{{ item.text }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="relative overflow-x-auto">
+            <table
+              class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+            >
+              <thead
+                class="text-xs text-gray-700 bg-[#d9d9d9]"
+              >
+                <tr>
+                  <th scope="col" class="px-6 py-1 w-[7rem]">Percent (%)</th>
+                  <th scope="col" class="px-6 py-1">Paying date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, index) in planList" :key="index"
+                  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
+                >
+                  <td class="px-6 py-1">{{ item.percent }}</td>
+                  <td class="px-6 py-1">{{ item.text }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       <div class="basis-1/2 pr-0 md:pl-10 mb-10 md:mb-0">
@@ -54,10 +62,13 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col md:flex-row justify-center pt-4">
+    <div class="flex flex-col md:flex-row justify-center pt-12">
       <div class="basis-1/2">
         <div class="flex flex-col items-center">
-          <TitleH3 :text="'SECURE YOUR 10-YEAR UAE GOLDEN VISA'" :align="'center'"></TitleH3>
+          <TitleH3
+            :text="'SECURE YOUR 10-YEAR UAE GOLDEN VISA'"
+            :align="'center'"
+          ></TitleH3>
           <p class="mb-3 text-center">
             Invest in Iconic Residences design by Pininfarina and enjoy the
             exclusive benefits of a 10-year UAE Golden Visa.
@@ -67,7 +78,7 @@
             outside the UAE.
           </p>
 
-          <div class="btn pt-10">
+          <div class="btn pt-6">
             <Button
               :size="'big'"
               :type="'button'"

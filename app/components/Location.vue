@@ -19,13 +19,13 @@
 
     <div class="flex flex-wrap pt-5 justify-center w-full md:max-w-5xl">
       <div
-        class="param mb-15 basis-1/2 md:basis-1/4 px-4 text-center"
+        class="param mb-10 basis-1/2 md:basis-1/4 px-4 text-center"
         v-for="(param, index) in parametrs"
         :key="index"
         :class="borderNeed(parametrs.length, index)"
       >
-        <p class="value  mb-2 bold">{{ param.place }}</p>
-        <p class="title text-[1rem] text-[#6a7285]">{{ param.text }}</p>
+        <p class="value mb-1 bold">{{ param.place }}</p>
+        <p class="title text-[#6a7285]">{{ param.text }}</p>
       </div>
     </div>
 
