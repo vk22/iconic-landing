@@ -83,8 +83,14 @@ const formSection = ref(null);
 //   return props.size === "big" ? 3 : 1.5;
 // });
 
+const sizes = {
+  big2:  "text-[.85rem] md:text-[.95rem]",
+  big: "text-[.75rem] md:text-[.75rem]",
+  small: "text-[.65rem] md:text-[.7rem]"
+}
+
 const textSize = computed(() => {
-  return props.size === "big" ? "text-[.75rem] md:text-[.75rem]" : "text-[.65rem] md:text-[.7rem]";
+  return sizes[props.size];
 });
 
 const scrollToForm = () => {
@@ -93,6 +99,12 @@ const scrollToForm = () => {
 </script>
 
 <style scoped>
+
+
+.btn.big2 {
+  padding: .5rem 1rem;
+  //background: linear-gradient(180deg, #e3c5ba, #aa8678)!important;
+}
 
 .btn.big {
   padding: .5rem 1rem;

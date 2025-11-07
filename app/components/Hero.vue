@@ -24,7 +24,7 @@
           <!-- <a class="text-white text-lg md:text-2xl text-white! ">
           Premium Apartments starting from AED 3.5M / $970K
           </a> -->
-          <Button :type="'button'" :text="'Premium Apartments starting from AED 3.5M / $970K'" size="big"></Button>
+          <Button :type="'button'" :text="'Premium Apartments starting from AED 3.5M / $970K'" size="big2"></Button>
         </div>
       </div>  
 
@@ -69,6 +69,10 @@ onMounted(() => {
     -o-object-fit: contain;
     object-fit: contain;
     z-index: 9999;
+}
+
+.accent-color {
+   background: linear-gradient(180deg, #e3c5ba, #aa8678);
 }
 
 
