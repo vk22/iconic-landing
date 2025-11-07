@@ -11,7 +11,7 @@
       <div class="text-center mb-3 md:mb-6 max-w-xl">
         <TitleH3 :text="'CENTRAL LOCATION'" :align="'center'"></TitleH3>
         <p class="mb-3">
-     Perfectly positioned in the heart of Dubai Internet City, ICONIC offers unparalleled connectivity and proximity to Dubai’s most renowned destinations.
+          Perfectly positioned in the heart of Dubai Internet City, ICONIC offers unparalleled connectivity and proximity to Dubai’s most renowned destinations.
         </p>
       </div>
     </div>
@@ -29,8 +29,8 @@
       </div>
     </div>
 
-    <div class="flex mb-20 justify-center">
-        <img :src="image" alt="" class="w-full md:max-w-5xl"/>
+    <div class="flex mb-20 justify-center w-full h-[50vh]">
+        <img :src="image" alt="" @click="openMenu" class="object-cover h-full w-full md:max-w-5xl cursor-pointer"/>
     </div>
 
 
@@ -40,10 +40,49 @@
       </div>
     </div>
   </section>
+
+   <!-- POPUP MENU -->
+  <Teleport to="body">
+    <transition name="fade">
+      <div
+        v-if="isMenuOpen"
+        class="fixed inset-0 z-[999] flex"
+        @keydown.esc="closeMenu"
+        role="dialog"
+        aria-modal="true"
+      >
+        <!-- backdrop -->
+        <div class="absolute inset-0 bg-[#0d1313f0]" @click="closeMenu" />
+
+        <!-- panel -->
+        <transition name="slide">
+          <div
+            class="relative ml-auto h-full w-[100%] text-white px-6 py-6 flex flex-col justify-center items-center"
+          >
+            <button
+              class="absolute top-5 right-5 inline-flex w-auto h-auto rounded focus:outline-none cursor-pointer"
+              aria-label="Close menu"
+              @click="closeMenu"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+
+            <div class="">
+               <img :src="image" alt="" class="h-full w-full" @click="closeMenu"/>
+            </div>
+          </div>
+        </transition>
+      </div>
+    </transition>
+  </Teleport>
+
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch, onBeforeUnmount } from "vue";
 const imageLoaded = ref(false);
 const image = "/img/map.png";
 const contentVisible = ref(false);
@@ -71,6 +110,24 @@ const borderNeed = (length: number, index: number) => {
     return 'border-r-1 border-grey-light';
   }
 }
+
+/* --- mobile popup state + UX --- */
+const isMenuOpen = ref(false)
+
+const openMenu  = () => ( isMenuOpen.value = true )
+const closeMenu = () => ( isMenuOpen.value = false )
+
+// Блокируем прокрутку фона, когда открыт попап
+watch(isMenuOpen, (open) => {
+  const cls = document.documentElement.classList
+  if (open) cls.add('overflow-hidden')
+  else cls.remove('overflow-hidden')
+})
+
+// Закрытие по Esc (на случай если фокус не в оверлее)
+const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeMenu() }
+onMounted(() => window.addEventListener('keydown', onKey))
+onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
 
 onMounted(() => {
   const img = new Image();
