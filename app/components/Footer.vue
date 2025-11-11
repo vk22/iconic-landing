@@ -1,9 +1,22 @@
 <template>
-  <footer class="footer flex flex-col justify-between items-center p-10 border-t-1">
+  <footer class="footer flex flex-row justify-between items-center p-10 border-t-1">
+    <div class="left basis-1/3">
+      <ul>
+        <li><nuxt-link to="/privacy-policy" class="text-xs">Privacy policy</nuxt-link></li>
+        <li><nuxt-link to="/terms-and-conditions" class="text-xs">Terms and conditions</nuxt-link></li>
+      </ul>
+      
+    </div>
+    <div class="center basis-1/3 flex flex-col justify-between items-center">
       <div class="logo mb-5">
           <img class="w-[6rem]" src="../assets/img/mered.svg" alt="" />
       </div>
       <p class="text-[.75rem]">Copyright © 2025 Mered Residences Real Estate LLC</p>
+    </div>
+    <div class="right basis-1/3">
+
+    </div>
+
   </footer>
 </template>
 
@@ -12,13 +25,7 @@
 </script>
 
 <style scoped>
-/* .header {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.313);
-  z-index: 99;
-} */
-
+footer {
+  border-top: 1px solid #ddd;
+}
 </style>

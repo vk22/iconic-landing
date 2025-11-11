@@ -103,7 +103,7 @@
           </div>
           <div class="mb-2 py-4 text-xs">
             By submitting, you agree to our
-            <NuxtLink to="/terms" class="underline"
+            <NuxtLink to="/terms-and-conditions" class="underline"
               >terms & conditions.</NuxtLink
             >.
           </div>
