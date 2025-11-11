@@ -129,7 +129,7 @@ import { ref, onMounted, watch } from "vue";
 const props = defineProps({
   mode: {
     type: String,
-    default: "",
+    default: "", 
   },
 });
 
