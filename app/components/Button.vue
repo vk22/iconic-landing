@@ -24,7 +24,6 @@
   </button>
   <a
     v-else
-    :href="link"
     target="_blank"
     download
     :class="`btn ${size} text-center inline-flex items-center cursor-pointer text-white uppercase bg-[#0d1313] hover:bg-[#000000] focus:outline-none font-small md:font-medium rounded-full ${textSize}`"
@@ -103,7 +102,6 @@ const scrollToForm = () => {
 
 .btn.big2 {
   padding: .5rem 1rem;
-  //background: linear-gradient(180deg, #e3c5ba, #aa8678)!important;
 }
 
 .btn.big {

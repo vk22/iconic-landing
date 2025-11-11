@@ -41,7 +41,7 @@
       </div>
       <div class="basis-1/2 pr-0 md:pl-10 mb-10 md:mb-0">
         <div class="">
-          <TitleH3 :text="'Mortage options'" :align="'center'"></TitleH3>
+          <TitleH3 :text="'Mortgage options'" :align="'center'"></TitleH3>
           <p class="mb-3">
             Mortgages are available even if you're not a UAE resident. You can
             finance up to half the property value and get full support

@@ -3,9 +3,10 @@
   <div class="landing-index transition-opacity duration-1000"  :class="{ 'opacity-100': imageLoaded, 'opacity-0': !imageLoaded }">
   <Hero></Hero>  
   <Overview2></Overview2>
+  <Gallery></Gallery>
   <Location></Location>
   <Payment></Payment>
-  <Form></Form>
+  <FormBlock></FormBlock>
   <Footer></Footer>
   </div>
 </template>

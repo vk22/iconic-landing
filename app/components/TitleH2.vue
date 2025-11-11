@@ -1,5 +1,5 @@
 <template>
-    <h3 :class="`text-[1.75rem] md:text-[2.25rem] mb-5 md:mb-6 uppercase text-${align}`">{{ text }}</h3>
+    <h3 :class="`text-[1.75rem] md:text-[1.75rem] mb-5 md:mb-5 uppercase text-${align}`">{{ text }}</h3>
 </template>
 
 <script setup lang="ts">

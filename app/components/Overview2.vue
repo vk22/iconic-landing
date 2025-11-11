@@ -23,40 +23,105 @@
         <!--- parametrs --->
         <div class="flex flex-wrap mb-6 bg-[#f2f2ffff2] p-0 md:mr-5">
           <div
-            class="param mb-5 basis-1/2 md:basis-1/4 pr-1 pr-0 md:pr-10 "
+            class="param mb-5 basis-1/2 md:basis-1/4 pr-1 pr-0 md:pr-10"
             v-for="(param, index) in parametrs"
             :key="index"
           >
-            <p class="value text-[1.25rem] md:text-[1.25rem] mb-1">{{ param.value }}</p>
-            <p class="title text-[0.75rem] md:text-[.85rem]">{{ param.text }}</p>
+            <p class="value text-[1.25rem] md:text-[1.5rem] mb-1">
+              {{ param.value }}
+            </p>
+            <p class="title text-[0.75rem] md:text-[.85rem]">
+              {{ param.text }}
+            </p>
           </div>
         </div>
         <div class="flex flex-col md:flex-row mb-5 md:mb-0">
-            <div class="btn p-1">
-              <Button
+          <div class="btn p-1">
+            <!-- <Button
                 :size="'big'"
                 :type="'button'"
                 :text="'Download Floor Plans'"
                 :icon="true"
                 :link="'https://mered.ae/assets/docs/Iconic%20Residences%20Unit%20Layouts.pdf'"
-              ></Button>
-            </div>
-            <div class="btn p-1">
-              <Button
-                :size="'big'"
-                :type="'button'"
-                :text="'Download Project Brochure'"
-                :icon="true"
-                :link="'https://mered.ae/assets/docs/Iconic%20Residences%20by%20Mered%20EN.pdf'"
-              ></Button>
-            </div>
+              ></Button> -->
+            <Button
+              link="#"
+              :size="'big'"
+              :type="'button'"
+              :text="'Download Floor Plans'"
+              :icon="true"
+              @click="openForm"
+            ></Button>
           </div>
+          <div class="btn p-1">
+            <!-- <Button
+              :size="'big'"
+              :type="'button'"
+              :text="'Download Project Brochure'"
+              :icon="true"
+              :link="'https://mered.ae/assets/docs/Iconic%20Residences%20by%20Mered%20EN.pdf'"
+            ></Button> -->
+            <Button
+              :size="'big'"
+              :type="'button'"
+              :text="'Download Project Brochure'"
+              :icon="true"
+              :link="'#'"
+               @click="openForm"
+            ></Button>
+          </div>
+        </div>
       </div>
       <div class="basis-1/2 relative">
         <img :src="image" alt="" class="object-cover h-full w-full" />
       </div>
     </div>
   </section>
+
+  <!-- POPUP MENU -->
+  <Teleport to="body">
+    <transition name="fade">
+      <div
+        v-if="isFormOpen"
+        class="fixed inset-0 z-[999] flex flex justify-center items-center"
+        @keydown.esc="closeForm"
+        role="dialog"
+        aria-modal="true"
+      >
+        <!-- backdrop -->
+        <div class="absolute inset-0 bg-[#00000080]" @click="closeForm" />
+
+        <!-- panel -->
+        <transition name="slide">
+          <div class="relative px-4 py-8 md:px-6 md:py-10 z-[9999] bg-white max-w-full md:max-w-md">
+            <!--- close -->
+            <button
+              class="absolute right-0 -top-8 inline-flex items-center justify-center w-auto h-auto rounded focus:outline-none"
+              aria-label="Close menu"
+              @click="closeForm"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6"
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path
+                  color="#ffffff"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <Form :mode="'popup'"></Form>
+          </div>
+        </transition>
+      </div>
+    </transition>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -95,6 +160,11 @@ const parametrs = [
     text: "Vip Parking Boxes with A/C",
   },
 ];
+
+const isFormOpen = ref(false);
+
+const openForm = () => (isFormOpen.value = true);
+const closeForm = () => (isFormOpen.value = false);
 
 onMounted(() => {
   const img = new Image();

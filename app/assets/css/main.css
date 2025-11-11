@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @font-face {
     font-family: 'TTCommonsPro-Db';
@@ -83,6 +85,11 @@ h3 {
 
   
 
+  /* @media (max-height: 25rem) {
+    #hero-top .logo img{
+        height: 100px;
+    }
+  } */
   @media (max-width: 640px) {
     p, li {
       @apply text-sm leading-normal; /* уменьшение на мобильных */
