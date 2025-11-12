@@ -27,7 +27,7 @@
             v-for="(param, index) in parametrs"
             :key="index"
           >
-            <p class="value text-[1.25rem] md:text-[1.5rem] mb-1">
+            <p class="value text-[1.25rem] md:text-[1.65rem] mb-1">
               {{ param.value }}
             </p>
             <p class="title text-[0.75rem] md:text-[.85rem]">
@@ -37,13 +37,6 @@
         </div>
         <div class="flex flex-col md:flex-row mb-5 md:mb-0">
           <div class="btn p-1">
-            <!-- <Button
-                :size="'big'"
-                :type="'button'"
-                :text="'Download Floor Plans'"
-                :icon="true"
-                :link="'https://mered.ae/assets/docs/Iconic%20Residences%20Unit%20Layouts.pdf'"
-              ></Button> -->
             <Button
               link="#"
               :size="'big'"
@@ -54,20 +47,13 @@
             ></Button>
           </div>
           <div class="btn p-1">
-            <!-- <Button
-              :size="'big'"
-              :type="'button'"
-              :text="'Download Project Brochure'"
-              :icon="true"
-              :link="'https://mered.ae/assets/docs/Iconic%20Residences%20by%20Mered%20EN.pdf'"
-            ></Button> -->
             <Button
               :size="'big'"
               :type="'button'"
               :text="'Download Project Brochure'"
               :icon="true"
               :link="'#'"
-               @click="openForm"
+              @click="openForm"
             ></Button>
           </div>
         </div>
@@ -77,55 +63,21 @@
       </div>
     </div>
   </section>
-
-  <!-- POPUP MENU -->
-  <Teleport to="body">
-    <transition name="fade">
-      <div
-        v-if="isFormOpen"
-        class="fixed inset-0 z-[999] flex flex justify-center items-center"
-        @keydown.esc="closeForm"
-        role="dialog"
-        aria-modal="true"
-      >
-        <!-- backdrop -->
-        <div class="absolute inset-0 bg-[#00000080]" @click="closeForm" />
-
-        <!-- panel -->
-        <transition name="slide">
-          <div class="relative px-4 py-8 md:px-6 md:py-10 z-[9999] bg-white max-w-full md:max-w-md">
-            <!--- close -->
-            <button
-              class="absolute right-0 -top-8 inline-flex items-center justify-center w-auto h-auto rounded focus:outline-none"
-              aria-label="Close menu"
-              @click="closeForm"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-6 h-6"
-                viewBox="0 0 20 20"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  color="#ffffff"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-            <Form :mode="'popup'"></Form>
-          </div>
-        </transition>
-      </div>
-    </transition>
-  </Teleport>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
+import { usePopup } from "../composables/usePopup";
+const {
+  isPopupOpen,
+  isFormOpen,
+  isSuccessOpen,
+  setPopupMode,
+  setFormMode,
+  setSuccessMode,
+  setResult,
+  formResult,
+} = usePopup();
 const imageLoaded = ref(false);
 const image = "/img/about.jpg";
 const contentVisible = ref(false);
@@ -161,10 +113,11 @@ const parametrs = [
   },
 ];
 
-const isFormOpen = ref(false);
-
-const openForm = () => (isFormOpen.value = true);
-const closeForm = () => (isFormOpen.value = false);
+//// Form Popup
+const openForm = () => {
+  setPopupMode(true);
+  setFormMode(true);
+};
 
 onMounted(() => {
   const img = new Image();

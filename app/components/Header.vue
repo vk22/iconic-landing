@@ -128,23 +128,22 @@ onMounted(() => {
   setTimeout(() => (contentVisible.value = true), 400)
 })
 
-/* --- mobile popup state + UX --- */
-const isMenuOpen = ref(false)
 
+/// popup menu
+const isMenuOpen = ref(false)
 const openMenu  = () => ( isMenuOpen.value = true )
 const closeMenu = () => ( isMenuOpen.value = false )
 
-// Блокируем прокрутку фона, когда открыт попап
 watch(isMenuOpen, (open) => {
   const cls = document.documentElement.classList
   if (open) cls.add('overflow-hidden')
   else cls.remove('overflow-hidden')
 })
 
-// Закрытие по Esc (на случай если фокус не в оверлее)
 const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeMenu() }
 onMounted(() => window.addEventListener('keydown', onKey))
 onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
+
 </script>
 
 

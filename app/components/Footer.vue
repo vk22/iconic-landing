@@ -2,8 +2,9 @@
   <footer class="footer flex flex-row justify-between items-center p-10 border-t-1">
     <div class="left basis-1/3">
       <ul>
-        <li><nuxt-link to="/privacy-policy" class="text-xs">Privacy policy</nuxt-link></li>
-        <li><nuxt-link to="/terms-and-conditions" class="text-xs">Terms and conditions</nuxt-link></li>
+        <li><nuxt-link to="/privacy-policy" class="text-xs underline">Privacy policy</nuxt-link></li>
+        <li><nuxt-link to="/terms-and-conditions" class="text-xs underline">Terms and conditions</nuxt-link></li>
+        <li><nuxt-link to="/cookie-usage" class="text-xs underline">Cookie Usage Agreement</nuxt-link></li>
       </ul>
       
     </div>

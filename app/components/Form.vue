@@ -91,14 +91,13 @@
           <div class="mb-2">
             <select
               id="countries"
-              v-model="form.apartment_type"
+              v-model="form.apartmentType"
               :class="selectClass"
             >
               <option disabled selected value="" class="text-gray-400">
                 Apartment Type
               </option>
-              <option value="A1">A1</option>
-              <option value="A2">A2</option>
+              <option :value="type" v-for="(type, index) in apartmentTypeOptions" :key="index">{{ type }}</option>
             </select>
           </div>
           <div class="mb-2 py-4 text-xs">
@@ -112,19 +111,30 @@
 
       <Button :size="'big'" :text="'Get a Call Back'" :type="'submit'"></Button>
 
-      <p
+      <!-- <p
         v-if="message"
         :class="success ? 'text-dark' : 'text-red-600'"
         class="mt-4"
       >
         {{ message }}
-      </p>
+      </p> -->
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
+import { usePopup } from "../composables/usePopup";
+const {
+  isPopupOpen,
+  isFormOpen,
+  isSuccessOpen,
+  setPopupMode,
+  setFormMode,
+  setSuccessMode,
+  setResult,
+  formResult,
+} = usePopup();
 
 const props = defineProps({
   mode: {
@@ -132,6 +142,8 @@ const props = defineProps({
     default: "", 
   },
 });
+
+// const emit = defineEmits(['formSent']);
 
 const imageLoaded = ref(false);
 const image = "/img/contact.jpg";
@@ -142,10 +154,15 @@ const form = ref({
   full_name: "",
   email: "",
   phone: "",
-  apartment_type: "",
+  apartmentType: "",
 });
 
-const selectColor = ref("text-gray-500");
+const apartmentTypeOptions = [
+  '1-bedroom',
+  '2-bedroom',
+  '3-bedroom +',
+  'Penthouse / luxury apartment'
+]
 
 const message = ref<string | null>(null);
 const success = ref(false);
@@ -156,19 +173,34 @@ const selectClass = ref(
 );
 
 const onSubmit = async () => {
-  message.value = null;
   try {
     const { error } = await useFetch("/api/form", {
       method: "POST",
       body: form.value,
     });
     if (error.value) throw error.value;
-    success.value = true;
-    message.value =
-      "Thank you! Your request has been received. Our team will contact you shortly with full project details.";
+    setFormMode(false)
+    setResult({
+      success: true,
+      title: 'Thank you!',
+      message: "Your request has been received. Our team will contact you shortly with full project details."
+    });
+    setPopupMode(true)
+    setSuccessMode(true)
+
+    form.value = {
+      clientType: "client",
+      full_name: "",
+      email: "",
+      phone: "",
+      apartmentType: "",
+    };
   } catch (err) {
-    success.value = false;
-    message.value = "An error has occurred. Please try again later.";
+    setResult({
+      success: false,
+      title: 'Oops!',
+      message: "An error has occurred. Please try again later."
+    });
   }
 };
 
@@ -179,7 +211,7 @@ const sizes = {
 };
 
 watch(form.value, (newValue, oldValue) => {
-  if (newValue.apartment_type) {
+  if (newValue.apartmentType) {
     selectClass.value = `w-full bg-gray-50 py-3 bg-white border-0 border-b-1 border-grey-dark focus:outline-none text-sm text-gray-900`;
   }
 });

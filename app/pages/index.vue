@@ -1,4 +1,5 @@
 <template>
+  <Popup ></Popup>
   <Header></Header>
   <div class="landing-index transition-opacity duration-1000"  :class="{ 'opacity-100': imageLoaded, 'opacity-0': !imageLoaded }">
   <Hero></Hero>  

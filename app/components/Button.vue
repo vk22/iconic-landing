@@ -93,7 +93,10 @@ const textSize = computed(() => {
 });
 
 const scrollToForm = () => {
-  document.getElementById("forma")?.scrollIntoView({ behavior: "smooth" });
+  if (props.type !== 'submit') {
+    document.getElementById("forma")?.scrollIntoView({ behavior: "smooth" });
+  }
+  
 };
 </script>
 
