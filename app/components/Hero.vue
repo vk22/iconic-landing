@@ -12,8 +12,8 @@
           <img src="../assets/img/logo.svg" alt="" />
         </div>
 
-        <div class="text-1 mt-[12vh] md:mt-[14vh] h-sm:mt-[10vh] h-sm:mt-[6vh]">
-          <div class="text-white text-2xl md:text-3xl text-white! h-sm:text-2xl h-sm:text-xl">
+        <div class="mt-[12vh] md:mt-[14vh] h-sm:mt-[10vh] h-sm:mt-[6vh]">
+          <div class="text-white text-[1rem] md:text-3xl text-white! h-sm:text-[1rem] h-xs:text-[1rem]">
            <span class="uppercase">{{ $t('title') }}</span> 
             <br />
             {{ $t('subtitle') }}

@@ -1,6 +1,6 @@
 <template>
   <header
-    class="header flex items-center justify-between px-6 py-2 md:py-4 transition-all duration-1000"
+    class="header flex items-center justify-between px-4 md:px-6 py-2 md:py-4 transition-all duration-1000"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-0 -translate-y-4': !contentVisible,
@@ -52,7 +52,7 @@
 
   <!-- POPUP MENU -->
   <Teleport to="body">
-    <transition name="fade">
+    <transition name="slide">
       <div
         v-if="isMenuOpen"
         class="fixed inset-0 z-[999] flex"
@@ -64,12 +64,12 @@
         <div class="absolute inset-0 bg-[#0d1313f0]" @click="closeMenu" />
 
         <!-- panel -->
-        <transition name="slide">
+        <transition name="fade">
           <div
-            class="relative ml-auto h-full w-[100%] text-white px-6 py-6 flex flex-col"
+            class="relative ml-auto h-full w-[100%] text-white px-4 py-4 flex flex-col"
+             v-if="isMenuOpen"
           >
             <div class="flex items-center justify-between">
-              <!-- <img class="h-3" src="../assets/img/mered2.svg" alt="Logo" /> -->
               <button
                 class="inline-flex items-center justify-center w-auto h-auto rounded focus:outline-none"
                 aria-label="Close menu"
@@ -83,12 +83,12 @@
             </div>
 
             <nav class="mt-8 flex justify-start">
-              <ul class="space-y-4 flex flex-col justify-start ml-1 mt-2">
+              <ul class="space-y-4 flex flex-col justify-start ml-1 mt-4">
                 <li v-for="(item, i) in menu" :key="i" class="text-left">
                   <nuxt-link
                     :to="{ hash: item.id }"
                     :external="true"
-                    class="mr-5 text-white text-[.85rem] uppercase text-center"
+                    class="mr-5 text-white text-[.85rem] uppercase text-left tracking-[1.25px]"
                     @click="closeMenu"
                   >
                     {{ item.text }}
@@ -158,11 +158,11 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
 }
 
 /* transitions */
-.fade-enter-active, .fade-leave-active { transition: opacity .2s ease; }
+.fade-enter-active, .fade-leave-active { transition: opacity .2s ease 2s; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
 
-.slide-enter-active, .slide-leave-active { transition: transform .25s ease; }
-.slide-enter-from, .slide-leave-to { transform: translateX(100%); }
+.slide-enter-active, .slide-leave-active { transition: transform .5s ease; }
+.slide-enter-from, .slide-leave-to { transform: translateY(-100%); }
 
 /* (остальной твой стиль для lang-switcher и т.д. можно оставить как было) */
 </style>
