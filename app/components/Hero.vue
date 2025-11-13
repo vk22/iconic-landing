@@ -13,12 +13,13 @@
         </div>
 
         <div class="text-1 mt-[12vh] md:mt-[14vh] h-sm:mt-[10vh] h-sm:mt-[6vh]">
-          <h1 class="text-white text-2xl md:text-3xl text-white! h-sm:text-2xl h-sm:text-xl">
+          <div class="text-white text-2xl md:text-3xl text-white! h-sm:text-2xl h-sm:text-xl">
            <span class="uppercase">{{ $t('title') }}</span> 
             <br />
             {{ $t('subtitle') }}
-          </h1>
+          </div>
         </div>
+
 
         <div class="text-2 mt-[12vh] md:mt-[14vh] h-sm:mt-[12vh] h-sm:mt-[6vh] pb-4 max-w-xl">
           <!-- <a class="text-white text-lg md:text-2xl text-white! ">

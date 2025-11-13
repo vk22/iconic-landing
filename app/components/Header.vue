@@ -14,7 +14,7 @@
           :key="index"
           :to="{ hash: item.id }"
           :external="true"
-          class="mr-5 text-white text-[.7rem] uppercase"
+          class="mr-5 text-white text-[.7rem] uppercase tracking-[1.25px]"
         >
           {{ item.text }}
         </nuxt-link>
