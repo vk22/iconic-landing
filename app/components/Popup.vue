@@ -2,7 +2,7 @@
   <transition name="fade">
     <div
       v-if="isPopupOpen"
-      class="fixed inset-0 z-[999] flex flex justify-center items-center"
+      class="fixed inset-0 z-[999] flex flex justify-center items-center h-xs:items-start"
       @keydown.esc="closePopup"
       role="dialog"
       aria-modal="true"
@@ -16,24 +16,24 @@
       <!-- panel -->
       <transition name="slide">
         <div
-          class="relative px-4 py-8 md:px-6 md:py-10 z-[9999] bg-white max-w-full md:max-w-md"
+          class="relative px-3 md:px-4 py-6 md:py-8 z-[9999] mt-4 bg-white max-w-full md:max-w-md max-h-[85vh] overflow-scroll"
         >
           <!--- close -->
           <button
-            class="absolute right-0 -top-8 inline-flex items-center justify-center w-auto h-auto rounded focus:outline-none"
+            class="absolute top-3 right-3 inline-flex items-center justify-center w-auto h-auto rounded focus:outline-none"
             aria-label="Close menu"
             @click="closePopup"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6"
+              class="w-4 h-4"
               viewBox="0 0 20 20"
               fill="none"
               stroke="currentColor"
               stroke-width="1.5"
             >
               <path
-                color="#ffffff"
+                color="#111"
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 d="M6 18L18 6M6 6l12 12"

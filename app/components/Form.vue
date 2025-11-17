@@ -1,17 +1,22 @@
 <template>
-  <div class="form-container w-full max-w-md px-5 bg-[#ffffff]">
-    <div class="flex flex-col items mb-3 md:mb-6">
+  <div class="form-container w-full max-w-md px-0 bg-[#ffffff]">
+    <div class="flex flex-col items mb-3 md:mb-5">
       <TitleH2
         v-if="mode === 'popup'"
         :text="'Secure Your Residence at ICONIC'"
         :align="'left'"
+        class="pr-[10%] md:pr-[20%]"
       ></TitleH2>
       <TitleH3
         v-else
         :text="'Secure Your Residence at ICONIC'"
         :align="'left'"
       ></TitleH3>
-      <p class="text">
+      <p v-if="mode === 'popup'" class="text-[.85rem]">
+        Fill in your details and our team will contact you shortly with full
+        project information and personalized offers.
+      </p>
+      <p v-else class="">
         Fill in your details and our team will contact you shortly with full
         project information and personalized offers.
       </p>
@@ -103,8 +108,8 @@
           <div class="mb-2 py-4 text-xs">
             By submitting, you agree to our
             <NuxtLink to="/terms-and-conditions" class="underline"
-              >terms & conditions.</NuxtLink
-            >.
+              >terms & conditions</NuxtLink
+            >
           </div>
         </div>
       </div>

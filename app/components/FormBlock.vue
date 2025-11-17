@@ -2,7 +2,7 @@
   <section
     id="forma"
     ref="formSection"
-    class="mx-auto w-full md:max-w-5xl flex flex-col py-20 transition-all duration-2000 mb-20"
+    class="mx-auto w-full md:max-w-5xl flex flex-col py-20 transition-all duration-2000 mb-0"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,
@@ -13,60 +13,18 @@
         <img :src="image" alt="" class="object-cover h-full w-full" />
       </div>
       <div class="basis-1/2 pr-0">  
-      <Form @form-sent="formAfterHandle" v-if="!isFormSent"></Form>
+      <Form @form-sent="formAfterHandle"></Form>
       </div>
     </div>
   </section>
 
-    <!-- Popup Form -->
-  <Teleport to="body">
-    <transition name="fade">
-      <div
-        v-if="isFormSent"
-        class="fixed inset-0 z-[999] flex flex justify-center items-center"
-        @keydown.esc="closeForm"
-        role="dialog"
-        aria-modal="true"
-      >
-        <!-- backdrop -->
-        <div class="absolute inset-0 bg-[#00000080]" @click="closeForm" />
-
-        <!-- panel -->
-        <transition name="slide">
-            <div class="relative px-4 py-8 md:px-6 md:py-10 z-[9999] bg-white max-w-full md:max-w-md">
-              <!--- close -->
-              <button
-                class="absolute right-0 -top-8 inline-flex items-center justify-center w-auto h-auto rounded focus:outline-none"
-                aria-label="Close menu"
-                @click="closeForm"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="w-6 h-6"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                >
-                  <path
-                    color="#ffffff"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-              <FormSuccess :mode="'popup'" :result="formResult" v-if="isFormSent"></FormSuccess>
-            </div>
-        </transition>
-      </div>
-    </transition>
-  </Teleport>
 
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch, onBeforeUnmount } from "vue";
+
+const emit = defineEmits(['popupOpen']);
 
 const imageLoaded = ref(false);
 const image = "/img/contact.jpg";
@@ -100,8 +58,7 @@ interface Result {
 const formResult = ref<Result>({});
 
 const formAfterHandle = (result: object) => {
-  isFormSent.value = true;
-  formResult.value = result;
+    emit('popupOpen', result);
 }
 
 onMounted(() => {
