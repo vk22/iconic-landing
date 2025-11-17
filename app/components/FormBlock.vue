@@ -12,8 +12,8 @@
       <div class="basis-1/2 relative px-5 mb-5 md:mb-0">
         <img :src="image" alt="" class="object-cover h-full w-full" />
       </div>
-      <div class="basis-1/2 pr-0">  
-      <Form @form-sent="formAfterHandle"></Form>
+      <div class="basis-1/2 px-2">  
+        <Form @form-sent="formAfterHandle"></Form>
       </div>
     </div>
   </section>

@@ -8,7 +8,7 @@
     }"
   >
     <div class="flex flex-col md:flex-row">
-      <div class="basis-1/2">
+      <div class="basis-1/2 pr-4">
         <div class="mb-10 pr-10">
           <p class="mb-3">
             In Dubai, it’s not easy to stand out for luxury — yet ICONIC goes
@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="flex flex-col md:flex-row mb-5 md:mb-0">
-          <div class="btn p-1">
+          <div class="btn pr-2">
             <Button
               link="#"
               :size="'big'"
@@ -46,7 +46,7 @@
               @click="openForm"
             ></Button>
           </div>
-          <div class="btn p-1">
+          <div class="btn pr-2">
             <Button
               :size="'big'"
               :type="'button'"

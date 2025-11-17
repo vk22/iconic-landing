@@ -3,7 +3,7 @@
     v-if="!link"
     :type="type"
     @click="scrollToForm"
-    :class="`relative btn ${size} text-center inline-flex items-center cursor-pointer text-white uppercase bg-[#434848] focus:outline-none font-medium ${textSize} tracking-[1.25px] ${animate}`"
+    :class="`relative btn ${size} text-center inline-flex items-center cursor-pointer text-white uppercase bg-[#434848] focus:outline-none font-medium ${textSize} tracking-[1.15px] ${animate}`"
   >
     <span class="relative z-10 flex items-center">
       <svg
@@ -26,7 +26,7 @@
     v-else
     target="_blank"
     download
-    :class="`relative btn ${size} text-center inline-flex items-center cursor-pointer text-white uppercase bg-[#434848] hover:bg-[#000000] focus:outline-none font-small md:font-medium  ${textSize} tracking-[1.25px] ${animate}`"
+    :class="`relative btn ${size} text-center inline-flex items-center cursor-pointer text-white uppercase bg-[#434848] hover:bg-[#000000] focus:outline-none font-small md:font-medium  ${textSize} tracking-[1.15px] ${animate}`"
   >
     <span class="relative z-10 flex items-center">
       <svg
@@ -106,11 +106,11 @@ const scrollToForm = () => {
 
 <style scoped>
 .btn.big2 {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem .75rem;
 }
 
 .btn.big {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem .75rem;
 }
 
 .btn.small {
