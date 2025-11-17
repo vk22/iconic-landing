@@ -102,7 +102,13 @@
               <option disabled selected value="" class="text-gray-400">
                 Apartment Type
               </option>
-              <option :value="type" v-for="(type, index) in apartmentTypeOptions" :key="index">{{ type }}</option>
+              <option
+                :value="type"
+                v-for="(type, index) in apartmentTypeOptions"
+                :key="index"
+              >
+                {{ type }}
+              </option>
             </select>
           </div>
           <div class="mb-2 py-4 text-xs">
@@ -144,7 +150,7 @@ const {
 const props = defineProps({
   mode: {
     type: String,
-    default: "", 
+    default: "",
   },
 });
 
@@ -163,11 +169,11 @@ const form = ref({
 });
 
 const apartmentTypeOptions = [
-  '1-bedroom',
-  '2-bedroom',
-  '3-bedroom +',
-  'Penthouse / luxury apartment'
-]
+  "1-bedroom",
+  "2-bedroom",
+  "3-bedroom +",
+  "Penthouse / luxury apartment",
+];
 
 const message = ref<string | null>(null);
 const success = ref(false);
@@ -184,14 +190,20 @@ const onSubmit = async () => {
       body: form.value,
     });
     if (error.value) throw error.value;
-    setFormMode(false)
-    setResult({
-      success: true,
-      title: 'Thank you!',
-      message: "Your request has been received. Our team will contact you shortly with full project details."
-    });
-    setPopupMode(true)
-    setSuccessMode(true)
+    setPopupMode(false);
+    setFormMode(false);
+    setSuccessMode(false);
+
+    setTimeout(() => {
+      setResult({
+        success: true,
+        title: "Thank you!",
+        message:
+          "Your request has been received. Our team will contact you shortly with full project details.",
+      });
+      setPopupMode(true);
+      setSuccessMode(true);
+    }, 1000);
 
     form.value = {
       clientType: "client",
@@ -203,8 +215,8 @@ const onSubmit = async () => {
   } catch (err) {
     setResult({
       success: false,
-      title: 'Oops!',
-      message: "An error has occurred. Please try again later."
+      title: "Oops!",
+      message: "An error has occurred. Please try again later.",
     });
   }
 };

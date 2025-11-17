@@ -156,13 +156,4 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
   backdrop-filter: blur(0.5rem) brightness(0.8);
   z-index: 99;
 }
-
-/* transitions */
-.fade-enter-active, .fade-leave-active { transition: opacity .2s ease 2s; }
-.fade-enter-from, .fade-leave-to { opacity: 0; }
-
-.slide-enter-active, .slide-leave-active { transition: transform .5s ease; }
-.slide-enter-from, .slide-leave-to { transform: translateY(-100%); }
-
-/* (остальной твой стиль для lang-switcher и т.д. можно оставить как было) */
 </style>

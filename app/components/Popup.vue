@@ -8,15 +8,16 @@
       aria-modal="true"
     >
       <!-- backdrop -->
-      <div
-        class="absolute inset-0 bg-[#00000080]"
-        @click="closePopup"
-      />
+      <div class="absolute inset-0 bg-[#00000080]" @click="closePopup" />
 
       <!-- panel -->
       <transition name="slide">
         <div
-          class="relative px-3 md:px-4 py-6 md:py-8 z-[9999] mt-4 mx-4 bg-white max-w-full md:max-w-md max-h-[85vh] overflow-scroll"
+          class="relative px-3 md:px-4 py-6 md:py-8 z-[9999] mt-4 mx-4 bg-white max-w-full md:max-w-md max-h-[85vh] overflow-scroll transition-all duration-500"
+          :class="{
+            'opacity-100 translate-y-0': isPopupContentShow,
+            'opacity-0 translate-y-10': !isPopupContentShow,
+          }"
         >
           <!--- close -->
           <button
@@ -40,12 +41,16 @@
               />
             </svg>
           </button>
-          <Form :mode="'popup'" v-if="isFormOpen"></Form>
-          <FormSuccess
-            :mode="'popup'"
-            :result="formResult"
-            v-if="isSuccessOpen"
-          ></FormSuccess>
+          <transition name="fade-form">
+            <Form :mode="'popup'" v-if="isFormOpen"></Form>
+          </transition>
+          <transition name="fade-success">
+            <FormSuccess
+              :mode="'popup'"
+              :result="formResult"
+              v-if="isSuccessOpen"
+            ></FormSuccess>
+          </transition>
         </div>
       </transition>
     </div>
@@ -57,6 +62,7 @@ import { ref, onMounted, watch, onBeforeUnmount } from "vue";
 import { usePopup } from "../composables/usePopup";
 const {
   isPopupOpen,
+  isPopupContentShow,
   isFormOpen,
   isSuccessOpen,
   setPopupMode,
@@ -80,19 +86,49 @@ onMounted(() => window.addEventListener("keydown", onKey));
 onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
 
 const closePopup = () => {
-    setPopupMode(false)
-    setFormMode(false)
-    setSuccessMode(false)
-}
+  setPopupMode(false);
+  setFormMode(false);
+  setSuccessMode(false);
+};
 
 ///
 </script>
 
 <style scoped>
-.hero-top {
-  position: relative;
-  /* background-image: linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)), url("/img/1.jpg");
-  background-position: center center;
-  background-size: cover; */
+/* transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-form-enter-active,
+.fade-form-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-form-enter-from,
+.fade-form-leave-to {
+  opacity: 0;
+}
+
+.fade-success-enter-active,
+.fade-success-leave-active {
+  transition: opacity 0.5s ease 2s;
+}
+.fade-success-enter-from,
+.fade-success-leave-to {
+  opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.5s ease 1s;
+}
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateY(-100%);
 }
 </style>
