@@ -1,7 +1,7 @@
 <template>
     <section
       id="hero-top"
-      class="hero-top mx-auto h-[100vh] w-full flex flex-col items-center text-center py-10 px-4 transition-all duration-2000"
+      class="hero-top mx-auto h-[100svh] w-full flex flex-col items-center text-center py-10 px-4 transition-all duration-2000"
       :class="{
         'opacity-100 translate-y-0': contentVisible,
         'opacity-90 translate-y-0': !contentVisible
