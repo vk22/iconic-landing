@@ -2,17 +2,17 @@
   <section
     id="forma"
     ref="formSection"
-    class="mx-auto w-full md:max-w-5xl flex flex-col py-20 transition-all duration-2000 mb-0"
+    class="mx-auto w-full md:max-w-5xl flex flex-col py-10 md:py-20 px-4 transition-all duration-2000 mb-0"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,
     }"
   >
     <div class="flex flex-col md:flex-row">
-      <div class="basis-1/2 relative px-5 mb-5 md:mb-0">
+      <div class="basis-1/2 relative px-0 md:px-5 mb-5 md:mb-0">
         <img :src="image" alt="" class="object-cover h-full w-full" />
       </div>
-      <div class="basis-1/2 px-2">  
+      <div class="basis-1/2 px-0 md:px-2">  
         <Form @form-sent="formAfterHandle"></Form>
       </div>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <section
     id="location"
-    class="mx-auto w-full md:max-w-5xl flex flex-col pt-16 md:pt-20 px-4 transition-all duration-2000 items-center"
+    class="mx-auto w-full md:max-w-5xl flex flex-col pt-10 md:pt-20 px-4 transition-all duration-2000 items-center"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,

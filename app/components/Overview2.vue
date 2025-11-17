@@ -1,15 +1,15 @@
 <template>
   <section
     id="overview"
-    class="hero-top mx-auto w-full md:max-w-5xl flex flex-col pt-16 md:pt-20 px-4 transition-all duration-2000"
+    class="hero-top mx-auto w-full md:max-w-5xl flex flex-col pt-10 md:pt-20 px-4 transition-all duration-2000"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,
     }"
   >
     <div class="flex flex-col md:flex-row">
-      <div class="basis-1/2 pr-4">
-        <div class="mb-10 pr-10">
+      <div class="basis-1/2 pr-0 md:pr-4">
+        <div class="mb-10 pr-0 md:pr-10 text-center md:text-left">
           <p class="mb-3">
             In Dubai, it’s not easy to stand out for luxury — yet ICONIC goes
             beyond expectations. Every detail of these residences reflects
@@ -23,7 +23,7 @@
         <!--- parametrs --->
         <div class="flex flex-wrap mb-6 bg-[#f2f2ffff2] p-0 md:mr-5">
           <div
-            class="param mb-5 basis-1/2 md:basis-1/4 pr-1 pr-0 md:pr-10"
+            class="param mb-5 basis-1/2 md:basis-1/4 pr-1 pr-0 md:pr-10 text-center md:text-left"
             v-for="(param, index) in parametrs"
             :key="index"
           >
@@ -35,8 +35,8 @@
             </p>
           </div>
         </div>
-        <div class="flex flex-col md:flex-row mb-5 md:mb-0">
-          <div class="btn pr-2">
+        <div class="flex flex-col md:flex-row items-center md:items-start mb-5 md:mb-0">
+          <div class="btn pr-0 md:pr-2 w-full md:w-auto mb-1 md:mb-0">
             <Button
               link="#"
               :size="'big'"
@@ -44,9 +44,10 @@
               :text="'Download Floor Plans'"
               :icon="true"
               @click="openForm"
+              class="w-full md:w-auto"
             ></Button>
           </div>
-          <div class="btn pr-2">
+          <div class="btn pr-0 md:pr-2 w-full md:w-auto">
             <Button
               :size="'big'"
               :type="'button'"
@@ -54,6 +55,7 @@
               :icon="true"
               :link="'#'"
               @click="openForm"
+              class="w-full md:w-auto"
             ></Button>
           </div>
         </div>

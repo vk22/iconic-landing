@@ -1,7 +1,7 @@
 <template>
   <section
     id="gallery"
-    class="relative mx-auto w-full h-[20rem] md:h-[40rem] md:max-w-5xl flex flex-col pt-16 md:pt-20 px-4 transition-all duration-2000"
+    class="relative mx-auto w-full h-[15rem] md:h-[40rem] md:max-w-5xl flex flex-col pt-10 md:pt-20 px-4 transition-all duration-2000"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,

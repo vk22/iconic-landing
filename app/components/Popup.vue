@@ -16,7 +16,7 @@
       <!-- panel -->
       <transition name="slide">
         <div
-          class="relative px-3 md:px-4 py-6 md:py-8 z-[9999] mt-4 bg-white max-w-full md:max-w-md max-h-[85vh] overflow-scroll"
+          class="relative px-3 md:px-4 py-6 md:py-8 z-[9999] mt-4 mx-4 bg-white max-w-full md:max-w-md max-h-[85vh] overflow-scroll"
         >
           <!--- close -->
           <button
