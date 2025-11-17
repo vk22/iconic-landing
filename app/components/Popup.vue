@@ -16,7 +16,7 @@
           class="relative px-3 md:px-4 py-6 md:py-8 z-[9999] mt-4 mx-4 bg-white max-w-full md:max-w-md max-h-[85vh] overflow-scroll transition-all duration-500"
           :class="{
             'opacity-100 translate-y-0': isPopupContentShow,
-            'opacity-0 translate-y-10': !isPopupContentShow,
+            'opacity-0 -translate-y-10': !isPopupContentShow,
           }"
         >
           <!--- close -->

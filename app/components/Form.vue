@@ -120,7 +120,7 @@
         </div>
       </div>
 
-      <Button :size="'big'" :text="'Get a Call Back'" :type="'submit'"></Button>
+      <Button :size="'big'" :text="'Get a Call Back'" :type="'submit'" :icon="loading"></Button>
 
       <!-- <p
         v-if="message"
@@ -156,9 +156,6 @@ const props = defineProps({
 
 // const emit = defineEmits(['formSent']);
 
-const imageLoaded = ref(false);
-const image = "/img/contact.jpg";
-const contentVisible = ref(false);
 
 const form = ref({
   clientType: "client",
@@ -168,6 +165,8 @@ const form = ref({
   apartmentType: "",
 });
 
+const loading = ref(false);
+
 const apartmentTypeOptions = [
   "1-bedroom",
   "2-bedroom",
@@ -175,8 +174,7 @@ const apartmentTypeOptions = [
   "Penthouse / luxury apartment",
 ];
 
-const message = ref<string | null>(null);
-const success = ref(false);
+
 const inputClass =
   "placeholder-gray-400 focus:placeholder-gray-700 bg-white border-0 border-b-1 border-grey-dark text-gray-900 text-sm focus:outline-none focus:border-grey-500 block w-full py-3 autofill:bg-white";
 const selectClass = ref(
@@ -184,6 +182,7 @@ const selectClass = ref(
 );
 
 const onSubmit = async () => {
+  loading.value = true
   try {
     const { error } = await useFetch("/api/form", {
       method: "POST",
@@ -219,6 +218,7 @@ const onSubmit = async () => {
       message: "An error has occurred. Please try again later.",
     });
   }
+  loading.value = false
 };
 
 const sizes = {
@@ -234,12 +234,7 @@ watch(form.value, (newValue, oldValue) => {
 });
 
 onMounted(() => {
-  const img = new Image();
-  img.src = image;
-  img.onload = () => {
-    imageLoaded.value = true;
-    setTimeout(() => (contentVisible.value = true), 300);
-  };
+
 });
 </script>
 
