@@ -7,7 +7,7 @@
   >
     <span class="relative z-10 flex items-center">
       <svg
-      v-if="icon"
+       v-if="icon"
         aria-hidden="true"
         role="status"
         class="w-4 h-4 me-2 text-white animate-spin"
@@ -87,7 +87,7 @@ const formSection = ref(null);
 //   return props.size === "big" ? 3 : 1.5;
 // });
 
-const colorBg = "#434848";
+const colorBg = "#252828";
 
 const animate =
   "hover:text-black transition-colors duration-300 before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-full before:bg-[#faf3e9] before:origin-bottom before:scale-y-0 before:transition-transform before:duration-300 hover:before:scale-y-100 before:z-0";

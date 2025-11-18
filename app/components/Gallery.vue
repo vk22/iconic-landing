@@ -1,15 +1,15 @@
 <template>
   <section
     id="gallery"
-    class="relative mx-auto w-full h-[15rem] md:h-[40rem] md:max-w-5xl flex flex-col pt-10 md:pt-20 px-4 transition-all duration-2000"
+    class="relative mx-auto w-full h-[15rem] md:h-[40rem] md:max-w-5xl flex flex-col pt-4 md:pt-20 px-0 md:px-4 transition-all duration-2000"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,
     }"
   >
     <ClientOnly>
-      <div class="gallery-nav">
-        <div class="gallery-nav__arrow swiper-prev left-[1rem] md:left-[2rem]">
+      <div class="gallery-nav px-4 md:px-12">
+        <div class="gallery-nav__arrow swiper-prev left-[0rem] md:left-[2rem]">
           <svg
             class="swiper-navigation-icon"
             width="11"
@@ -25,7 +25,7 @@
           </svg>
         </div>
         <!-- <h2>Gallery</h2> -->
-        <div class="gallery-nav__arrow swiper-next right-[1rem] md:right-[2rem]">
+        <div class="gallery-nav__arrow swiper-next right-[0rem] md:right-[2rem]">
           <svg
             class="swiper-navigation-icon"
             width="11"
@@ -106,16 +106,17 @@ onMounted(() => {
 }
 
 .gallery-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   width: 100%;
-  justify-content: center;
+  height: 100%;
+  justify-content: space-between;
   align-items: center;
 }
 .gallery-nav__arrow {
   cursor: pointer;
-  margin: 0 1rem;
-  position: absolute;
-  top: 50%;
   width: 42px;
   z-index: 99;
   background-color: rgba(255, 255, 255, 0.5);

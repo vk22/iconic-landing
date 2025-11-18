@@ -11,6 +11,7 @@
         v-else
         :text="'Secure Your Residence at ICONIC'"
         :align="'left'"
+        class="pr-[2%] md:pr-[5%]"
       ></TitleH3>
       <p v-if="mode === 'popup'" class="text-[.85rem]">
         Fill in your details and our team will contact you shortly with full

@@ -23,11 +23,11 @@
         <!--- parametrs --->
         <div class="flex flex-wrap mb-6 bg-[#f2f2ffff2] p-0 md:mr-5">
           <div
-            class="param mb-5 basis-1/2 md:basis-1/4 pr-1 pr-0 md:pr-10 text-center md:text-left"
+            class="param mb-5 basis-1/2 md:basis-1/4 pr-0 md:pr-2 text-center md:text-left"
             v-for="(param, index) in parametrs"
             :key="index"
           >
-            <p class="value text-[1.25rem] md:text-[1.65rem] mb-1">
+            <p class="text-title value text-[1.25rem] md:text-[1.65rem] mb-1">
               {{ param.value }}
             </p>
             <p class="title text-[0.75rem] md:text-[.85rem]">
@@ -35,7 +35,9 @@
             </p>
           </div>
         </div>
-        <div class="flex flex-col md:flex-row items-center md:items-start mb-5 md:mb-0">
+        <div
+          class="flex flex-col md:flex-row items-center md:items-start mb-5 md:mb-0"
+        >
           <div class="btn pr-0 md:pr-2 w-full md:w-auto mb-1 md:mb-0">
             <Button
               link="#"
@@ -60,7 +62,7 @@
           </div>
         </div>
       </div>
-      <div class="basis-1/2 relative">
+      <div class="basis-1/2 relative hidden lg:block">
         <img :src="image" alt="" class="object-cover h-full w-full" />
       </div>
     </div>
@@ -89,22 +91,17 @@ const parametrs = [
     text: "Floors",
   },
   {
-    value: "3Q 2027",
-    text: "Delivery date",
-  },
-  {
     value: "310",
     text: "1-4 Bedrooms Apartments",
-  },
-  {
-    value: "2",
-    text: "Floors of Exclusive Amenities",
   },
   {
     value: "1",
     text: "Penthouse",
   },
-
+  {
+    value: "2",
+    text: "Floors of Exclusive Amenities",
+  },
   {
     value: "423",
     text: "Parking Spaces",
@@ -112,6 +109,10 @@ const parametrs = [
   {
     value: "18x2",
     text: "Vip Parking Boxes with A/C",
+  },
+  {
+    value: "3Q 2027",
+    text: "Delivery date",
   },
 ];
 
