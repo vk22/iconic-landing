@@ -57,7 +57,7 @@ body {
     background-color: #ffffff;
     font-size: 20px;
     scroll-behavior: smooth;
-    color: #555b6d;
+    color: #434848;
 }
 
 h1, h2, h3 {
@@ -69,7 +69,9 @@ h1, h2, h3 {
 
 p, li {
     font-family: 'TTCommonsPro-Lt';
-    line-height: 1.25;
+    line-height: 1.35;
+    font-size: .9rem;
+    font-weight: 400;
 }
 
 .bold {

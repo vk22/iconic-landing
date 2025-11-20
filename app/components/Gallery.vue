@@ -1,7 +1,7 @@
 <template>
   <section
     id="gallery"
-    class="relative mx-auto w-full h-[15rem] md:h-[40rem] md:max-w-5xl flex flex-col pt-4 md:pt-20 px-0 md:px-4 transition-all duration-2000"
+    class="relative mx-auto w-full h-[15rem] md:h-[40rem] md:max-w-5xl flex flex-col mt-4 md:mt-14 px-0 md:px-4 transition-all duration-2000"
     :class="{
       'opacity-100 translate-y-0': contentVisible,
       'opacity-90 translate-y-0': !contentVisible,
@@ -9,7 +9,7 @@
   >
     <ClientOnly>
       <div class="gallery-nav px-4 md:px-12">
-        <div class="gallery-nav__arrow swiper-prev left-[0rem] md:left-[2rem]">
+        <div class="gallery-nav__arrow swiper-prev">
           <svg
             class="swiper-navigation-icon"
             width="11"
@@ -25,7 +25,7 @@
           </svg>
         </div>
         <!-- <h2>Gallery</h2> -->
-        <div class="gallery-nav__arrow swiper-next right-[0rem] md:right-[2rem]">
+        <div class="gallery-nav__arrow swiper-next">
           <svg
             class="swiper-navigation-icon"
             width="11"
@@ -71,7 +71,12 @@ const slides = [
   { image: "/img/gallery-2.jpg" },
   { image: "/img/gallery-3.jpg" },
   { image: "/img/gallery-4.jpg" },
-  { image: "/img/gallery-5.jpg" }
+  { image: "/img/gallery-5.jpg" },
+  { image: "/img/gallery-6.jpg" },
+  { image: "/img/gallery-7.jpg" },
+  { image: "/img/gallery-8.jpg" },
+  { image: "/img/gallery-9.jpg" },
+  { image: "/img/gallery-10.jpg" }
 ];
 
 const imageLoaded = ref(false);
@@ -117,11 +122,21 @@ onMounted(() => {
 }
 .gallery-nav__arrow {
   cursor: pointer;
-  width: 42px;
+  width: 50px;
+  height: 50px;
   z-index: 99;
-  background-color: rgba(255, 255, 255, 0.5);
+  color: #ad9b84;
+  /* background-color: rgba(255, 255, 255, 0.5); */
+  background-color: #faf3e9;
   padding: 15px;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+}
+
+.gallery-nav__arrow svg {
+  scale: .6;
 }
 
 .gallery-nav__arrow.swiper-next {

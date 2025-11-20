@@ -6,9 +6,9 @@
         effect="fade"
         :fadeEffect="{ crossFade: true }"
         :speed="2000"
-        :autoplay="{ delay: 6000, disableOnInteraction: false }"
+        :autoplay="{ delay: 5000, disableOnInteraction: false }"
         :loop="true"
-        class="opacity-50"
+        class="opacity-70"
       >
         <SwiperSlide v-for="slide in slides" :key="slide">
           <img :alt="slide.image" :src="slide.image" />
@@ -24,12 +24,12 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 const url = "slider-product";
 const slides = [
-  { image: "/img/1.jpg" },
-  { image: "/img/2.jpg" },
-  { image: "/img/3.jpg" },
-  { image: "/img/4.jpg" },
-  { image: "/img/6.jpg" },
-  { image: "/img/7.jpg" },
+  { image: "/img/top-1.jpg" },
+  { image: "/img/top-2.jpg" },
+  { image: "/img/top-3.jpg" },
+  { image: "/img/top-4.jpg" },
+  { image: "/img/top-6.jpg" },
+  { image: "/img/top-7.jpg" },
 ];
 
 const onSwiper = (swiper) => swiper;

@@ -3,7 +3,7 @@
     v-if="!link"
     :type="type"
     @click="scrollToForm"
-    :class="`relative btn ${size} text-center inline-flex items-center justify-center cursor-pointer text-white uppercase bg-[#434848] focus:outline-none font-medium ${textSize} tracking-[1.15px] ${animate}`"
+    :class="`relative btn ${size} text-center inline-flex items-center justify-center cursor-pointer text-[#faf3e9] uppercase bg-[#434848] focus:outline-none font-medium ${textSize} tracking-[1.15px] ${animate}`"
   >
     <span class="relative z-10 flex items-center">
       <svg
@@ -31,7 +31,7 @@
     v-else
     target="_blank"
     download
-    :class="`relative btn ${size} text-center inline-flex items-center justify-center cursor-pointer text-white uppercase bg-[#434848] hover:bg-[#000000] focus:outline-none font-small md:font-medium  ${textSize} tracking-[1.15px] ${animate}`"
+    :class="`relative btn ${size} text-center inline-flex items-center justify-center cursor-pointer text-[#faf3e9] uppercase bg-[#434848] hover:bg-[#000000] focus:outline-none font-small md:font-medium  ${textSize} tracking-[1.15px] ${animate}`"
   >
     <span class="relative z-10 flex items-center">
       <svg
@@ -93,7 +93,7 @@ const animate =
   "hover:text-black transition-colors duration-300 before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-full before:bg-[#faf3e9] before:origin-bottom before:scale-y-0 before:transition-transform before:duration-300 hover:before:scale-y-100 before:z-0";
 
 const sizes = {
-  big2: "text-[.85rem] md:text-[.95rem]",
+  big2: "text-[.75rem] md:text-[.75rem]",
   big: "text-[.75rem] md:text-[.75rem]",
   small: "text-[.65rem] md:text-[.7rem]",
 };
@@ -111,7 +111,7 @@ const scrollToForm = () => {
 
 <style scoped>
 .btn.big2 {
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 1.5rem;
 }
 
 .btn.big {

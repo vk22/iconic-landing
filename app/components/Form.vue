@@ -25,7 +25,7 @@
 
     <form @submit.prevent="onSubmit">
       <div class="flex flex-col md:flex-col">
-        <div class="mb-1 px-3 py-1 bg-[#f6f6f6]">
+        <div class="mb-1 px-3 py-1 bg-[#f6f6f6] rounded-[99rem]">
           <div class="flex">
             <div class="basis-1/2">
               <input
@@ -73,7 +73,6 @@
           </div>
           <div class="mb-2">
             <input
-              class="border-0 border-b-1 border-grey-dark bg-white focus:outline-none"
               v-model="form.email"
               type="email"
               required
@@ -85,7 +84,6 @@
         <div class="w-full">
           <div class="mb-2">
             <input
-              class="border-0 border-b-1 border-grey-dark bg-white focus:outline-none"
               v-model="form.phone"
               type="phone"
               required
@@ -100,7 +98,7 @@
               v-model="form.apartmentType"
               :class="selectClass"
             >
-              <option disabled selected value="" class="text-gray-400">
+              <option disabled selected value="" class="text-gray-300">
                 Apartment Type
               </option>
               <option
@@ -120,16 +118,9 @@
           </div>
         </div>
       </div>
+      
+      <Button :size="'big2'" :text="'Get a Call Back'" :type="'submit'" :icon="loading"></Button>
 
-      <Button :size="'big'" :text="'Get a Call Back'" :type="'submit'" :icon="loading"></Button>
-
-      <!-- <p
-        v-if="message"
-        :class="success ? 'text-dark' : 'text-red-600'"
-        class="mt-4"
-      >
-        {{ message }}
-      </p> -->
     </form>
   </div>
 </template>
@@ -177,9 +168,9 @@ const apartmentTypeOptions = [
 
 
 const inputClass =
-  "placeholder-gray-400 focus:placeholder-gray-700 bg-white border-0 border-b-1 border-grey-dark text-gray-900 text-sm focus:outline-none focus:border-grey-500 block w-full py-3 autofill:bg-white";
+  "text-left placeholder-gray-400 focus:placeholder-gray-700 bg-white border-0 border-b border-[#999] text-gray-900 text-sm focus:outline-none focus:border-grey-500 block w-full py-3 autofill:bg-white";
 const selectClass = ref(
-  `w-full bg-gray-50 py-3 bg-white border-0 border-b-1 border-grey-dark focus:outline-none text-sm text-gray-500`
+  `text-left w-full bg-gray-50 py-3 bg-white border-0 border-b border-[#999] focus:outline-none text-sm text-gray-400`
 );
 
 const onSubmit = async () => {
@@ -230,7 +221,7 @@ const sizes = {
 
 watch(form.value, (newValue, oldValue) => {
   if (newValue.apartmentType) {
-    selectClass.value = `w-full bg-gray-50 py-3 bg-white border-0 border-b-1 border-grey-dark focus:outline-none text-sm text-gray-900`;
+    selectClass.value = `w-full bg-gray-50 py-3 bg-white border-0 border-b border-[#999] focus:outline-none text-sm text-gray-900`;
   }
 });
 
@@ -263,11 +254,11 @@ input:-webkit-autofill:focus {
 }
 
 select option[disabled] {
-  color: #9ca3af; /* text-gray-400 */
+  color: #9ca3af;
 }
 
 input,
 select {
-  border-bottom: 1px solid #444;
+
 }
 </style>

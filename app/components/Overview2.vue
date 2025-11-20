@@ -11,23 +11,33 @@
       <div class="basis-1/2 pr-0 md:pr-4">
         <div class="mb-10 pr-0 md:pr-10 text-center md:text-left">
           <p class="mb-3">
-            In Dubai, it’s not easy to stand out for luxury — yet ICONIC goes
-            beyond expectations. Every detail of these residences reflects
-            precision, craftsmanship, and timeless design.
+            Iconic Residences by Pininfarina reflect Italian luxury, modern
+            innovation and European craftsmanship in the heart of Dubai. These
+            Branded Residences are created for those who appreciate
+            sophistication, comfort and a prestigious address.
           </p>
-          <p class="mb-3">
-            The architecture and interiors, envisioned by Pininfarina, embody
-            the harmony of Italian sophistication and contemporary innovation.
-          </p>
+          <p class="mb-3">Why Iconic Residences</p>
+
+          <ul class="list-disc pl-5 mb-3">
+            <li>Exclusive Pininfarina design defined by contemporary elegance and precise architectural detailing.</li>
+            <li>Spectacular seascape and iconic skyline views that encompass Palm Jumeirah, Dubai Marina and the Burj Al Arab.</li>
+            <li>Generous, well-proportioned layouts complemented by balconies and terraces that open fully to the views.</li>
+            <li>Refined materials, including premium wood and marble finishes that elevate the quality of every residence.</li>
+          </ul>
+
+          
         </div>
+
+      </div>
+      <div class="basis-1/2 relative ">
         <!--- parametrs --->
         <div class="flex flex-wrap mb-6 bg-[#f2f2ffff2] p-0 md:mr-5">
           <div
-            class="param mb-5 basis-1/2 md:basis-1/4 pr-0 md:pr-2 text-center md:text-left"
+            class="param mb-5 md:mb-14 basis-1/2 md:basis-1/3 pr-0 md:pr-2 text-center md:text-left"
             v-for="(param, index) in parametrs"
             :key="index"
           >
-            <p class="text-title value text-[1.25rem] md:text-[1.65rem] mb-1">
+            <p class="text-title value text-[1.25rem] md:text-[1.65rem] mb-2">
               {{ param.value }}
             </p>
             <p class="title text-[0.75rem] md:text-[.85rem]">
@@ -62,10 +72,12 @@
           </div>
         </div>
       </div>
-      <div class="basis-1/2 relative hidden lg:block">
-        <img :src="image" alt="" class="object-cover h-full w-full" />
-      </div>
     </div>
+     <div class="flex flex-col md:flex-row justify-center mt-10">
+          <p class="text-center text-[1.25rem] md:text-[1.65rem] basis-1/2 text-title">
+           Living at Iconic Residences means choosing exceptional quality, elevated comfort and a truly refined lifestyle in Dubai.
+          </p>
+     </div>
   </section>
 </template>
 
@@ -88,27 +100,23 @@ const contentVisible = ref(false);
 const parametrs = [
   {
     value: "G+66",
-    text: "Floors",
+    text: "Tower floors",
   },
   {
     value: "310",
-    text: "1-4 Bedrooms Apartments",
+    text: "Apartments",
   },
   {
     value: "1",
     text: "Penthouse",
   },
   {
-    value: "2",
-    text: "Floors of Exclusive Amenities",
+    value: "VIP parking",
+    text: "with A/C",
   },
   {
-    value: "423",
-    text: "Parking Spaces",
-  },
-  {
-    value: "18x2",
-    text: "Vip Parking Boxes with A/C",
+    value: "2 levels",
+    text: "of Amenities",
   },
   {
     value: "3Q 2027",

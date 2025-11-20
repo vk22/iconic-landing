@@ -22,9 +22,6 @@
 
 
         <div class="text-2 mt-[12vh] md:mt-[14vh] h-sm:mt-[12vh] h-sm:mt-[6vh] pb-4 max-w-xl">
-          <!-- <a class="text-white text-lg md:text-2xl text-white! ">
-          Premium Apartments starting from AED 3.5M / $970K
-          </a> -->
           <Button :type="'button'" :text="'Premium Apartments starting from AED 3.5M / USD 970K'" size="big2"></Button>
         </div>
       </div>  
@@ -39,7 +36,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 const imageLoaded = ref(false);
-const backgroundUrl = '/img/1.jpg' ;
+const backgroundUrl = '/img/top-1.jpg' ;
 const contentVisible = ref(false);
 
 onMounted(() => {

@@ -3,10 +3,11 @@
   <Header></Header>
   <div class="landing-index transition-opacity duration-1000"  :class="{ 'opacity-100': imageLoaded, 'opacity-0': !imageLoaded }">
   <Hero></Hero>  
-  <Overview2></Overview2>
+  <Overview3></Overview3>
+  <!-- <Overview></Overview> -->
   <Gallery></Gallery>
   <Location></Location>
-  <Payment></Payment>
+  <Payment2></Payment2>
   <FormBlock></FormBlock>
   <Footer></Footer>
   </div>
@@ -15,7 +16,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 const imageLoaded = ref(false);
-const backgroundUrl = '/img/1.jpg' ;
+const backgroundUrl = '/img/top-1.jpg' ;
 const contentVisible = ref(false);
 
 onMounted(() => {
