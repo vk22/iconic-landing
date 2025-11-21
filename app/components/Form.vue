@@ -1,12 +1,12 @@
 <template>
   <div class="form-container w-full max-w-md px-0 bg-[#ffffff]">
     <div class="flex flex-col items mb-3 md:mb-5">
-      <TitleH2
+      <TitleH4
         v-if="mode === 'popup'"
         :text="'Secure Your Residence at ICONIC'"
         :align="'left'"
         class="pr-[10%] md:pr-[20%]"
-      ></TitleH2>
+      ></TitleH4>
       <TitleH3
         v-else
         :text="'Secure Your Residence at ICONIC'"

@@ -68,9 +68,9 @@ h1, h2, h3 {
 }
 
 p, li {
-    font-family: 'TTCommonsPro-Lt';
+    font-family: 'TTCommonsPro-Rg';
     line-height: 1.35;
-    font-size: .9rem;
+    font-size: .85rem;
     font-weight: 400;
 }
 

@@ -7,16 +7,21 @@
       'opacity-90 translate-y-0': !contentVisible,
     }"
   >
-    <div class="flex flex-col md:flex-row">
+    <div class="flex flex-col items-center">
+      <div class="text-center mb-3 md:mb-6 max-w-xl">
+        <TitleH3 :text="'Why Iconic Residences'" :align="'center'"></TitleH3>
+      </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row items-stretch">
       <div class="basis-1/2 pr-0 md:pr-4">
-        <div class="mb-10 pr-0 md:pr-10 text-center md:text-left">
+        <div class="mb-10 pr-0 md:pr-10 text-left md:text-left">
           <p class="mb-3">
             Iconic Residences by Pininfarina reflect Italian luxury, modern
             innovation and European craftsmanship in the heart of Dubai. These
             Branded Residences are created for those who appreciate
             sophistication, comfort and a prestigious address.
           </p>
-          <p class="mb-3">Why Iconic Residences</p>
 
           <ul class="list-disc pl-5 mb-3">
             <li>
@@ -69,15 +74,19 @@
           </div>
         </div>
       </div>
-      <div class="basis-1/2 relative hidden lg:block">
-        <img :src="image" alt="" class="object-cover h-full w-full" />
+      <div class="right basis-1/2 hidden lg:block relative overflow-hidden">
+        <img
+          :src="image"
+          alt=""
+          class="absolute inset-0 w-full h-full object-cover object-bottom"
+        />
       </div>
     </div>
-    <div class="flex flex-col md:flex-col justify-center mt-16">
+    <div class="flex flex-col md:flex-col justify-center mt-4 md:mt-10">
       <!--- parametrs --->
-      <div class="flex flex-wrap mb-6 bg-[#f8f8f8] p-6 rounded-xl">
+      <div class="flex flex-wrap mb-6 bg-[#fff] p-0 md:p-6 rounded-xl">
         <div
-          class="param basis-1/2 md:basis-1/3 p-0 md:p-4 text-center md:text-left text-[#555b6d]"
+          class="param basis-1/2 md:basis-1/3 p-4 md:p-4 text-center md:text-left text-[#555b6d]"
           v-for="(param, index) in parametrs"
           :key="index"
         >
