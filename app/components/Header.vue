@@ -23,14 +23,22 @@
 
     <!-- hanburger -->
     <button
-      class="md:hidden inline-flex items-center justify-center w-6 h-10 rounded focus:outline-none"
+      class="md:hidden inline-flex items-center justify-center w-6 h-10 rounded focus:outline-none "
       aria-label="Open menu"
       @click="openMenu"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24"
+      <!-- <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24"
         stroke="currentColor" stroke-width="1">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg> -->
+
+      <svg class="" width="40" height="8" viewBox="0 0 40 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="4" cy="4" r="4" fill="white"/>
+        <circle cx="20" cy="4" r="4" fill="white"/>
+        <circle cx="36" cy="4" r="4" fill="white"/>
       </svg>
+
+
     </button>
 
 

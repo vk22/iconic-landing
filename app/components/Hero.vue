@@ -8,7 +8,7 @@
       }"
     >
       <div class="relative z-10 flex flex-col items-center justify-end h-full"> 
-        <div class="logo w-[12rem] md:w-[19rem] h-sm:w-[12rem] h-xs:w-[10rem] flex flex-col items-center">
+        <div class="logo w-[13rem] md:w-[19rem] h-sm:w-[13rem] h-xs:w-[11rem] flex flex-col items-center">
           <img src="../assets/img/logo.svg" alt="" />
         </div>
 

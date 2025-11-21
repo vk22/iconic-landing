@@ -13,7 +13,7 @@
         :align="'left'"
         class="pr-[2%] md:pr-[5%]"
       ></TitleH3>
-      <p v-if="mode === 'popup'" class="text-[.85rem]">
+      <p v-if="mode === 'popup'" class="text-[.75rem]">
         Fill in your details and our team will contact you shortly with full
         project information and personalized offers.
       </p>

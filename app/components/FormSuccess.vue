@@ -1,5 +1,5 @@
 <template>
-  <div class="form-container w-full max-w-md px-8 bg-[#ffffff]">
+  <div class="form-container w-full max-w-md px-2 md:px-8 bg-[#ffffff]">
     <div class="flex flex-col ">
       <TitleH3 :text="props.result.title" :align="'center'"></TitleH3>
       <p class="text mb-8 text-center">
@@ -12,22 +12,24 @@
         information about Iconic Residences.
       </p>
       <div class="flex flex-col md:flex-row justify-center" v-if="props.result.success">
-        <div class="btn p-1">
+        <div class="btn pr-0 md:pr-2 w-full md:w-auto mb-1 md:mb-0">
           <Button
             :size="'big'"
             :type="'button'"
             :text="'Floor Plans'"
             :icon="true"
             :link="'https://mered.ae/assets/docs/Iconic%20Residences%20Unit%20Layouts.pdf'"
+            class="w-full md:w-auto"
           ></Button>
         </div>
-        <div class="btn p-1">
+        <div class="btn pr-0 md:pr-2 w-full md:w-auto">
           <Button
             :size="'big'"
             :type="'button'"
             :text="'Project Brochure'"
             :icon="true"
             :link="'https://mered.ae/assets/docs/Iconic%20Residences%20by%20Mered%20EN.pdf'"
+            class="w-full md:w-auto"
           ></Button>
         </div>
       </div>

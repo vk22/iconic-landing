@@ -15,9 +15,9 @@
             Convenient payment schedule designed for comfort and flexibility.
           </p>
 
-          <div class="relative flex overflow-x-auto">
+          <div class="relative flex flex-col md:flex-row overflow-x-auto">
             <div
-              class="param basis-1/2 md:basis-1/2 px-2 md:px-2 text-left md:text-left border-l border-grey-dark"
+              class="param basis-1/2 md:basis-1/2 px-2 md:px-2 text-left md:text-left border-l border-grey-dark mb-4"
               v-for="(item, index) in planList"
               :key="index"
             >

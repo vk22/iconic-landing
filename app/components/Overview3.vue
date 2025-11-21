@@ -82,7 +82,7 @@
         />
       </div>
     </div>
-    <div class="flex flex-col md:flex-col justify-center mt-4 md:mt-10">
+    <div class="flex flex-col md:flex-col justify-center mt-2 md:mt-10">
       <!--- parametrs --->
       <div class="flex flex-wrap mb-6 bg-[#fff] p-0 md:p-6 rounded-xl">
         <div
