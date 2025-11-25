@@ -83,13 +83,15 @@
         </div>
         <div class="w-full">
           <div class="mb-2">
-            <input
+            <!-- <input
               v-model="form.phone"
               type="phone"
               required
               :class="inputClass"
               placeholder="Phone"
-            />
+            /> -->
+            <vue-tel-input :class="inputClass" v-model="form.phone" @validate="setIfValidPhone" :validCharactersOnly="true"></vue-tel-input>
+            <div class="phone-error text-xs text-[#d20404] mt-1" v-if="showPhoneError">Enter a valid phone number!</div>
           </div>
 
           <div class="mb-2">
@@ -157,6 +159,9 @@ const form = ref({
   apartmentType: "",
 });
 
+const isValidPhone = ref(false)
+const showPhoneError = ref(false)
+
 const loading = ref(false);
 
 const apartmentTypeOptions = [
@@ -168,12 +173,21 @@ const apartmentTypeOptions = [
 
 
 const inputClass =
-  "text-left placeholder-gray-400 focus:placeholder-gray-700 bg-white border-0 border-b border-[#999] text-gray-900 text-sm focus:outline-none focus:border-grey-500 block w-full py-3 autofill:bg-white";
+  "text-left placeholder-gray-400 focus:placeholder-gray-700 bg-white border-0 border-b border-[#999] text-gray-900 text-sm focus:outline-none shadow-none focus:border-grey-500 block w-full py-3 autofill:bg-white";
 const selectClass = ref(
   `text-left w-full bg-gray-50 py-3 bg-white border-0 border-b border-[#999] focus:outline-none text-sm text-gray-400`
 );
 
+const setIfValidPhone = (data: object) => {
+  isValidPhone.value = data.valid
+}
+
 const onSubmit = async () => {
+  if (!isValidPhone.value) {
+    alert ('Enter a valid phone number!');
+    //showPhoneError.value = true;
+    return
+  }
   loading.value = true
   try {
     const { error } = await useFetch("/api/form", {
@@ -261,4 +275,18 @@ input,
 select {
 
 }
+
+.vue-tel-input {
+    border-radius: 0px;
+    display: flex;
+    border: none;
+    border-bottom: 1px solid #999;
+    box-shadow: none;
+}
+
+.vue-tel-input:focus {
+  outline: none; /* Optional: Remove the default browser outline */
+  box-shadow: 0 0 0 3px rgba(255, 89, 0, 0.5)!important; /* Blue shadow */
+}
+
 </style>

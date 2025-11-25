@@ -3734,6 +3734,11 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
+libphonenumber-js@^1.12.12:
+  version "1.12.29"
+  resolved "https://registry.npmjs.org/libphonenumber-js/-/libphonenumber-js-1.12.29.tgz"
+  integrity sha512-P2aLrbeqHbmh8+9P35LXQfXOKc7XJ0ymUKl7tyeyQjdRNfzunXWxQXGc4yl3fUf28fqLRfPY+vIVvFXK7KEBTw==
+
 lightningcss-darwin-x64@1.30.2:
   version "1.30.2"
   resolved "https://registry.npmjs.org/lightningcss-darwin-x64/-/lightningcss-darwin-x64-1.30.2.tgz"
@@ -6302,7 +6307,12 @@ vue-router@^4.5.1, vue-router@^4.6.0, vue-router@^4.6.3:
   dependencies:
     "@vue/devtools-api" "^6.6.4"
 
-"vue@^2.7.0 || ^3.2.25", vue@^3.0.0, vue@^3.2.25, vue@^3.3.4, vue@^3.5.0, vue@^3.5.14, vue@^3.5.22, vue@>=3.5.18, vue@3.5.22:
+vue-tel-input@^9.5.0:
+  version "9.5.0"
+  resolved "https://registry.npmjs.org/vue-tel-input/-/vue-tel-input-9.5.0.tgz"
+  integrity sha512-f3PHxRIcGzc8HgjSh5sBZLqOfO83GPypZYxwNcJRLh9XOBS9pjTilNWPQUzvpOiE+mrRQRoXc8s8hEyj9tWKYQ==
+
+"vue@^2.7.0 || ^3.2.25", vue@^3.0.0, vue@^3.2.25, vue@^3.3.4, vue@^3.5.0, vue@^3.5.14, vue@^3.5.22, vue@^3.5.4, vue@>=3.5.18, vue@3.5.22:
   version "3.5.22"
   resolved "https://registry.npmjs.org/vue/-/vue-3.5.22.tgz"
   integrity sha512-toaZjQ3a/G/mYaLSbV+QsQhIdMo9x5rrqIpYRObsJ6T/J+RyCSFwN2LHNVH9v8uIcljDNa3QzPVdv3Y6b9hAJQ==
