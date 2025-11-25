@@ -68,12 +68,12 @@ import "swiper/css/effect-fade";
 const url = "slider-product";
 const slides = [
   { image: "/img/gallery-1.jpg" },
-  { image: "/img/gallery-2.jpg" },
   { image: "/img/gallery-3.jpg" },
   { image: "/img/gallery-4.jpg" },
   { image: "/img/gallery-5.jpg" },
-  { image: "/img/gallery-6.jpg" },
+  { image: "/img/gallery-2.jpg" },
   { image: "/img/gallery-7.jpg" },
+  { image: "/img/gallery-6.jpg" },
   { image: "/img/gallery-8.jpg" },
   { image: "/img/gallery-9.jpg" },
   { image: "/img/gallery-10.jpg" }

@@ -102,7 +102,7 @@ const planList = [
     text: "Upon SPA Agreement date",
   },
   {
-    percent: "30%",
+    percent: "25%",
     text: "In equal installments within 6 to 30 months from Agreement date",
   },
   {
