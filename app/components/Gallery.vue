@@ -76,7 +76,9 @@ const slides = [
   { image: "/img/gallery-6.jpg" },
   { image: "/img/gallery-8.jpg" },
   { image: "/img/gallery-9.jpg" },
-  { image: "/img/gallery-10.jpg" }
+  { image: "/img/gallery-10.jpg" },
+  { image: "/img/gallery-11.jpg" },
+  
 ];
 
 const imageLoaded = ref(false);
