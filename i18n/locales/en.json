@@ -1,4 +1,145 @@
 {
-  "title": "Exceptional Branded Residences",
-  "subtitle": "Design by Pininfarina"
+  "header": {
+    "btn": "Register Your Interest",
+    "menu": [
+      {
+        "id": "#overview",
+        "text": "Overview"
+      },
+      {
+        "id": "#location",
+        "text": "Location"
+      },
+      {
+        "id": "#payment",
+        "text": "Payment Plan"
+      }
+    ]
+  },
+  "hero": {
+    "title": "Exceptional Branded Residences",
+    "subtitle": "Design by Pininfarina",
+    "btn": "Premium Apartments starting from AED 3.5M / USD 970K"
+  },
+  "overview": {
+    "title": "Why Iconic Residences",
+    "text": {
+      "paragraph-1": "Iconic Residences by Pininfarina reflect Italian luxury, modern innovation and European craftsmanship in the heart of Dubai. These Branded Residences are created for those who appreciate sophistication, comfort and a prestigious address.",
+      "list-1": "Exclusive Pininfarina design defined by contemporary elegance and precise architectural detailing.",
+      "list-2": "Spectacular seascape and iconic skyline views that encompass Palm Jumeirah, Dubai Marina and the Burj Al Arab.",
+      "list-3": "Generous, well-proportioned layouts complemented by balconies and terraces that open fully to the views.",
+      "list-4": "Refined materials, including premium wood and marble finishes that elevate the quality of every residence.",
+      "paragraph-2": "Living at Iconic Residences means choosing exceptional quality, elevated comfort and a truly refined lifestyle in Dubai."
+    },
+    "btn-1": "Download Floor Plans",
+    "btn-1-1": "Floor Plans",
+    "btn-2": "Download Project Brochure",
+    "btn-2-1": "Project Brochure",
+    "parameters": [
+      {
+        "value": "G+66",
+        "text": "Tower floors"
+      },
+      {
+        "value": "310",
+        "text": "Apartments"
+      },
+      {
+        "value": "1",
+        "text": "Penthouse"
+      },
+      {
+        "value": "VIP parking",
+        "text": "with A/C"
+      },
+      {
+        "value": "2 levels",
+        "text": "of Amenities"
+      },
+      {
+        "value": "3Q 2027",
+        "text": "Delivery date"
+      }
+    ]
+  },
+  "location": {
+    "title": "Central Location",
+    "text": "Perfectly positioned in the heart of Dubai, close to Palm Jumeirah and Burj Al Arab, ICONIC Residences offer unmatched connectivity and effortless access to the city’s most renowned destinations.",
+    "parameters": [
+      {
+        "place": "Palm Jumeirah Beaches",
+        "text": "5 minutes"
+      },
+      {
+        "place": "Dubai Harbour",
+        "text": "10 minutes"
+      },
+      {
+        "place": "Bluewaters Island",
+        "text": "10 minutes"
+      },
+      {
+        "place": "Downtown Dubai",
+        "text": "25 minutes"
+      }
+    ],
+    "btn": "Register Your Interest"
+  },
+  "payments": {
+    "title": "Payment Plan",
+    "text": "Convenient payment schedule designed for comfort and flexibility.",
+    "planList": [
+      {
+        "percent": "5%",
+        "text": "Booking Deposit"
+      },
+      {
+        "percent": "20%",
+        "text": "Upon SPA Agreement date"
+      },
+      {
+        "percent": "25%",
+        "text": "In equal installments within 6 to 30 months from Agreement date"
+      },
+      {
+        "percent": "50%",
+        "text": "Upon Handover"
+      }
+    ]
+  },
+  "mortgage": {
+    "title": "Mortgage Options",
+    "text-1": "Mortgages are available even if you're not a UAE resident. You can finance up to half the property value and get full support throughout the process.",
+    "text-2": "Support: Full assistance from our mortgage partner — from application to approval.",
+    "text-3": "Available for:",
+    "list-1": "UAE residents",
+    "list-2": "Golden Visa holders",
+    "list-3": "Non-residents with international income",
+    "text-4": "Up to 50% of property value can be financed."
+  },
+  "goldenVisa": {
+    "title": "SECURE YOUR 10-YEAR UAE GOLDEN VISA",
+    "text-1": "Invest in Iconic Residences design by Pininfarina and enjoy the exclusive benefits of a 10-year UAE Golden Visa.",
+    "list-1": "Residency for you & your family",
+    "list-2": "No restrictions on time spent outside the UAE",
+    "list-3": "",
+    "btn": "Leave a Request"
+  },
+  "form": {
+    "title": "Secure Your Residence at ICONIC",
+    "text": "Fill in your details and our team will contact you shortly with full project information and personalized offers.",
+    "client": "Client",
+    "broker": "Broker",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "apType": "Apartment Type",
+    "subtext": "By submitting, you agree to our",
+    "sublink": "terms & conditions",
+    "btn": "Get A Call Back",
+    "errorMessage": "Enter a valid phone number!",
+    "responseMessage-1": "Thank you!",
+    "responseMessage-2": "Your request has been received. Our team will contact you shortly with full project details.",
+    "responseMessage-3": "You may download the assets below to get more information about Iconic Residences."
+  }
 }

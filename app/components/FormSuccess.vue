@@ -16,7 +16,7 @@
           <Button
             :size="'big'"
             :type="'button'"
-            :text="'Floor Plans'"
+            :text="$t('overview.btn-1-1')"
             :icon="true"
             :link="'https://mered.ae/assets/docs/Iconic%20Residences%20Unit%20Layouts.pdf'"
             class="w-full md:w-auto"
@@ -26,7 +26,7 @@
           <Button
             :size="'big'"
             :type="'button'"
-            :text="'Project Brochure'"
+            :text="$t('overview.btn-2-1')"
             :icon="true"
             :link="'https://mered.ae/assets/docs/Iconic%20Residences%20by%20Mered%20EN.pdf'"
             class="w-full md:w-auto"
@@ -50,7 +50,7 @@ interface Result {
 const props = withDefaults(defineProps<{
   result?: Result;
 }>(), {
-  result: { success: undefined, title: '', message: '' }
+  result: { success: false, title: '', message: '' }
 });
 
 </script>

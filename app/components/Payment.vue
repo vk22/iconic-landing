@@ -10,79 +10,67 @@
     <div class="flex flex-col md:flex-row">
       <div class="basis-1/2 pl-0 md:pr-10">
         <div class="mb-10">
-          <TitleH3 :text="'Payment Plan'" :align="'center'"></TitleH3>
+          <TitleH3 :text="$t('payments.title')" :align="'center'"></TitleH3>
           <p class="mb-6">
-            Convenient payment schedule designed for comfort and flexibility.
+            {{ $t("payments.text") }}
           </p>
 
-          <div class="relative overflow-x-auto">
-            <table
-              class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+          <div class="relative flex flex-col md:flex-row overflow-x-auto">
+            <div
+              class="param basis-1/2 md:basis-1/2 px-2 md:px-2 text-left md:text-left border-l border-grey-dark mb-4"
+              v-for="(item, index) in planList"
+              :key="index"
             >
-              <thead
-                class="text-xs text-gray-700 bg-[#d9d9d9]"
+              <p
+                class="text-title text-left value text-[1rem] md:text-[1.25rem] mb-1"
               >
-                <tr>
-                  <th scope="col" class="px-6 py-1 w-[7rem]">Percent (%)</th>
-                  <th scope="col" class="px-6 py-1">Paying date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(item, index) in planList" :key="index"
-                  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
-                >
-                  <td class="px-6 py-1">{{ item.percent }}</td>
-                  <td class="px-6 py-1">{{ item.text }}</td>
-                </tr>
-              </tbody>
-            </table>
+                {{ item.percent }}
+              </p>
+              <p class="text-left text-[0.75rem] md:text-[.75rem]">
+                {{ item.text }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
       <div class="basis-1/2 pr-0 md:pl-10 mb-10 md:mb-0">
         <div class="">
-          <TitleH3 :text="'Mortgage options'" :align="'center'"></TitleH3>
+          <TitleH3 :text="$t('mortgage.title')" :align="'center'"></TitleH3>
           <p class="mb-3">
-            Mortgages are available even if you're not a UAE resident. You can
-            finance up to half the property value and get full support
-            throughout the process.
+            {{ $t("mortgage.text-1") }}
           </p>
           <p class="mb-3">
-            Support: Full assistance from our mortgage partner — from
-            application to approval.
+            {{ $t("mortgage.text-2") }}
           </p>
 
-          <p>Available for:</p>
+          <p>{{ $t("mortgage.text-3") }}</p>
           <ul class="list-disc pl-5 mb-3">
-            <li>UAE residents</li>
-            <li>Golden Visa holders</li>
-            <li>Non-residents with international income</li>
+            <li>{{ $t("mortgage.list-1") }}</li>
+            <li>{{ $t("mortgage.list-2") }}</li>
+            <li>{{ $t("mortgage.list-3") }}</li>
           </ul>
-          <p>Up to 50% of property value can be financed.</p>
+          <p>{{ $t("mortgage.text-4") }}</p>
         </div>
       </div>
     </div>
     <div class="flex flex-col md:flex-row justify-center pt-2 md:pt-12">
       <div class="basis-1/2">
         <div class="flex flex-col items-center">
-          <TitleH3
-            :text="'SECURE YOUR 10-YEAR UAE GOLDEN VISA'"
-            :align="'center'"
-          ></TitleH3>
+          <TitleH3 :text="$t('goldenVisa.title')" :align="'center'"></TitleH3>
           <p class="mb-3 text-center">
-            Invest in Iconic Residences design by Pininfarina and enjoy the
-            exclusive benefits of a 10-year UAE Golden Visa.
+            {{ $t("goldenVisa.text-1") }}
           </p>
-          <p class="mb-3 text-center">
-            Residency for you & your family. No restrictions on time spent
-            outside the UAE.
-          </p>
+          <ul class="list-disc pl-5 mb-3">
+            <li>{{ $t("goldenVisa.list-1") }}</li>
+            <li>{{ $t("goldenVisa.list-2") }}</li>
+            <li v-if="$t('goldenVisa.list-3')">{{ $t("goldenVisa.list-3") }}</li>
+          </ul>
 
           <div class="btn pt-6">
             <Button
               :size="'big'"
               :type="'button'"
-              :text="'Leave a Request'"
+              :text="$t('goldenVisa.btn')"
             ></Button>
           </div>
         </div>
@@ -93,27 +81,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { useTmRaw } from "../composables/useTmRaw";
 const imageLoaded = ref(false);
 const image = "/img/about.jpg";
 const contentVisible = ref(false);
-const planList = [
-  {
-    percent: "5%",
-    text: "Booking Deposit",
-  },
-  {
-    percent: "20%",
-    text: "Upon SPA Agreement date",
-  },
-  {
-    percent: "30%",
-    text: "In equal installments within 6 to 30 months from Agreement date",
-  },
-  {
-    percent: "50%",
-    text: "Upon Handover",
-  },
-];
+const planList = useTmRaw("payments.planList");
 
 onMounted(() => {
   const img = new Image();

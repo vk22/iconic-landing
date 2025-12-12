@@ -3,23 +3,18 @@
     <div class="flex flex-col items mb-3 md:mb-5">
       <TitleH4
         v-if="mode === 'popup'"
-        :text="'Secure Your Residence at ICONIC'"
+        :text="$t('form.title')"
         :align="'left'"
         class="pr-[10%] md:pr-[20%]"
       ></TitleH4>
       <TitleH3
         v-else
-        :text="'Secure Your Residence at ICONIC'"
+        :text="$t('form.title')"
         :align="'left'"
         class="pr-[2%] md:pr-[5%]"
       ></TitleH3>
-      <p v-if="mode === 'popup'" class="text-[.75rem]">
-        Fill in your details and our team will contact you shortly with full
-        project information and personalized offers.
-      </p>
-      <p v-else class="">
-        Fill in your details and our team will contact you shortly with full
-        project information and personalized offers.
+      <p :class="{ 'text-[.75rem]': mode === 'popup' }">
+        {{ $t("form.text") }}
       </p>
     </div>
 
@@ -40,7 +35,7 @@
               <label
                 for="client"
                 class="peer-checked/client:text-[#000000] ml-2 text-[.9rem]"
-                >Client</label
+                >{{ $t("form.client") }}</label
               >
             </div>
             <div class="basis-1/2">
@@ -55,7 +50,7 @@
               <label
                 for="published"
                 class="peer-checked/broker:text-[#000000] ml-2 text-[.9rem]"
-                >Broker</label
+                >{{ $t("form.broker") }}</label
               >
             </div>
           </div>
@@ -68,7 +63,7 @@
               type="text"
               required
               :class="inputClass"
-              placeholder="Full Name"
+              :placeholder="$t('form.fullName')"
             />
           </div>
           <div class="mb-2">
@@ -77,7 +72,7 @@
               type="email"
               required
               :class="inputClass"
-              placeholder="Email"
+              :placeholder="$t('form.email')"
             />
           </div>
         </div>
@@ -90,8 +85,20 @@
               :class="inputClass"
               placeholder="Phone"
             /> -->
-            <vue-tel-input :class="inputClass" v-model="form.phone" @validate="setIfValidPhone" :validCharactersOnly="true"></vue-tel-input>
-            <div class="phone-error text-xs text-[#d20404] mt-1" v-if="showPhoneError">Enter a valid phone number!</div>
+            <vue-tel-input
+              :mode="''"
+              :inputOptions="{ placeholder: $t('form.phone') }"
+              :class="inputClass"
+              v-model="form.phone"
+              @validate="setIfValidPhone"
+              :validCharactersOnly="true"
+            ></vue-tel-input>
+            <div
+              class="phone-error text-xs text-[#d20404] mt-1"
+              v-if="showPhoneError"
+            >
+              {{ $t("form.errorMessage") }}
+            </div>
           </div>
 
           <div class="mb-2">
@@ -101,7 +108,7 @@
               :class="selectClass"
             >
               <option disabled selected value="" class="text-gray-300">
-                Apartment Type
+                {{ $t("form.apType") }}
               </option>
               <option
                 :value="type"
@@ -113,16 +120,20 @@
             </select>
           </div>
           <div class="mb-2 py-4 text-xs">
-            By submitting, you agree to our
+            {{ $t("form.subtext") }}
             <NuxtLink to="/terms-and-conditions" class="underline"
-              >terms & conditions</NuxtLink
+              > {{ $t("form.sublink") }}</NuxtLink
             >
           </div>
         </div>
       </div>
-      
-      <Button :size="'big2'" :text="'Get a Call Back'" :type="'submit'" :icon="loading"></Button>
 
+      <Button
+        :size="'big2'"
+        :text="$t('form.btn')"
+        :type="'submit'"
+        :icon="loading"
+      ></Button>
     </form>
   </div>
 </template>
@@ -130,6 +141,8 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import { usePopup } from "../composables/usePopup";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const {
   isPopupOpen,
   isFormOpen,
@@ -150,7 +163,6 @@ const props = defineProps({
 
 // const emit = defineEmits(['formSent']);
 
-
 const form = ref({
   clientType: "client",
   full_name: "",
@@ -159,8 +171,8 @@ const form = ref({
   apartmentType: "",
 });
 
-const isValidPhone = ref(false)
-const showPhoneError = ref(false)
+const isValidPhone = ref(false);
+const showPhoneError = ref(false);
 
 const loading = ref(false);
 
@@ -171,7 +183,6 @@ const apartmentTypeOptions = [
   "Penthouse / luxury apartment",
 ];
 
-
 const inputClass =
   "text-left placeholder-gray-400 focus:placeholder-gray-700 bg-white border-0 border-b border-[#999] text-gray-900 text-sm focus:outline-none shadow-none focus:border-grey-500 block w-full py-3 autofill:bg-white";
 const selectClass = ref(
@@ -179,16 +190,16 @@ const selectClass = ref(
 );
 
 const setIfValidPhone = (data: object) => {
-  isValidPhone.value = data.valid
-}
+  isValidPhone.value = data.valid;
+};
 
 const onSubmit = async () => {
   if (!isValidPhone.value) {
-    alert ('Enter a valid phone number!');
+    alert("Enter a valid phone number!");
     //showPhoneError.value = true;
-    return
+    return;
   }
-  loading.value = true
+  loading.value = true;
   try {
     const { error } = await useFetch("/api/form", {
       method: "POST",
@@ -202,9 +213,9 @@ const onSubmit = async () => {
     setTimeout(() => {
       setResult({
         success: true,
-        title: "Thank you!",
+        title: t('form.responseMessage-1'),
         message:
-          "Your request has been received. Our team will contact you shortly with full project details.",
+          t('form.responseMessage-2'),
       });
       setPopupMode(true);
       setSuccessMode(true);
@@ -224,7 +235,7 @@ const onSubmit = async () => {
       message: "An error has occurred. Please try again later.",
     });
   }
-  loading.value = false
+  loading.value = false;
 };
 
 const sizes = {
@@ -239,9 +250,7 @@ watch(form.value, (newValue, oldValue) => {
   }
 });
 
-onMounted(() => {
-
-});
+onMounted(() => {});
 </script>
 
 <style scoped>
@@ -273,20 +282,18 @@ select option[disabled] {
 
 input,
 select {
-
 }
 
 .vue-tel-input {
-    border-radius: 0px;
-    display: flex;
-    border: none;
-    border-bottom: 1px solid #999;
-    box-shadow: none;
+  border-radius: 0px;
+  display: flex;
+  border: none;
+  border-bottom: 1px solid #999;
+  box-shadow: none;
 }
 
 .vue-tel-input:focus {
   outline: none; /* Optional: Remove the default browser outline */
-  box-shadow: 0 0 0 3px rgba(255, 89, 0, 0.5)!important; /* Blue shadow */
+  box-shadow: 0 0 0 3px rgba(255, 89, 0, 0.5) !important; /* Blue shadow */
 }
-
 </style>

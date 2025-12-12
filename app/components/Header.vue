@@ -51,7 +51,7 @@
     <div class="flex flex-row justify-end items-center md:w-[25rem]">
       <Langs class="hidden md:flex"/>
       <div class="btn ml-3">
-        <Button :type="'button'" :text="'Register your interest'"></Button>
+        <Button :type="'button'" :text="$t('header.btn')"></Button>
       </div>
     </div>
 
@@ -123,14 +123,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch, onBeforeUnmount } from 'vue'
+import { useTmRaw } from '../composables/useTmRaw';
 const { locale, locales } = useI18n()
 const contentVisible = ref(false)
 
-const menu = [
-  { id: '#overview', text: 'Overview' },
-  { id: '#location', text: 'Location' },
-  { id: '#payment',  text: 'Payment Plan' },
-]
+const menu = useTmRaw('header.menu')
+
 
 onMounted(() => {
   setTimeout(() => (contentVisible.value = true), 400)

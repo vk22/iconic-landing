@@ -7,42 +7,35 @@
       'opacity-90 translate-y-0': !contentVisible,
     }"
   >
-    <div class="flex flex-col md:flex-row">
+    <div class="flex flex-col items-center">
+      <div class="text-center mb-3 md:mb-6 max-w-xl">
+        <TitleH3 :text="$t('overview.title')" :align="'center'"></TitleH3>
+      </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row items-stretch">
       <div class="basis-1/2 pr-0 md:pr-4">
-        <div class="mb-10 pr-0 md:pr-10 text-center md:text-left">
+        <div class="mb-10 pr-0 md:pr-10 text-left md:text-left">
           <p class="mb-3">
-            Iconic Residences by Pininfarina reflect Italian luxury, modern
-            innovation and European craftsmanship in the heart of Dubai. These
-            Branded Residences are created for those who appreciate
-            sophistication, comfort and a prestigious address.
+              {{ $t('overview.text.paragraph-1') }}
           </p>
-          <p class="mb-3">Why Iconic Residences</p>
-
           <ul class="list-disc pl-5 mb-3">
-            <li>Exclusive Pininfarina design defined by contemporary elegance and precise architectural detailing.</li>
-            <li>Spectacular seascape and iconic skyline views that encompass Palm Jumeirah, Dubai Marina and the Burj Al Arab.</li>
-            <li>Generous, well-proportioned layouts complemented by balconies and terraces that open fully to the views.</li>
-            <li>Refined materials, including premium wood and marble finishes that elevate the quality of every residence.</li>
+            <li>
+              {{ $t('overview.text.list-1') }}
+            </li>
+            <li>
+              {{ $t('overview.text.list-2') }}
+            </li>
+            <li>
+              {{ $t('overview.text.list-3') }}
+            </li>
+            <li>
+              {{ $t('overview.text.list-4') }}
+            </li>
           </ul>
-
           <p class="mb-3">
-           Living at Iconic Residences means choosing exceptional quality, elevated comfort and a truly refined lifestyle in Dubai.
+             {{ $t('overview.text.paragraph-2') }}
           </p>
-        </div>
-        <!--- parametrs --->
-        <div class="flex flex-wrap mb-6 bg-[#f2f2ffff2] p-0 md:mr-5">
-          <div
-            class="param mb-5 basis-1/2 md:basis-1/3 pr-0 md:pr-2 text-center md:text-left"
-            v-for="(param, index) in parametrs"
-            :key="index"
-          >
-            <p class="text-title value text-[1.25rem] md:text-[1.65rem] mb-1">
-              {{ param.value }}
-            </p>
-            <p class="title text-[0.75rem] md:text-[.85rem]">
-              {{ param.text }}
-            </p>
-          </div>
         </div>
         <div
           class="flex flex-col md:flex-row items-center md:items-start mb-5 md:mb-0"
@@ -52,7 +45,7 @@
               link="#"
               :size="'big'"
               :type="'button'"
-              :text="'Download Floor Plans'"
+              :text="$t('overview.btn-1')"
               :icon="true"
               @click="openForm"
               class="w-full md:w-auto"
@@ -62,7 +55,7 @@
             <Button
               :size="'big'"
               :type="'button'"
-              :text="'Download Project Brochure'"
+              :text="$t('overview.btn-2')"
               :icon="true"
               :link="'#'"
               @click="openForm"
@@ -71,8 +64,32 @@
           </div>
         </div>
       </div>
-      <div class="basis-1/2 relative hidden lg:block">
-        <img :src="image" alt="" class="object-cover h-full w-full" />
+      <div class="right basis-1/2 hidden lg:block relative overflow-hidden">
+        <img
+          :src="image"
+          alt=""
+          class="absolute inset-0 w-full h-full object-cover object-bottom"
+        />
+      </div>
+    </div>
+    <div class="flex flex-col md:flex-col justify-center mt-2 md:mt-10">
+      <!--- parametrs --->
+      
+      <div class="flex flex-wrap mb-6 bg-[#fff] p-0 md:p-6 rounded-xl">
+        <div
+          class="param basis-1/2 md:basis-1/3 p-4 md:p-4 text-center md:text-left text-[#555b6d]"
+          v-for="(param, index) in parameters"
+          :key="index"
+        >
+          <p
+            class="text-title text-center value text-[1.25rem] md:text-[1.75rem] mb-1"
+          >
+            {{ param.value }}
+          </p>
+          <p class="text-center text-[0.85rem] md:text-[1rem]">
+            {{ param.text }}
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -81,6 +98,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import { usePopup } from "../composables/usePopup";
+import { useTmRaw } from '../composables/useTmRaw';
 const {
   isPopupOpen,
   isFormOpen,
@@ -94,32 +112,8 @@ const {
 const imageLoaded = ref(false);
 const image = "/img/about.jpg";
 const contentVisible = ref(false);
-const parametrs = [
-  {
-    value: "G+66",
-    text: "Tower floors",
-  },
-  {
-    value: "310",
-    text: "Apartments",
-  },
-  {
-    value: "1",
-    text: "Penthouse",
-  },
-  {
-    value: "VIP parking",
-    text: "with A/C",
-  },
-  {
-    value: "2 levels",
-    text: "of Amenities",
-  },
-  {
-    value: "3Q 2027",
-    text: "Delivery date",
-  },
-];
+const parameters = useTmRaw('overview.parameters')
+
 
 //// Form Popup
 const openForm = () => {

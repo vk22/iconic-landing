@@ -14,15 +14,15 @@
 
         <div class="mt-[12vh] md:mt-[14vh] h-sm:mt-[10vh] h-sm:mt-[6vh]">
           <div class="text-white text-[1rem] md:text-3xl text-white! h-sm:text-[1rem] h-xs:text-[1rem]">
-           <span class="uppercase">{{ $t('title') }}</span> 
+           <span class="uppercase">{{ $t('hero.title') }}</span> 
             <br />
-            {{ $t('subtitle') }}
+            {{ $t('hero.subtitle') }}
           </div>
         </div>
 
 
         <div class="text-2 mt-[12vh] md:mt-[14vh] h-sm:mt-[12vh] h-sm:mt-[6vh] pb-4 max-w-xl">
-          <Button :type="'button'" :text="'Premium Apartments starting from AED 3.5M / USD 970K'" size="big2"></Button>
+          <Button :type="'button'" :text="$t('hero.btn')" size="big2"></Button>
         </div>
       </div>  
 

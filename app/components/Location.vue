@@ -9,9 +9,9 @@
   >
     <div class="flex flex-col items-center">
       <div class="text-center mb-3 md:mb-6 max-w-xl">
-        <TitleH3 :text="'CENTRAL LOCATION'" :align="'center'"></TitleH3>
+        <TitleH3 :text="$t('location.title')" :align="'center'"></TitleH3>
         <p class="mb-3">
-          Perfectly positioned in the heart of Dubai, close to Palm Jumeirah and Burj Al Arab, ICONIC Residences offer unmatched connectivity and effortless access to the city’s most renowned destinations.
+         {{ $t('location.text') }}
         </p>
       </div>
     </div>
@@ -20,9 +20,9 @@
     <div class="flex flex-wrap pt-5 justify-center w-full md:max-w-5xl">
       <div
         class="param mb-10 basis-1/2 md:basis-1/4 px-2 md:px-4 text-center"
-        v-for="(param, index) in parametrs"
+        v-for="(param, index) in parameters"
         :key="index"
-        :class="borderNeed(parametrs.length, index)"
+        :class="borderNeed(parameters.length, index)"
       >
         <p class="value mb-1 bold text-title text-[.9rem] md:text-[1rem]">{{ param.place }}</p>
         <p class="title text-[#6a7285]">{{ param.text }}</p>
@@ -44,7 +44,7 @@
 
     <div class="flex justify-center">
       <div class="btn pr-1">
-        <Button :size="'big'" :type="'button'" :text="'Register your interest'"></Button>
+        <Button :size="'big'" :type="'button'" :text="$t('location.btn')"></Button>
       </div>
     </div>
   </section>
@@ -90,27 +90,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch, onBeforeUnmount } from "vue";
+import { useTmRaw } from '../composables/useTmRaw';
 const imageLoaded = ref(false);
 const image = "/img/map.png";
 const contentVisible = ref(false);
-const parametrs = [
-  {
-    place: "Palm Jumeirah Beaches",
-    text: "5 minutes",
-  },
-  {
-    place: "Dubai Harbour",
-    text: "10 minutes",
-  },
-  {
-    place: "Bluewaters Island",
-    text: "10 minutes",
-  },
-  {
-    place: "Downtown Dubai",
-    text: "25 minutes",
-  }
-];
+const parameters = useTmRaw('location.parameters');
 
 const borderNeed = (length: number, index: number) => {
   if (index < length - 1) {

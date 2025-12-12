@@ -18,7 +18,8 @@ export default defineNuxtConfig({
     // 🌍 Языки
     locales: [
       { code: 'en', iso: 'en-US', name: 'English', file: 'en.json' },
-      { code: 'ar', iso: 'ar-Ar', name: 'Arabic', file: 'ar.json' }
+      { code: 'ar', iso: 'ar-AR', name: 'Arabic', file: 'ar.json' },
+      { code: 'ru', iso: 'ru-RU', name: 'Russian', file: 'ru.json' }
     ],
     pages: {
       admin: false
