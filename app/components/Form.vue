@@ -139,6 +139,8 @@
 </template>
 
 <script setup lang="ts">
+import { VueTelInput } from 'vue-tel-input';
+import 'vue-tel-input/vue-tel-input.css'; 
 import { ref, onMounted, watch } from "vue";
 import { gtmPush } from "../utils/gtm";
 import { usePopup } from "../composables/usePopup";

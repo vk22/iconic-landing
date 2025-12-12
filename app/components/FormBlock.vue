@@ -12,18 +12,17 @@
       <div class="basis-1/2 relative px-0 md:px-5 mb-5 md:mb-0">
         <img :src="image" alt="" class="object-cover h-full w-full" />
       </div>
-      <div class="basis-1/2 px-0 md:px-2">  
+      <div class="basis-1/2 px-0 md:px-2">
         <Form @form-sent="formAfterHandle"></Form>
       </div>
     </div>
   </section>
-
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch, onBeforeUnmount } from "vue";
 
-const emit = defineEmits(['popupOpen']);
+const emit = defineEmits(["popupOpen"]);
 
 const imageLoaded = ref(false);
 const image = "/img/contact.jpg";
@@ -34,18 +33,19 @@ const openForm = () => (isFormOpen.value = true);
 const closeForm = () => {
   isFormOpen.value = false;
   isFormSent.value = false;
-}
+};
 
 watch(isFormOpen, (open) => {
-  const cls = document.documentElement.classList
-  if (open) cls.add('overflow-hidden')
-  else cls.remove('overflow-hidden')
-})
+  const cls = document.documentElement.classList;
+  if (open) cls.add("overflow-hidden");
+  else cls.remove("overflow-hidden");
+});
 
-const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeForm() }
-onMounted(() => window.addEventListener('keydown', onKey))
-onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
-
+const onKey = (e: KeyboardEvent) => {
+  if (e.key === "Escape") closeForm();
+};
+onMounted(() => window.addEventListener("keydown", onKey));
+onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
 
 const isFormSent = ref(false);
 
@@ -57,8 +57,8 @@ interface Result {
 const formResult = ref<Result>({});
 
 const formAfterHandle = (result: object) => {
-    emit('popupOpen', result);
-}
+  emit("popupOpen", result);
+};
 
 onMounted(() => {
   const img = new Image();
@@ -71,5 +71,4 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
 </style>

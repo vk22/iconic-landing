@@ -82,7 +82,7 @@
           :key="index"
         >
           <p
-            class="text-title text-center value text-[1.25rem] md:text-[1.75rem] mb-1"
+            class="text-center value text-[1.25rem] md:text-[1.75rem] mb-1"
           >
             {{ param.value }}
           </p>
@@ -97,6 +97,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
+import { gtmPush } from "../utils/gtm";
 import { usePopup } from "../composables/usePopup";
 import { useTmRaw } from '../composables/useTmRaw';
 const {

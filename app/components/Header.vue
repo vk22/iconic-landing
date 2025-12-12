@@ -74,7 +74,7 @@
         <!-- panel -->
         <transition name="fade">
           <div
-            class="relative ml-auto h-full w-[100%] text-white px-4 py-4 flex flex-col"
+            class="relative ml-auto h-full w-[100%] text-white px-4 py-4 flex flex-col justify-between"
              v-if="isMenuOpen"
           >
             <div class="flex items-center justify-between">
@@ -90,13 +90,13 @@
               </button>
             </div>
 
-            <nav class="mt-8 flex justify-start">
-              <ul class="space-y-4 flex flex-col justify-start ml-1 mt-4">
-                <li v-for="(item, i) in menu" :key="i" class="text-left">
+            <nav class="flex justify-center">
+              <ul class="space-y-4 flex flex-col justify-center ml-1 mt-4">
+                <li v-for="(item, i) in menu" :key="i" class="text-center py-2">
                   <nuxt-link
                     :to="{ hash: item.id }"
                     :external="true"
-                    class="mr-5 text-white text-[.85rem] uppercase text-left tracking-[1.25px]"
+                    class="text-white text-[.85rem] uppercase text-left tracking-[1.25px]"
                     @click="closeMenu"
                   >
                     {{ item.text }}
@@ -105,10 +105,10 @@
               </ul>
             </nav>
 
-            <div class="mt-auto">
+            <div class="w-full flex flex-row align-center justify-between">
               <img class="h-3" src="../assets/img/mered2.svg" alt="Logo" /> 
-              <!-- <Langs />
-              <div class="mt-4">
+              <Langs />
+              <!-- <div class="mt-4">
                 <Button :type="'button'" :text="'Register your interest'" @click="closeMenu" />
               </div> -->
             </div>

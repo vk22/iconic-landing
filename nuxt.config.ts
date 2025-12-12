@@ -55,9 +55,6 @@ export default defineNuxtConfig({
       redirectOn: 'root', // перенаправление только с /
     }
   },
-   plugins: [
-    '~/plugins/vue-tel-input.client'
-  ],
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
