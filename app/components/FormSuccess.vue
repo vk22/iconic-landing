@@ -20,6 +20,7 @@
             :icon="true"
             :link="'https://mered.ae/assets/docs/Iconic%20Residences%20Unit%20Layouts.pdf'"
             class="w-full md:w-auto"
+            @click="downloadFiles"
           ></Button>
         </div>
         <div class="btn pr-0 md:pr-2 w-full md:w-auto">
@@ -30,6 +31,7 @@
             :icon="true"
             :link="'https://mered.ae/assets/docs/Iconic%20Residences%20by%20Mered%20EN.pdf'"
             class="w-full md:w-auto"
+            @click="downloadFiles"
           ></Button>
         </div>
       </div>
@@ -40,6 +42,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
+import { gtmPush } from "../utils/gtm";
 
 interface Result {
   success?: boolean;
@@ -52,6 +55,19 @@ const props = withDefaults(defineProps<{
 }>(), {
   result: { success: false, title: '', message: '' }
 });
+
+const downloadFiles = () => {
+  console.log('button_click_download')
+  gtmPush({
+    event: "GAEvent",
+    event_params: {
+      eventCategory: "button",
+      eventAction: "click",
+      eventLabel: "form",
+      data: "button_click_form",
+    },
+  });
+};
 
 </script>
 

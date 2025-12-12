@@ -121,8 +121,8 @@
           </div>
           <div class="mb-2 py-4 text-xs">
             {{ $t("form.subtext") }}
-            <NuxtLink to="/terms-and-conditions" class="underline"
-              > {{ $t("form.sublink") }}</NuxtLink
+            <NuxtLink to="/terms-and-conditions" class="underline">
+              {{ $t("form.sublink") }}</NuxtLink
             >
           </div>
         </div>
@@ -140,9 +140,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
+import { gtmPush } from "../utils/gtm";
 import { usePopup } from "../composables/usePopup";
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 const {
   isPopupOpen,
   isFormOpen,
@@ -206,6 +207,17 @@ const onSubmit = async () => {
       body: form.value,
     });
     if (error.value) throw error.value;
+
+    gtmPush({
+      event: "GAEvent",
+      event_params: {
+        eventCategory: "form",
+        eventAction: "success",
+        eventLabel: "applicationland",
+        data: "form_success_applicationland",
+      },
+    });
+
     setPopupMode(false);
     setFormMode(false);
     setSuccessMode(false);
@@ -213,9 +225,8 @@ const onSubmit = async () => {
     setTimeout(() => {
       setResult({
         success: true,
-        title: t('form.responseMessage-1'),
-        message:
-          t('form.responseMessage-2'),
+        title: t("form.responseMessage-1"),
+        message: t("form.responseMessage-2"),
       });
       setPopupMode(true);
       setSuccessMode(true);
@@ -295,5 +306,9 @@ select {
 .vue-tel-input:focus {
   outline: none; /* Optional: Remove the default browser outline */
   box-shadow: 0 0 0 3px rgba(255, 89, 0, 0.5) !important; /* Blue shadow */
+}
+
+.vti__dropdown-list {
+  z-index: 999;
 }
 </style>

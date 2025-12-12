@@ -5,9 +5,9 @@
     @click="scrollToForm"
     :class="`relative btn ${size} text-center inline-flex items-center justify-center cursor-pointer text-[#faf3e9] uppercase bg-[#434848] focus:outline-none font-medium ${textSize} tracking-[1.15px] ${animate}`"
   >
-    <span class="relative z-10 flex items-center">
+    <span class="relative z-1 flex items-center">
       <svg
-       v-if="icon"
+        v-if="icon"
         aria-hidden="true"
         role="status"
         class="w-4 h-4 me-2 text-white animate-spin"
@@ -33,7 +33,7 @@
     download
     :class="`relative btn ${size} text-center inline-flex items-center justify-center cursor-pointer text-[#faf3e9] uppercase bg-[#434848] hover:bg-[#000000] focus:outline-none font-small md:font-medium  ${textSize} tracking-[1.15px] ${animate}`"
   >
-    <span class="relative z-10 flex items-center">
+    <span class="relative z-1 flex items-center">
       <svg
         v-if="icon"
         class="mr-2"
@@ -53,6 +53,7 @@
 </template>
 
 <script setup lang="ts">
+import { gtmPush } from "../utils/gtm";
 const props = defineProps({
   text: {
     type: String,
@@ -103,9 +104,33 @@ const textSize = computed(() => {
 });
 
 const scrollToForm = () => {
+  console.log('button_click_form')
+  gtmPush({
+    event: "GAEvent",
+    event_params: {
+      eventCategory: "button",
+      eventAction: "click",
+      eventLabel: "form",
+      data: "button_click_form",
+    },
+  });
+
   if (props.type !== "submit") {
     document.getElementById("forma")?.scrollIntoView({ behavior: "smooth" });
   }
+};
+
+const downloadFiles = () => {
+  console.log('button_click_download')
+  gtmPush({
+    event: "GAEvent",
+    event_params: {
+      eventCategory: "button",
+      eventAction: "click",
+      eventLabel: "form",
+      data: "button_click_form",
+    },
+  });
 };
 </script>
 
