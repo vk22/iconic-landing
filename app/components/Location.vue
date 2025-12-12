@@ -24,7 +24,7 @@
         :key="index"
         :class="borderNeed(parameters.length, index)"
       >
-        <p class="value mb-1 bold text-title text-[.9rem] md:text-[1rem]">{{ param.place }}</p>
+        <p class="value mb-1 bold text-[.9rem] md:text-[1rem]">{{ param.place }}</p>
         <p class="title text-[#6a7285]">{{ param.text }}</p>
       </div>
     </div>
