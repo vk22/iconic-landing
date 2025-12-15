@@ -13,7 +13,7 @@
       <!-- panel -->
       <transition name="slide">
         <div
-          class="relative px-4 md:px-7 py-6 md:py-8 z-[9999] mt-4 mx-4 bg-white max-w-full md:max-w-md max-h-[85vh] overflow-scroll transition-all duration-500"
+          class="relative px-4 md:px-7 py-6 md:py-8 z-[9999] mt-4 mx-4 bg-white max-w-full md:max-w-[650px] max-h-[85vh] overflow-scroll transition-all duration-500"
           :class="{
             'opacity-100 translate-y-0': isPopupContentShow,
             'opacity-0 -translate-y-10': !isPopupContentShow,
@@ -73,7 +73,6 @@ const {
 } = usePopup();
 
 watch(isPopupOpen, (open) => {
-  console.log("323");
   const cls = document.documentElement.classList;
   if (open) cls.add("overflow-hidden");
   else cls.remove("overflow-hidden");

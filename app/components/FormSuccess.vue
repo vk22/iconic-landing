@@ -1,7 +1,7 @@
 <template>
   <div class="form-container w-full max-w-md px-2 md:px-8 bg-[#ffffff]">
     <div class="flex flex-col ">
-      <TitleH3 :text="props.result.title" :align="'center'"></TitleH3>
+      <uiTitleH3 :text="props.result.title" :align="'center'"></uiTitleH3>
       <p class="text mb-8 text-center">
         <!-- Your request has been received. Our team will contact you shortly with
         full project details. -->
@@ -13,26 +13,26 @@
       </p>
       <div class="flex flex-col md:flex-row justify-center" v-if="props.result.success">
         <div class="btn pr-0 md:pr-2 w-full md:w-auto mb-1 md:mb-0">
-          <Button
+          <uiMainButton
+            :mode="'downloadFiles'" 
             :size="'big'"
             :type="'button'"
             :text="$t('overview.btn-1-1')"
             :icon="true"
-            :link="'https://mered.ae/assets/docs/Iconic%20Residences%20Unit%20Layouts.pdf'"
+            :link="'/pdf/Iconic%20Residences%20by%20Mered_EN.pdf'"
             class="w-full md:w-auto"
-            @click="downloadFiles"
-          ></Button>
+          ></uiMainButton>
         </div>
         <div class="btn pr-0 md:pr-2 w-full md:w-auto">
-          <Button
+          <uiMainButton
+            :mode="'downloadFiles'"
             :size="'big'"
             :type="'button'"
             :text="$t('overview.btn-2-1')"
             :icon="true"
-            :link="'https://mered.ae/assets/docs/Iconic%20Residences%20by%20Mered%20EN.pdf'"
+            :link="'/pdf/Iconic%20Residences%20Unit%20Layouts.pdf'"
             class="w-full md:w-auto"
-            @click="downloadFiles"
-          ></Button>
+          ></uiMainButton>
         </div>
       </div>
     </div>
@@ -55,19 +55,6 @@ const props = withDefaults(defineProps<{
 }>(), {
   result: { success: false, title: '', message: '' }
 });
-
-const downloadFiles = () => {
-  console.log('button_click_download')
-  gtmPush({
-    event: "GAEvent",
-    event_params: {
-      eventCategory: "button",
-      eventAction: "click",
-      eventLabel: "form",
-      data: "button_click_form",
-    },
-  });
-};
 
 </script>
 

@@ -12,8 +12,7 @@ export const usePopup = () => {
   const formResult = useState<Result>('popup:formResult', () => ({}))
 
   function setPopupMode(payload: boolean) {
-    console.log('setPopupMode', payload)
-
+    // console.log('setPopupMode', payload)
     if (payload) {
       isPopupOpen.value = payload
       setTimeout(() => {
@@ -26,7 +25,6 @@ export const usePopup = () => {
       }, 150);
     }
 
-    
   }
 
   function setFormMode(payload: boolean) {

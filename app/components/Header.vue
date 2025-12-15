@@ -27,17 +27,12 @@
       aria-label="Open menu"
       @click="openMenu"
     >
-      <!-- <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24"
-        stroke="currentColor" stroke-width="1">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-      </svg> -->
 
       <svg class="" width="40" height="8" viewBox="0 0 40 8" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="4" cy="4" r="4" fill="white"/>
         <circle cx="20" cy="4" r="4" fill="white"/>
         <circle cx="36" cy="4" r="4" fill="white"/>
       </svg>
-
 
     </button>
 
@@ -51,7 +46,7 @@
     <div class="flex flex-row justify-end items-center md:w-[25rem]">
       <Langs class="hidden md:flex"/>
       <div class="btn ml-3">
-        <Button :type="'button'" :text="$t('header.btn')"></Button>
+        <uiMainButton :mode="'scrollToForm'" :size="'big'" :type="'button'" :text="$t('header.btn')"></uiMainButton>
       </div>
     </div>
 
@@ -109,7 +104,7 @@
               <img class="h-3" src="../assets/img/mered2.svg" alt="Logo" /> 
               <Langs />
               <!-- <div class="mt-4">
-                <Button :type="'button'" :text="'Register your interest'" @click="closeMenu" />
+                <uiMainButton :type="'button'" :text="'Register your interest'" @click="closeMenu" />
               </div> -->
             </div>
           </div>

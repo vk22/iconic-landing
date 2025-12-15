@@ -22,7 +22,7 @@
 
 
         <div class="text-2 mt-[12vh] md:mt-[14vh] h-sm:mt-[12vh] h-sm:mt-[6vh] pb-4 max-w-xl">
-          <Button :type="'button'" :text="$t('hero.btn')" size="big2"></Button>
+          <uiMainButton :mode="'scrollToForm'" :type="'button'" :text="$t('hero.btn')" size="big"></uiMainButton>
         </div>
       </div>  
 

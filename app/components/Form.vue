@@ -1,18 +1,18 @@
 <template>
   <div class="form-container w-full max-w-md px-0 bg-[#ffffff]">
     <div class="flex flex-col items mb-3 md:mb-5">
-      <TitleH4
+      <uiTitleH4
         v-if="mode === 'popup'"
         :text="$t('form.title')"
         :align="'left'"
         class="pr-[10%] md:pr-[20%]"
-      ></TitleH4>
-      <TitleH3
+      ></uiTitleH4>
+      <uiTitleH3
         v-else
         :text="$t('form.title')"
         :align="'left'"
         class="pr-[2%] md:pr-[5%]"
-      ></TitleH3>
+      ></uiTitleH3>
       <p :class="{ 'text-[.75rem]': mode === 'popup' }">
         {{ $t("form.text") }}
       </p>
@@ -128,12 +128,13 @@
         </div>
       </div>
 
-      <Button
-        :size="'big2'"
+      <uiMainButton
+        :mode="'submitForm'"
+        :size="'big'"
         :text="$t('form.btn')"
         :type="'submit'"
         :icon="loading"
-      ></Button>
+      ></uiMainButton>
     </form>
   </div>
 </template>
@@ -142,7 +143,8 @@
 import { VueTelInput } from 'vue-tel-input';
 import 'vue-tel-input/vue-tel-input.css'; 
 import { ref, onMounted, watch } from "vue";
-import { gtmPush } from "../utils/gtm";
+// import { gtmPush } from "../utils/gtm";
+const { $gtmPush } = useNuxtApp()
 import { usePopup } from "../composables/usePopup";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
@@ -210,7 +212,8 @@ const onSubmit = async () => {
     });
     if (error.value) throw error.value;
 
-    gtmPush({
+    console.log('form_success_applicationland')
+    $gtmPush({
       event: "GAEvent",
       event_params: {
         eventCategory: "form",

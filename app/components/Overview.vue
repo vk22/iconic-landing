@@ -9,7 +9,7 @@
   >
     <div class="flex flex-col items-center">
       <div class="text-center mb-3 md:mb-6 max-w-xl">
-        <TitleH3 :text="$t('overview.title')" :align="'center'"></TitleH3>
+        <uiTitleH3 :text="$t('overview.title')" :align="'center'"></uiTitleH3>
       </div>
     </div>
 
@@ -41,26 +41,26 @@
           class="flex flex-col md:flex-row items-center md:items-start mb-5 md:mb-0"
         >
           <div class="btn pr-0 md:pr-2 w-full md:w-auto mb-1 md:mb-0">
-            <Button
-              link="#"
+            <uiMainButton
+              :mode="'openForm'" 
               :size="'big'"
               :type="'button'"
               :text="$t('overview.btn-1')"
               :icon="true"
               @click="openForm"
               class="w-full md:w-auto"
-            ></Button>
+            ></uiMainButton>
           </div>
           <div class="btn pr-0 md:pr-2 w-full md:w-auto">
-            <Button
+            <uiMainButton
+              :mode="'openForm'" 
               :size="'big'"
               :type="'button'"
               :text="$t('overview.btn-2')"
               :icon="true"
-              :link="'#'"
               @click="openForm"
               class="w-full md:w-auto"
-            ></Button>
+            ></uiMainButton>
           </div>
         </div>
       </div>
@@ -129,6 +129,7 @@ onMounted(() => {
     imageLoaded.value = true;
     setTimeout(() => (contentVisible.value = true), 300);
   };
+
 });
 </script>
 

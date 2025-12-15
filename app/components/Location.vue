@@ -9,7 +9,7 @@
   >
     <div class="flex flex-col items-center">
       <div class="text-center mb-3 md:mb-6 max-w-xl">
-        <TitleH3 :text="$t('location.title')" :align="'center'"></TitleH3>
+        <uiTitleH3 :text="$t('location.title')" :align="'center'"></uiTitleH3>
         <p class="mb-3">
          {{ $t('location.text') }}
         </p>
@@ -44,7 +44,7 @@
 
     <div class="flex justify-center">
       <div class="btn pr-1">
-        <Button :size="'big'" :type="'button'" :text="$t('location.btn')"></Button>
+        <uiMainButton :mode="'scrollToForm'" :size="'big'" :type="'button'" :text="$t('location.btn')"></uiMainButton>
       </div>
     </div>
   </section>

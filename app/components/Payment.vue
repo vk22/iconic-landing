@@ -10,7 +10,7 @@
     <div class="flex flex-col md:flex-row">
       <div class="basis-1/2 pl-0 md:pr-10">
         <div class="mb-10">
-          <TitleH3 :text="$t('payments.title')" :align="'center'"></TitleH3>
+          <uiTitleH3 :text="$t('payments.title')" :align="'center'"></uiTitleH3>
           <p class="mb-6">
             {{ $t("payments.text") }}
           </p>
@@ -35,7 +35,7 @@
       </div>
       <div class="basis-1/2 pr-0 md:pl-10 mb-10 md:mb-0">
         <div class="">
-          <TitleH3 :text="$t('mortgage.title')" :align="'center'"></TitleH3>
+          <uiTitleH3 :text="$t('mortgage.title')" :align="'center'"></uiTitleH3>
           <p class="mb-3">
             {{ $t("mortgage.text-1") }}
           </p>
@@ -56,7 +56,7 @@
     <div class="flex flex-col md:flex-row justify-center pt-2 md:pt-12">
       <div class="basis-1/2">
         <div class="flex flex-col items-center">
-          <TitleH3 :text="$t('goldenVisa.title')" :align="'center'"></TitleH3>
+          <uiTitleH3 :text="$t('goldenVisa.title')" :align="'center'"></uiTitleH3>
           <p class="mb-3 text-center">
             {{ $t("goldenVisa.text-1") }}
           </p>
@@ -67,11 +67,12 @@
           </ul>
 
           <div class="btn pt-6">
-            <Button
+            <uiMainButton
+              :mode="'scrollToForm'"
               :size="'big'"
               :type="'button'"
               :text="$t('goldenVisa.btn')"
-            ></Button>
+            ></uiMainButton>
           </div>
         </div>
       </div>
