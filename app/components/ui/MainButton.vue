@@ -135,7 +135,6 @@ function scrollToFormF() {
 
 function handleClick(e: MouseEvent) {
   if (props.mode === "scrollToForm") {
-    console.log("scrollToForm !!!!");
     scrollToFormF();
     console.log("button_click_download");
     $gtmPush({
