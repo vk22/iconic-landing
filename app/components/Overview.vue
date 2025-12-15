@@ -77,7 +77,7 @@
       
       <div class="flex flex-wrap mb-6 bg-[#fff] p-0 md:p-6 rounded-xl">
         <div
-          class="param basis-1/2 md:basis-1/3 p-4 md:p-4 text-center md:text-left text-[#555b6d]"
+          class="param basis-1/2 md:basis-1/3 p-3 md:p-4 text-center md:text-left text-[#555b6d]"
           v-for="(param, index) in parameters"
           :key="index"
         >
@@ -86,7 +86,7 @@
           >
             {{ param.value }}
           </p>
-          <p class="text-center text-[0.85rem] md:text-[1rem]">
+          <p class="text-center text-[0.75rem] md:text-[1rem]">
             {{ param.text }}
           </p>
         </div>

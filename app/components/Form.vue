@@ -75,20 +75,11 @@
               :placeholder="$t('form.email')"
             />
           </div>
-        </div>
-        <div class="w-full">
           <div class="mb-2">
-            <!-- <input
-              v-model="form.phone"
-              type="phone"
-              required
-              :class="inputClass"
-              placeholder="Phone"
-            /> -->
             <vue-tel-input
               :mode="''"
               :inputOptions="{ placeholder: $t('form.phone') }"
-              :class="inputClass"
+              :class="inputTelClass"
               v-model="form.phone"
               @validate="setIfValidPhone"
               :validCharactersOnly="true"
@@ -100,24 +91,42 @@
               {{ $t("form.errorMessage") }}
             </div>
           </div>
-
           <div class="mb-2">
-            <select
-              id="countries"
-              v-model="form.apartmentType"
-              :class="selectClass"
-            >
-              <option disabled selected value="" class="text-gray-300">
-                {{ $t("form.apType") }}
-              </option>
-              <option
-                :value="type"
-                v-for="(type, index) in apartmentTypeOptions"
-                :key="index"
+            <div class="relative">
+              <select
+                v-model="form.apartmentType"
+                class="block appearance-none w-full bg-white border-b border-gray-400 hover:border-gray-500 py-4 pr-8 leading-tight focus:outline-none focus:shadow-outline text-sm"
+                :class="{
+                  'text-gray-400': form.apartmentType === '',
+                  'text-gray-900': form.apartmentType !== '',
+                }"
               >
-                {{ type }}
-              </option>
-            </select>
+                <option disabled selected value="">
+                  {{ $t("form.apType") }}
+                </option>
+                <option
+                  :value="type"
+                  v-for="(type, index) in apartmentTypeOptions"
+                  :key="index"
+                >
+                  {{ type }}
+                </option>
+              </select>
+              <div
+                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-0 text-gray-700"
+              >
+                <!-- Custom Arrow SVG -->
+                <svg
+                  class="fill-current h-4 w-4"
+                  xmlns="www.w3.org"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                  />
+                </svg>
+              </div>
+            </div>
           </div>
           <div class="mb-2 py-4 text-xs">
             {{ $t("form.subtext") }}
@@ -140,11 +149,11 @@
 </template>
 
 <script setup lang="ts">
-import { VueTelInput } from 'vue-tel-input';
-import 'vue-tel-input/vue-tel-input.css'; 
+import { VueTelInput } from "vue-tel-input";
+import "vue-tel-input/vue-tel-input.css";
 import { ref, onMounted, watch } from "vue";
 // import { gtmPush } from "../utils/gtm";
-const { $gtmPush } = useNuxtApp()
+const { $gtmPush } = useNuxtApp();
 import { usePopup } from "../composables/usePopup";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
@@ -190,6 +199,8 @@ const apartmentTypeOptions = [
 
 const inputClass =
   "text-left placeholder-gray-400 focus:placeholder-gray-700 bg-white border-0 border-b border-[#999] text-gray-900 text-sm focus:outline-none shadow-none focus:border-grey-500 block w-full py-3 autofill:bg-white";
+const inputTelClass =
+  "text-left placeholder-gray-400 focus:placeholder-gray-700 bg-white border-0 border-b border-[#999] text-gray-900 text-sm focus:outline-none shadow-none focus:border-grey-500 block w-full py-2 autofill:bg-white";  
 const selectClass = ref(
   `text-left w-full bg-gray-50 py-3 bg-white border-0 border-b border-[#999] focus:outline-none text-sm text-gray-400`
 );
@@ -212,7 +223,7 @@ const onSubmit = async () => {
     });
     if (error.value) throw error.value;
 
-    console.log('form_success_applicationland')
+    console.log("form_success_applicationland");
     $gtmPush({
       event: "GAEvent",
       event_params: {
