@@ -45,8 +45,6 @@
 }
 
 
-
-
 html,
 body {
     margin: 0;
@@ -79,24 +77,17 @@ p, li {
     font-family: 'TTCommonsPro-Db';
 }
 
-/* h1 {
-    font-size: 2.75rem;
+/* rtl/ltr */
+
+[dir="rtl"] {
+  direction: rtl;
+  unicode-bidi: isolate;
 }
 
-h2 {
-    font-size: 3rem;
+.ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
 }
-
-h3 {
-    font-size: 2rem;
-} */
-
-/* transitions */
-/* .fade-enter-active, .fade-leave-active { transition: opacity .2s ease 2s; }
-.fade-enter-from, .fade-leave-to { opacity: 0; }
-
-.slide-enter-active, .slide-leave-active { transition: transform .5s ease; }
-.slide-enter-from, .slide-leave-to { transform: translateY(-100%); } */
 
 
 .text-title {

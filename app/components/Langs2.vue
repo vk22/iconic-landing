@@ -61,7 +61,7 @@ async function switchTo(code) {
         :key="l.code"
         type="button"
         @click.prevent="switchTo(l.code)"
-        class="px-2 py-1 text-sm uppercase tracking-wide rounded text-gray-800 hover:bg-black/5 text-left"
+        class="px-2 py-1 text-sm uppercase tracking-wide rounded text-gray-800 hover:bg-black/5 text-start"
       >
         {{ l.code }}
       </button>

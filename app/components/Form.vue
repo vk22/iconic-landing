@@ -34,7 +34,7 @@
               />
               <label
                 for="client"
-                class="peer-checked/client:text-[#000000] ml-2 text-[.9rem]"
+                class="peer-checked/client:text-[#000000] mx-2 text-[.9rem]"
                 >{{ $t("form.client") }}</label
               >
             </div>
@@ -49,7 +49,7 @@
               />
               <label
                 for="published"
-                class="peer-checked/broker:text-[#000000] ml-2 text-[.9rem]"
+                class="peer-checked/broker:text-[#000000] mx-2 text-[.9rem]"
                 >{{ $t("form.broker") }}</label
               >
             </div>
@@ -198,11 +198,11 @@ const apartmentTypeOptions = [
 ];
 
 const inputClass =
-  "text-left placeholder-gray-400 focus:placeholder-gray-700 bg-white border-0 border-b border-[#999] text-gray-900 text-sm focus:outline-none shadow-none focus:border-grey-500 block w-full py-3 autofill:bg-white";
+  "text-start placeholder-gray-400 focus:placeholder-gray-700 bg-white border-0 border-b border-[#999] text-gray-900 text-sm focus:outline-none shadow-none focus:border-grey-500 block w-full py-3 autofill:bg-white";
 const inputTelClass =
-  "text-left placeholder-gray-400 focus:placeholder-gray-700 bg-white border-0 border-b border-[#999] text-gray-900 text-sm focus:outline-none shadow-none focus:border-grey-500 block w-full py-2 autofill:bg-white";  
+  "text-start placeholder-gray-400 focus:placeholder-gray-700 bg-white border-0 border-b border-[#999] text-gray-900 text-sm focus:outline-none shadow-none focus:border-grey-500 block w-full py-2 autofill:bg-white";  
 const selectClass = ref(
-  `text-left w-full bg-gray-50 py-3 bg-white border-0 border-b border-[#999] focus:outline-none text-sm text-gray-400`
+  `text-start w-full bg-gray-50 py-3 bg-white border-0 border-b border-[#999] focus:outline-none text-sm text-gray-400`
 );
 
 const setIfValidPhone = (data: object) => {

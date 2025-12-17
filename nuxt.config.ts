@@ -31,28 +31,25 @@ export default defineNuxtConfig({
   i18n: {
     // 🌍 Языки
     locales: [
-      { code: 'en', iso: 'en-US', name: 'English', file: 'en.json' },
-      { code: 'ar', iso: 'ar-AR', name: 'Arabic', file: 'ar.json' },
-      { code: 'ru', iso: 'ru-RU', name: 'Russian', file: 'ru.json' }
+      { code: 'en', iso: 'en-US', name: 'English', file: 'en.json', dir: 'ltr' },
+      { code: 'ru', iso: 'ru-RU', name: 'Russian', file: 'ru.json', dir: 'ltr' },
+      { code: 'ar', iso: 'ar-AR', name: 'Arabic', file: 'ar.json', dir: 'rtl' }
     ],
     pages: {
       admin: false
     },
     defaultLocale: 'en',
-
-    // 📁 Папка с переводами
     langDir: 'locales/',
-
     strategy: 'prefix_except_default',
-    // → https://mellowresort.com/
-    // → https://mellowresort.com/es/
-    // → https://mellowresort.com/fr/
+    // → https://site.com/
+    // → https://site.com/ru/
+    // → https://site.com/ar/
 
     lazy: true,
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'lang',
-      redirectOn: 'root', // перенаправление только с /
+      redirectOn: 'root',
     }
   },
   compatibilityDate: '2025-07-15',

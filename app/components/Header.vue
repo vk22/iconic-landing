@@ -45,7 +45,7 @@
     <!-- right -->
     <div class="flex flex-row justify-end items-center md:w-[25rem]">
       <Langs class="hidden md:flex"/>
-      <div class="btn ml-3">
+      <div class="btn">
         <uiMainButton :mode="'scrollToForm'" :size="'big'" :type="'button'" :text="$t('header.btn')"></uiMainButton>
       </div>
     </div>
@@ -91,7 +91,7 @@
                   <nuxt-link
                     :to="{ hash: item.id }"
                     :external="true"
-                    class="text-white text-[.85rem] uppercase text-left tracking-[1.25px]"
+                    class="text-white text-[.85rem] uppercase text-start tracking-[1.25px]"
                     @click="closeMenu"
                   >
                     {{ item.text }}

@@ -1,25 +1,19 @@
-<script setup>
-const { locale, locales } = useI18n()
-const switchLocalePath = useSwitchLocalePath()
-
-const current = computed(() => locales.value.find(l => l.code === locale.value))
-const others = computed(() => locales.value.filter(l => l.code !== locale.value))
-</script>
-
 <template>
-  <div class="relative inline-block group select-none cursor-pointer mt-[.1rem]">
+  <div class="relative inline-block group select-none cursor-pointer mx-2 mt-[.1rem]">
     <!-- Активный язык -->
     <div class="px-1 py-1 font-medium uppercase tracking-wide text-[.65rem] text-white">
       {{ current.code }}
     </div>
 
     <!-- Меню остальных языков -->
+
     <div
-      class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[80%]
+      class="absolute top-[.7rem] -translate-y-1/2 
              flex flex-row gap-1 py-1
              opacity-0 pointer-events-none
-             transition-all duration-300 ease-out
-             group-hover:opacity-100 group-hover:pointer-events-auto group-hover:-translate-x-[100%] px-1"
+             transition-all duration-300 ease-out text-[.65rem]
+             group-hover:opacity-100 group-hover:pointer-events-auto px-1"
+      :class="menuPositionClasses"       
     >
       <NuxtLink
         v-for="l in others"
@@ -32,3 +26,19 @@ const others = computed(() => locales.value.filter(l => l.code !== locale.value)
     </div>
   </div>
 </template>
+
+<script setup>
+  const { locale, locales } = useI18n()
+  const switchLocalePath = useSwitchLocalePath()
+
+  const current = computed(() => locales.value.find(l => l.code === locale.value))
+  const others = computed(() => locales.value.filter(l => l.code !== locale.value))
+  const isRtl = computed(() => locale.value === 'ar');
+  const menuPositionClasses = computed(() =>
+    isRtl.value
+      ? // RTL → вправо
+        'right-0 translate-x-[80%] group-hover:translate-x-[100%]'
+      : // LTR → влево
+        'left-0 -translate-x-[80%] group-hover:-translate-x-[100%]'
+  )
+</script>

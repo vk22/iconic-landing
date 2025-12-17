@@ -8,7 +8,7 @@
     }"
   >
     <div class="flex flex-col md:flex-row">
-      <div class="basis-1/2 pl-0 md:pr-10">
+      <div class="basis-1/2 px-0 md:px-10">
         <div class="mb-10">
           <uiTitleH3 :text="$t('payments.title')" :align="'center'"></uiTitleH3>
           <p class="mb-6">
@@ -17,23 +17,23 @@
 
           <div class="relative flex flex-col md:flex-row overflow-x-auto">
             <div
-              class="param basis-1/2 md:basis-1/2 px-2 md:px-2 text-left md:text-left border-l border-grey-dark mb-4"
+              class="param basis-1/2 md:basis-1/2 px-2 md:px-2 text-start md:text-start border-l border-grey-dark mb-4"
               v-for="(item, index) in planList"
               :key="index"
             >
               <p
-                class="text-title text-left value text-[1rem] md:text-[1.25rem] mb-1"
+                class="text-title text-start value text-[1rem] md:text-[1.25rem] mb-1"
               >
                 {{ item.percent }}
               </p>
-              <p class="text-left text-[0.75rem] md:text-[.75rem]">
+              <p class="text-start text-[0.75rem] md:text-[.75rem]">
                 {{ item.text }}
               </p>
             </div>
           </div>
         </div>
       </div>
-      <div class="basis-1/2 pr-0 md:pl-10 mb-10 md:mb-0">
+      <div class="basis-1/2 px-0 md:px-10 mb-10 md:mb-0">
         <div class="">
           <uiTitleH3 :text="$t('mortgage.title')" :align="'center'"></uiTitleH3>
           <p class="mb-3">

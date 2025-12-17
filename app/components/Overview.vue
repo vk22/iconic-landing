@@ -14,8 +14,8 @@
     </div>
 
     <div class="flex flex-col md:flex-row items-stretch">
-      <div class="basis-1/2 pr-0 md:pr-4">
-        <div class="mb-10 pr-0 md:pr-10 text-left md:text-left">
+      <div class="basis-1/2 px-0 md:px-4">
+        <div class="mb-10 pr-0 md:pr-10 text-start md:text-start">
           <p class="mb-3">
               {{ $t('overview.text.paragraph-1') }}
           </p>
@@ -77,7 +77,7 @@
       
       <div class="flex flex-wrap mb-6 bg-[#fff] p-0 md:p-6 rounded-xl">
         <div
-          class="param basis-1/2 md:basis-1/3 p-3 md:p-4 text-center md:text-left text-[#555b6d]"
+          class="param basis-1/2 md:basis-1/3 p-3 md:p-4 text-center md:text-start text-[#555b6d]"
           v-for="(param, index) in parameters"
           :key="index"
         >

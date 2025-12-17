@@ -128,8 +128,8 @@
   "form": {
     "title": "حجز عقارك في ICONIC",
     "text": "يرجى تعبئة بياناتك، وسيقوم فريقنا بالتواصل معك قريبًا لتزويدك بجميع تفاصيل المشروع والعروض المصممة خصيصًا لك.",
-    "client": "Client",
-    "broker": "Broker",
+    "client": "عميل",
+    "broker": "وسيط",
     "fullName": "الاسم الكامل",
     "email": "البريد الإلكتروني",
     "phone": "رقم الهاتف",
@@ -140,6 +140,6 @@
     "errorMessage": "Enter a valid phone number!",
     "responseMessage-1": "شكراً لك!",
     "responseMessage-2": "تم استلام طلبك بنجاح. سيقوم فريقنا بالتواصل معك قريباً لتزويدك بكافة تفاصيل المشروع.",
-    "responseMessage-3": "يمكنك تنزيل الملفات أدناه للحصول على مزيد من المعلومات حول Iconic Residences."
+    "responseMessage-3": "يمكنك تحميل المواد أدناه للحصول على مزيد من المعلومات حول Iconic Residences."
   }
 }
