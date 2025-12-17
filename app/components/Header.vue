@@ -100,12 +100,9 @@
               </ul>
             </nav>
 
-            <div class="w-full flex flex-row align-center justify-between">
+            <div class="w-full flex align-center justify-between" :class="locale === 'ar' ? 'flex-row-reverse' : 'flex-row'">
               <img class="h-3" src="../assets/img/mered2.svg" alt="Logo" /> 
               <Langs />
-              <!-- <div class="mt-4">
-                <uiMainButton :type="'button'" :text="'Register your interest'" @click="closeMenu" />
-              </div> -->
             </div>
           </div>
         </transition>
@@ -119,11 +116,10 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, onBeforeUnmount } from 'vue'
 import { useTmRaw } from '../composables/useTmRaw';
-const { locale, locales } = useI18n()
+const { locale } = useI18n()
 const contentVisible = ref(false)
 
 const menu = useTmRaw('header.menu')
-
 
 onMounted(() => {
   setTimeout(() => (contentVisible.value = true), 400)

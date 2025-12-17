@@ -1,13 +1,21 @@
 <template>
-  <div class="@container" :lang="locale" :dir="locale === 'ar' ? 'rtl' : 'ltr'">
-    <div v-html="noscript" />
+  <div class="@container" :lang="routeLocale" :dir="isRtl ? 'rtl' : 'ltr'">
+    <div v-html="noscript" :class="{ rtl: isRtl }" />
     <NuxtPage />
   </div>
 </template>
 
 <script setup>
-import { useI18n } from 'vue-i18n'
-const { locale } = useI18n()
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const routeLocale = computed(() => {
+  const seg = route.path.split('/')[1]
+  return ['ru', 'ar'].includes(seg) ? seg : 'en'
+})
+const isRtl = computed(() => routeLocale === 'ar');
 
 const noscript = `
 <!-- Google Tag Manager (noscript) -->

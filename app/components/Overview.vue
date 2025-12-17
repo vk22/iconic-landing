@@ -72,9 +72,7 @@
         />
       </div>
     </div>
-    <div class="flex flex-col md:flex-col justify-center mt-2 md:mt-10">
-      <!--- parametrs --->
-      
+    <div class="flex flex-col md:flex-col justify-center mt-2 md:mt-10">      
       <div class="flex flex-wrap mb-6 bg-[#fff] p-0 md:p-6 rounded-xl">
         <div
           class="param basis-1/2 md:basis-1/3 p-3 md:p-4 text-center md:text-start text-[#555b6d]"
@@ -134,10 +132,5 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.hero-top {
-  position: relative;
-  /* background-image: linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)), url("/img/1.jpg");
-  background-position: center center;
-  background-size: cover; */
-}
+
 </style>

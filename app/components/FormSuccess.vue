@@ -3,13 +3,10 @@
     <div class="flex flex-col ">
       <uiTitleH3 :text="props.result.title" :align="'center'"></uiTitleH3>
       <p class="text mb-8 text-center">
-        <!-- Your request has been received. Our team will contact you shortly with
-        full project details. -->
         {{ props.result.message }} 
       </p>
       <p class="text-[.75rem] mb-4 text-center" v-if="props.result.success">
-        You may download the assets below to get more
-        information about Iconic Residences.
+        {{ $t('form.responseMessage-3') }}
       </p>
       <div class="flex flex-col md:flex-row justify-center" v-if="props.result.success">
         <div class="btn pr-0 md:pr-2 w-full md:w-auto mb-1 md:mb-0">
@@ -19,7 +16,7 @@
             :type="'button'"
             :text="$t('overview.btn-1-1')"
             :icon="true"
-            :link="'/pdf/Iconic%20Residences%20by%20Mered_EN.pdf'"
+            :link="`/pdf/${projectPDF[currentLocale]}`"
             class="w-full md:w-auto"
           ></uiMainButton>
         </div>
@@ -41,8 +38,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
-import { gtmPush } from "../utils/gtm";
+import { computed } from "vue";
+const { locale } = useI18n();
+
+type Locale = 'en' | 'ru' | 'ar';
+const currentLocale = computed(() => locale.value as Locale)
+
+const projectPDF: Record<Locale, string> = {
+  en: 'Iconic%20Residences%20by%20Mered_EN.pdf',
+  ru: 'Iconic%20Residences%20by%20Mered_RU.pdf',
+  ar: 'Iconic%20Residences%20by%20Mered_AR.pdf'
+}
 
 interface Result {
   success?: boolean;

@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer flex flex-col md:flex-row justify-between items-center p-4 md:p-10 border-t-1">
+  <footer class="border-t flex flex-col md:flex-row justify-between items-center p-4 md:p-10 border-t-1">
     <div class="left basis-1/3 mb-5 md:mb-0">
       <ul class="text-center md:text-start">
         <li><nuxt-link to="/privacy-policy" class="text-xs underline">Privacy policy</nuxt-link></li>
@@ -26,7 +26,5 @@
 </script>
 
 <style scoped>
-footer {
-  border-top: 1px solid #ddd;
-}
+
 </style>

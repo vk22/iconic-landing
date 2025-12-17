@@ -27,18 +27,36 @@
   </div>
 </template>
 
-<script setup>
-  const { locale, locales } = useI18n()
-  const switchLocalePath = useSwitchLocalePath()
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useSwitchLocalePath } from '#i18n'
 
-  const current = computed(() => locales.value.find(l => l.code === locale.value))
-  const others = computed(() => locales.value.filter(l => l.code !== locale.value))
-  const isRtl = computed(() => locale.value === 'ar');
-  const menuPositionClasses = computed(() =>
-    isRtl.value
-      ? // RTL → вправо
-        'right-0 translate-x-[80%] group-hover:translate-x-[100%]'
-      : // LTR → влево
-        'left-0 -translate-x-[80%] group-hover:-translate-x-[100%]'
-  )
+const route = useRoute()
+const { locales } = useI18n()
+const switchLocalePath = useSwitchLocalePath()
+
+// 🔑 текущий язык ТОЛЬКО из URL
+const routeLocale = computed(() => {
+  const firstSegment = route.path.split('/')[1]
+  const known = locales.value.map(l => l.code)
+  return known.includes(firstSegment) ? firstSegment : 'en'
+})
+
+const current = computed(() =>
+  locales.value.find(l => l.code === routeLocale.value)
+)
+
+const others = computed(() =>
+  locales.value.filter(l => l.code !== routeLocale.value)
+)
+
+const isRtl = computed(() => routeLocale.value === 'ar')
+
+const menuPositionClasses = computed(() =>
+  isRtl.value
+    ? 'right-0 translate-x-[80%] group-hover:translate-x-[100%]'
+    : 'left-0 -translate-x-[80%] group-hover:-translate-x-[100%]'
+)
 </script>

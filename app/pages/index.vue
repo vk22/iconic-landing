@@ -1,7 +1,7 @@
 <template>
   <Popup ></Popup>
   <Header></Header>
-  <div class="landing-index transition-opacity duration-1000"  :class="{ 'opacity-100': imageLoaded, 'opacity-0': !imageLoaded }">
+  <div class="landing-index relative min-h-[100vh] transition-opacity duration-1000"  :class="{ 'opacity-100': imageLoaded, 'opacity-0': !imageLoaded }">
   <Hero></Hero>  
   <Overview></Overview>
   <Gallery></Gallery>
@@ -29,13 +29,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.landing-index {
-  min-height: 100vh;
-  position: relative;
-  /* background-image: linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)), url("/img/1.jpg");
-  background-position: center center;
-  background-size: cover; */
-}
 
 
 </style>

@@ -99,10 +99,5 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.hero-top {
-  position: relative;
-  /* background-image: linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)), url("/img/1.jpg");
-  background-position: center center;
-  background-size: cover; */
-}
+
 </style>

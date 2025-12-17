@@ -10,7 +10,6 @@
     :class="[
       'relative btn text-center inline-flex items-center justify-center cursor-pointer text-[#faf3e9] uppercase bg-[#434848] focus:outline-none',
       isLink ? 'hover:bg-[#000000]' : '',
-      // то, что у тебя было разным font-medium/font-small
       isButton ? 'font-medium' : 'font-small md:font-medium',
       props.size,
       textSize,
@@ -19,7 +18,7 @@
     @click="handleClick"
   >
     <span class="relative z-1 flex items-center">
-      <!-- spinner для scroll/submit -->
+      <!-- spinner -->
       <svg
         v-if="
           props.icon &&
@@ -42,7 +41,7 @@
         />
       </svg>
 
-      <!-- download icon для openForm/downloadFiles (как у тебя было) -->
+      <!-- download icon -->
       <svg
         v-else-if="
           props.icon &&
@@ -109,22 +108,15 @@ const isLink = computed(() => !isButton.value);
 const isDownload = computed(() => props.mode === "downloadFiles");
 
 const tag = computed(() => (isButton.value ? "button" : "a"));
-
-/**
- * Если openForm у тебя должен быть ссылкой на файл/форму — он тоже должен иметь href.
- * Сейчас логика такая:
- * - downloadFiles: href = props.link
- * - openForm: href = props.link (если не задан — будет пусто, ссылка не сработает)
- */
 const resolvedHref = computed(() => (props.link ? props.link : undefined));
 
 const animate =
   "hover:text-black transition-colors duration-300 before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-full before:h-full before:bg-[#faf3e9] before:origin-bottom before:scale-y-0 before:transition-transform before:duration-300 hover:before:scale-y-100 before:z-0";
 
 const sizes: Record<NonNullable<typeof props.size>, string> = {
-  big: "text-[.75rem] md:text-[.75rem]",
-  small: "text-[.65rem] md:text-[.7rem]",
-  large: "text-[.85rem] md:text-[.9rem]",
+  big: "text-[.75rem] md:text-[.75rem] py-[.5rem] px-[.75rem]",
+  small: "text-[.65rem] md:text-[.7rem] py-[.45rem] px-[.5rem]",
+  large: "text-[.85rem] md:text-[.9rem] py-[.65rem] px-[.85rem]",
 };
 
 const textSize = computed(() => sizes[props.size]);
@@ -183,16 +175,5 @@ function handleClick(e: MouseEvent) {
 </script>
 
 <style scoped>
-.btn.big2 {
-  padding: 0.5rem 1.5rem;
-}
 
-.btn.big {
-  padding: 0.5rem 0.75rem;
-}
-
-.btn.small {
-  padding: 0.5rem 0.75rem;
-  border: none;
-}
 </style>
