@@ -15,7 +15,7 @@ const routeLocale = computed(() => {
   const seg = route.path.split('/')[1]
   return ['ru', 'ar'].includes(seg) ? seg : 'en'
 })
-const isRtl = computed(() => routeLocale === 'ar');
+const isRtl = computed(() => routeLocale.value === 'ar');
 
 const noscript = `
 <!-- Google Tag Manager (noscript) -->
