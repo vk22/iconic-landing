@@ -4,15 +4,15 @@
     "menu": [
       {
         "id": "#overview",
-        "text": "Overview"
+        "text": "لمحة عامة"
       },
       {
         "id": "#location",
-        "text": "Location"
+        "text": "الموقع"
       },
       {
         "id": "#payment",
-        "text": "Payment Plan"
+        "text": "خطة الدفع"
       }
     ]
   },

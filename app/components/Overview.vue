@@ -15,23 +15,23 @@
 
     <div class="flex flex-col md:flex-row items-stretch">
       <div class="basis-1/2 px-0 md:px-4">
-        <div class="mb-10 pr-0 md:pr-10 text-start md:text-start">
-          <p class="mb-3">
+        <div class="mb-10 pr-0 md:pr-10 text-start md:text-start" :class="locale === 'ar' ? 'pl-8' : ''">
+          <p class="mb-3" :class="locale === 'ar' ? 'leading-6' : ''">
               {{ $t('overview.text.paragraph-1') }}
           </p>
           <ul class="list-disc pl-5 mb-3">
-            <li>
+            <li :class="locale === 'ar' ? 'leading-6' : ''">
               {{ $t('overview.text.list-1') }}
             </li>
-            <li>
+            <li :class="locale === 'ar' ? 'leading-6' : ''">
               {{ $t('overview.text.list-2') }}
             </li>
-            <li>
+            <li :class="locale === 'ar' ? 'leading-6' : ''">
               {{ $t('overview.text.list-3') }}
             </li>
-            <li>
+            <li :class="locale === 'ar' ? 'leading-6' : ''">
               {{ $t('overview.text.list-4') }}
-            </li>
+            </li :class="locale === 'ar' ? 'leading-6' : ''">
           </ul>
           <p class="mb-3">
              {{ $t('overview.text.paragraph-2') }}
@@ -98,15 +98,10 @@ import { ref, onMounted, watch } from "vue";
 import { gtmPush } from "../utils/gtm";
 import { usePopup } from "../composables/usePopup";
 import { useTmRaw } from '../composables/useTmRaw';
+const { locale } = useI18n()
 const {
-  isPopupOpen,
-  isFormOpen,
-  isSuccessOpen,
   setPopupMode,
   setFormMode,
-  setSuccessMode,
-  setResult,
-  formResult,
 } = usePopup();
 const imageLoaded = ref(false);
 const image = "/img/about.jpg";
