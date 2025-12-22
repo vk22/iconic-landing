@@ -54,61 +54,7 @@
   </header>
 
   <!-- POPUP MENU -->
-  <Teleport to="body">
-    <transition name="slide">
-      <div
-        v-if="isMenuOpen"
-        class="fixed inset-0 z-[999] flex"
-        @keydown.esc="closeMenu"
-        role="dialog"
-        aria-modal="true"
-      >
-        <!-- backdrop -->
-        <div class="absolute inset-0 bg-[#0d1313f0]" @click="closeMenu" />
-
-        <!-- panel -->
-        <transition name="fade">
-          <div
-            class="relative ml-auto h-full w-[100%] text-white px-4 py-4 flex flex-col justify-between"
-             v-if="isMenuOpen"
-          >
-            <div class="flex items-center justify-between">
-              <button
-                class="inline-flex items-center justify-center w-auto h-auto rounded focus:outline-none"
-                aria-label="Close menu"
-                @click="closeMenu"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-              </button>
-            </div>
-
-            <nav class="flex justify-center">
-              <ul class="space-y-4 flex flex-col justify-center ml-1 mt-4">
-                <li v-for="(item, i) in menu" :key="i" class="text-center py-2">
-                  <nuxt-link
-                    :to="{ hash: item.id }"
-                    :external="true"
-                    class="text-white text-[.85rem] uppercase text-start tracking-[1.25px]"
-                    @click="closeMenu"
-                  >
-                    {{ item.text }}
-                  </nuxt-link>
-                </li>
-              </ul>
-            </nav>
-
-            <div class="w-full flex align-center justify-between" :class="locale === 'ar' ? 'flex-row-reverse' : 'flex-row'">
-              <img class="h-3" src="../assets/img/mered2.svg" alt="Logo" /> 
-              <Langs />
-            </div>
-          </div>
-        </transition>
-      </div>
-    </transition>
-  </Teleport>
+  <MobileMenu />
 
 </template> 
 
@@ -116,6 +62,12 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, onBeforeUnmount } from 'vue'
 import { useTmRaw } from '../composables/useTmRaw';
+import { useMobileMenu } from "../composables/useMobileMenu";
+const {
+  isMenuOpen,
+  openMenu,
+  closeMenu,
+} = useMobileMenu();
 const { locale } = useI18n()
 const contentVisible = ref(false)
 
@@ -126,20 +78,6 @@ onMounted(() => {
 })
 
 
-/// popup menu
-const isMenuOpen = ref(false)
-const openMenu  = () => ( isMenuOpen.value = true )
-const closeMenu = () => ( isMenuOpen.value = false )
-
-watch(isMenuOpen, (open) => {
-  const cls = document.documentElement.classList
-  if (open) cls.add('overflow-hidden')
-  else cls.remove('overflow-hidden')
-})
-
-const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeMenu() }
-onMounted(() => window.addEventListener('keydown', onKey))
-onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
 
 </script>
 

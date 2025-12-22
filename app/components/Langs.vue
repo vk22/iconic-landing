@@ -20,6 +20,7 @@
         :key="l.code"
         :to="switchLocalePath(l.code)"
         class="px-1 py-1 text-[.7rem] uppercase tracking-wide text-[#ddd] hover:text-[#ffffff] transition-all"
+        @click="closeMenu"
       >
         {{ l.code }}
       </NuxtLink>
@@ -32,6 +33,10 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useSwitchLocalePath } from '#i18n'
+import { useMobileMenu } from "../composables/useMobileMenu";
+const {
+  closeMenu,
+} = useMobileMenu();
 
 const route = useRoute()
 const { locales } = useI18n()
