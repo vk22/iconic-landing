@@ -1,12 +1,11 @@
 <template>
   <div class="relative inline-block group select-none cursor-pointer mx-2 mt-[.1rem]">
-    <!-- Активный язык -->
+    <!-- Active lang -->
     <div class="px-1 py-1 font-medium uppercase tracking-wide text-[.65rem] text-white">
       {{ current.code }}
     </div>
 
-    <!-- Меню остальных языков -->
-
+    <!-- Other langs -->
     <div
       class="absolute top-[.7rem] -translate-y-1/2 
              flex flex-row gap-1 py-1

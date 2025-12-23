@@ -64,7 +64,7 @@
           </div>
         </div>
       </div>
-      <div class="right basis-1/2 hidden lg:block relative overflow-hidden">
+      <div class="right basis-1/2 hidden lg:block relative overflow-hidden min-h-[23rem]">
         <img
           :src="image"
           alt=""

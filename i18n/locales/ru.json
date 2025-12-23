@@ -19,7 +19,8 @@
   "hero": {
     "title": "Брендовые апартаменты Iconic Residences",
     "subtitle": "by Pininfarina в Дубае",
-    "btn": "Премиальные апартаменты от 3,5 млн AED / 970 тыс. USD"
+    "btn-1": "Премиальные апартаменты",
+    "btn-2": "от 3,5 млн AED / 970 тыс. USD"
   },
   "overview": {
     "title": "Почему Iconic Residences",

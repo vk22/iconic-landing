@@ -49,11 +49,9 @@
         <uiMainButton :mode="'scrollToForm'" :size="'big'" :type="'button'" :text="$t('header.btn')"></uiMainButton>
       </div>
     </div>
-
-
   </header>
 
-  <!-- POPUP MENU -->
+  <!-- Mobile Menu -->
   <MobileMenu />
 
 </template> 
@@ -64,20 +62,15 @@ import { ref, onMounted, watch, onBeforeUnmount } from 'vue'
 import { useTmRaw } from '../composables/useTmRaw';
 import { useMobileMenu } from "../composables/useMobileMenu";
 const {
-  isMenuOpen,
   openMenu,
-  closeMenu,
 } = useMobileMenu();
 const { locale } = useI18n()
 const contentVisible = ref(false)
-
 const menu = useTmRaw('header.menu')
 
 onMounted(() => {
   setTimeout(() => (contentVisible.value = true), 400)
 })
-
-
 
 </script>
 

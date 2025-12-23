@@ -30,7 +30,8 @@
         <uiMainButton
           :mode="'scrollToForm'"
           :type="'button'"
-          :text="$t('hero.btn')"
+          :text="$t('hero.btn-1')"
+          :text2="$t('hero.btn-2')"
           size="big"
         ></uiMainButton>
       </div>

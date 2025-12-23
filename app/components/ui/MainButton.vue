@@ -59,7 +59,7 @@
         />
       </svg>
 
-      <slot>{{ props.text ?? "Submit" }}</slot>
+      <slot><div class="flex flex-col md:flex-row"><span class="md:mr-1">{{ props.text ?? "Submit" }}</span> <span v-if="props.text2">{{ props.text2 ?? "" }}</span></div></slot>
     </span>
   </component>
 </template>
@@ -83,6 +83,7 @@ type ButtonMode = (typeof modes)[number];
 const props = withDefaults(
   defineProps<{
     text?: string;
+    text2?: string;
     link?: string;
     type?: "button" | "submit" | "reset";
     size?: "small" | "big" | "large";
@@ -91,6 +92,7 @@ const props = withDefaults(
   }>(),
   {
     text: "Submit",
+    text2: "",
     link: "",
     type: "button",
     size: "small",

@@ -19,7 +19,8 @@
   "hero": {
     "title": "Exceptional Branded Residences",
     "subtitle": "Design by Pininfarina",
-    "btn": "Premium Apartments starting from AED 3.5M / USD 970K"
+    "btn-1": "Premium Apartments starting",
+    "btn-2": "from AED 3.5M / USD 970K"
   },
   "overview": {
     "title": "Why Iconic Residences",

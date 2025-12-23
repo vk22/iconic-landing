@@ -1,5 +1,4 @@
 <template>
-  <!-- MOBILE MENU -->
   <Teleport to="body">
     <transition name="slide">
       <div
@@ -8,6 +7,7 @@
         @keydown.esc="closeMenu"
         role="dialog"
         aria-modal="true"
+        :dir="isRtl ? 'rtl' : 'ltr'"
       >
         <!-- backdrop -->
         <div class="absolute inset-0 bg-[#0d1313f0]" @click="closeMenu" />
@@ -60,23 +60,18 @@
 
 
 <script setup lang="ts">
-import { ref, onMounted, watch, onBeforeUnmount } from 'vue'
+import { onMounted, watch, onBeforeUnmount } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useTmRaw } from '../composables/useTmRaw';
 import { useMobileMenu } from "../composables/useMobileMenu";
 const {
   isMenuOpen,
-  openMenu,
   closeMenu,
 } = useMobileMenu();
 
 const menu = useTmRaw('header.menu')
-const { locale } = useI18n()
-
-
-/// popup menu
-// const isMenuOpen = ref(false)
-// const openMenu  = () => ( isMenuOpen.value = true )
-// const closeMenu = () => ( isMenuOpen.value = false )
+const { locale } = useI18n();
+const isRtl = computed(() => locale.value === 'ar')
 
 watch(isMenuOpen, (open) => {
   const cls = document.documentElement.classList
