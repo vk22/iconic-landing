@@ -42,7 +42,7 @@
             </svg>
           </button>
           <transition name="fade-form">
-            <Form :mode="'popup'" v-if="isFormOpen"></Form>
+            <Form :mode="'download'" v-if="isFormOpen"></Form>
           </transition>
           <transition name="fade-success">
             <FormSuccess

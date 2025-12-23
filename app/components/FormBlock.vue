@@ -13,7 +13,7 @@
         <img :src="image" alt="" class="object-cover h-full w-full" />
       </div>
       <div class="basis-1/2 px-0 md:px-2">
-        <Form @form-sent="formAfterHandle"></Form>
+        <Form :mode="'default'" @form-sent="formAfterHandle"></Form>
       </div>
     </div>
   </section>

@@ -152,16 +152,16 @@ function handleClick(e: MouseEvent) {
       },
     });
   } else if (props.mode === "openForm") {
-    console.log("form_success_applicationdownload");
-    $gtmPush({
-      event: "GAEvent",
-      event_params: {
-        eventCategory: "button",
-        eventAction: "click",
-        eventLabel: "applicationdownload",
-        data: "form_success_applicationdownload",
-      },
-    });
+    // console.log("form_success_applicationdownload");
+    // $gtmPush({
+    //   event: "GAEvent",
+    //   event_params: {
+    //     eventCategory: "button",
+    //     eventAction: "click",
+    //     eventLabel: "applicationdownload",
+    //     data: "form_success_applicationdownload",
+    //   },
+    // });
   }
 
   if (isButton.value) {
