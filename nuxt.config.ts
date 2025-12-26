@@ -9,6 +9,20 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1',
       link: [{ rel: 'icon', type: 'image/png', href: "/favicon.png" }],
       script: [
+        // CallGear basic
+        {
+          src: 'https://app.callgear.ae/static/cs.min.js?k=ZCCbA4llImb08pgeGeXNMfvEYXuVe2ex',
+          async: true,
+          type: 'text/javascript'
+        },
+
+        // CallGear custom
+        {
+          src: 'https://custom.callgear.com/static/67947/script.js',
+          async: true,
+          type: 'text/javascript'
+        },
+        // Google Tag Manager
         {
           hid: 'gtm-script',
           innerHTML: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

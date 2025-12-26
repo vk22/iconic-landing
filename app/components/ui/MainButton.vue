@@ -130,7 +130,7 @@ function scrollToFormF() {
 function handleClick(e: MouseEvent) {
   if (props.mode === "scrollToForm") {
     scrollToFormF();
-    console.log("button_click_download");
+    //console.log("button_click_form");
     $gtmPush({
       event: "GAEvent",
       event_params: {
@@ -141,7 +141,7 @@ function handleClick(e: MouseEvent) {
       },
     });
   } else if (props.mode === "downloadFiles") {
-    console.log("button_click_download");
+    //console.log("button_click_download");
     $gtmPush({
       event: "GAEvent",
       event_params: {
@@ -168,7 +168,7 @@ function handleClick(e: MouseEvent) {
     return;
   }
 
-  // Без href ссылка не имеет смысла — можно отменять клик, чтобы не было перехода на текущую страницу
+  // no link - no click
   if (!resolvedHref.value) {
     console.log("preventDefault ");
     e.preventDefault();
