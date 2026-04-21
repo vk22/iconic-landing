@@ -69,4 +69,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
+  runtimeConfig: {
+    turnstileSecretKey: process.env.TURNSTILE_SECRET_KEY,
+    public: {
+      turnstileSiteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY,
+    },
+  }
 })
