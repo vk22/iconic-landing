@@ -124,7 +124,7 @@ export default defineEventHandler(async (event) => {
   try {
     await resend.emails.send({
       from: "iconic@resend.dev",
-      to: ["v.kushnir22@gmail.com"],
+      to: ["v.kushnir22@gmail.com", "v.pupazina@e-promo.org"],
       subject: "Iconic New Interest",
       text: [
         `Full Name: ${full_name}`,
