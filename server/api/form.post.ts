@@ -34,6 +34,25 @@ function checkRateLimit(ip: string, limit = 5, windowMs = 10 * 60 * 1000) {
   return { ok: true, remaining: limit - entry.count };
 }
 
+function getClientIp(event: any) {
+  const cfIp = event.node.req.headers["cf-connecting-ip"];
+  if (typeof cfIp === "string" && cfIp.trim()) {
+    return cfIp.trim();
+  }
+
+  const forwardedFor = event.node.req.headers["x-forwarded-for"];
+  if (typeof forwardedFor === "string" && forwardedFor.trim()) {
+    return forwardedFor.split(",")[0].trim();
+  }
+
+  const realIp = event.node.req.headers["x-real-ip"];
+  if (typeof realIp === "string" && realIp.trim()) {
+    return realIp.trim();
+  }
+
+  return event.node.req.socket?.remoteAddress || "unknown";
+}
+
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
   const resend = new Resend(config.resendApiKey || process.env.RESEND_API_KEY);
@@ -51,8 +70,10 @@ export default defineEventHandler(async (event) => {
     formStartedAt,
   } = body;
 
-  const ip = getRequestIP(event, { xForwardedFor: true }) || "unknown";
+  //const ip = getRequestIP(event, { xForwardedFor: true }) || "unknown";
 
+  const ip = getClientIp(event);
+  
   if (!config.turnstileSecretKey) {
     throw createError({
       statusCode: 500,
@@ -124,7 +145,8 @@ export default defineEventHandler(async (event) => {
   try {
     await resend.emails.send({
       from: "iconic@resend.dev",
-      to: ["v.kushnir22@gmail.com", "v.pupazina@e-promo.org"],
+      //to: ["v.kushnir22@gmail.com", "v.pupazina@e-promo.org"],
+      to: ["v.kushnir22@gmail.com"],
       subject: "Iconic New Interest",
       text: [
         `Full Name: ${full_name}`,
