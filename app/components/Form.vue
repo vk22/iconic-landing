@@ -129,9 +129,7 @@
               </div>
             </div>
           </div>
-
-          <!-- honeypot -->
-          <!-- <input
+          <input
             v-model="form.company"
             type="text"
             tabindex="-1"
@@ -142,7 +140,7 @@
               opacity: 0;
               pointer-events: none;
             "
-          /> -->
+          />
           <input
             v-for="hp in honeypots"
             :key="hp"
@@ -251,6 +249,7 @@ type Form = {
   email: string;
   phone: string;
   apartmentType: string;
+  company: string;
 } & Record<string, string>;
 
 const getDefaultForm = (): Form => ({
@@ -259,6 +258,7 @@ const getDefaultForm = (): Form => ({
   email: "",
   phone: "",
   apartmentType: "",
+  company: ""
 });
 
 const form = reactive<Form>(getDefaultForm());
@@ -388,8 +388,6 @@ const onSubmit = async () => {
     return;
   }
 
-  await renderTurnstile();
-
   if (!turnstileToken.value) {
     alert("Подтвердите, что вы не бот!");
     return;
@@ -435,6 +433,7 @@ watch(
 
 onMounted(() => {
   initFormSession();
+  renderTurnstile();
 });
 
 onBeforeUnmount(() => {
