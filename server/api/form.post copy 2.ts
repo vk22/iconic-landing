@@ -2,15 +2,6 @@ import { createError, defineEventHandler, readBody } from "h3";
 import { Resend } from "resend";
 import { connectMongo } from "../utils/mongodb";
 import { LeadsRaw } from "../models/leads_raw-model";
-import { FormSession } from "../models/form-session-model";
-import {
-  extractLeadFeatures,
-  buildTemplateFingerprint,
-  getSingleLeadScore,
-  getClusterScore,
-  getVelocityScore,
-  buildTotalScore,
-} from "../utils/leadRisk";
 
 type FormBody = {
   full_name?: string;
@@ -21,8 +12,6 @@ type FormBody = {
   turnstileToken?: string;
   company?: string;
   formStartedAt?: number | string;
-  formSessionId?: string;
-  [key: string]: any;
 };
 
 type RateEntry = {
@@ -39,9 +28,11 @@ const TURNSTILE_VERIFY_URL =
   "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
 const rateStore = new Map<string, RateEntry>();
+const recentPayloadStore = new Map<string, number>();
 
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const MIN_FORM_FILL_TIME_MS = 2000;
+const PAYLOAD_DUPLICATE_WINDOW_MS = 30 * 60 * 1000;
 
 function badRequest(statusMessage: string) {
   return createError({
@@ -72,6 +63,10 @@ function normalizePhone(phone?: string) {
   return (phone || "").replace(/[^\d+]/g, "").trim();
 }
 
+function normalizeName(name?: string) {
+  return (name || "").trim().toLowerCase();
+}
+
 function getClientIp(event: any) {
   const cfIp = event.node.req.headers["cf-connecting-ip"];
   if (typeof cfIp === "string" && cfIp.trim()) {
@@ -89,6 +84,16 @@ function getClientIp(event: any) {
   }
 
   return event.node.req.socket?.remoteAddress || "unknown";
+}
+
+function isLocalOrUnknownIp(ip: string) {
+  return (
+    !ip ||
+    ip === "unknown" ||
+    ip === "127.0.0.1" ||
+    ip === "::1" ||
+    ip === "::ffff:127.0.0.1"
+  );
 }
 
 function checkRateLimit(
@@ -155,39 +160,6 @@ function validateBody(body: FormBody) {
   }
 }
 
-async function validateFormSession(params: {
-  sessionId?: string;
-  body: FormBody;
-}) {
-  if (!params.sessionId) {
-    throw badRequest("Form session is required");
-  }
-
-  const session = await FormSession.findOne({
-    sessionId: params.sessionId,
-  });
-
-  if (!session) {
-    throw badRequest("Invalid form session");
-  }
-
-  if (session.isUsed) {
-    throw badRequest("Form session already used");
-  }
-
-  if (session.expiresAt && session.expiresAt.getTime() < Date.now()) {
-    throw badRequest("Form session expired");
-  }
-
-  for (const hp of session.honeypots || []) {
-    if (params.body[hp]) {
-      throw badRequest("Bot detected");
-    }
-  }
-
-  return session;
-}
-
 async function verifyTurnstileToken(params: {
   secret: string;
   token: string;
@@ -219,7 +191,6 @@ function buildLeadText(data: {
   riskScore?: number;
   riskReasons?: string[];
   quarantined?: boolean;
-  templateFingerprint?: string;
 }) {
   return [
     `Full Name: ${data.full_name}`,
@@ -229,11 +200,140 @@ function buildLeadText(data: {
     `Client type: ${data.clientType || ""}`,
     `IP: ${data.ip}`,
     `User-Agent: ${data.userAgent || ""}`,
-    `Template fingerprint: ${data.templateFingerprint || ""}`,
     `Risk score: ${data.riskScore ?? 0}`,
     `Risk reasons: ${(data.riskReasons || []).join(", ")}`,
     `Quarantined: ${data.quarantined ? "yes" : "no"}`,
   ].join("\n");
+}
+
+function buildLeadObj(data: {
+  full_name: string;
+  email: string;
+  phone?: string;
+  apartmentType?: string;
+  clientType?: string;
+  ip: string;
+  userAgent: string;
+  riskScore?: number;
+  riskReasons?: string[];
+  quarantined?: boolean;
+}) {
+  return [
+    `Full Name: ${data.full_name}`,
+    `Email: ${data.email}`,
+    `Phone: ${data.phone || ""}`,
+    `Apartment type: ${data.apartmentType || ""}`,
+    `Client type: ${data.clientType || ""}`,
+    `IP: ${data.ip}`,
+    `User-Agent: ${data.userAgent || ""}`,
+    `Risk score: ${data.riskScore ?? 0}`,
+    `Risk reasons: ${(data.riskReasons || []).join(", ")}`,
+    `Quarantined: ${data.quarantined ? "yes" : "no"}`,
+  ].join("\n");
+}
+
+function cleanupRecentPayloadStore() {
+  const now = Date.now();
+  for (const [key, ts] of recentPayloadStore.entries()) {
+    if (now - ts > PAYLOAD_DUPLICATE_WINDOW_MS) {
+      recentPayloadStore.delete(key);
+    }
+  }
+}
+
+function buildPayloadFingerprint(body: FormBody) {
+  return [
+    normalizeName(body.full_name),
+    normalizeEmail(body.email),
+    normalizePhone(body.phone),
+    (body.apartmentType || "").trim().toLowerCase(),
+    (body.clientType || "").trim().toLowerCase(),
+  ].join("|");
+}
+
+function scoreLead(params: {
+  body: FormBody;
+  ip: string;
+  userAgent: string;
+  ipRate: ReturnType<typeof checkRateLimit>;
+  emailRate: ReturnType<typeof checkRateLimit>;
+  phoneRate: ReturnType<typeof checkRateLimit>;
+}) {
+  const { body, ip, userAgent, ipRate, emailRate, phoneRate } = params;
+
+  const riskReasons: string[] = [];
+  let riskScore = 0;
+
+  const email = normalizeEmail(body.email);
+  const phone = normalizePhone(body.phone);
+  const name = normalizeName(body.full_name);
+
+  if (isLocalOrUnknownIp(ip)) {
+    riskScore += 2;
+    riskReasons.push("local_or_unknown_ip");
+  }
+
+  if (!userAgent || userAgent.length < 20) {
+    riskScore += 2;
+    riskReasons.push("weak_user_agent");
+  }
+
+  if (emailRate.count >= 2) {
+    riskScore += 3;
+    riskReasons.push("email_rate_high");
+  }
+
+  if (phone && phoneRate.count >= 2) {
+    riskScore += 3;
+    riskReasons.push("phone_rate_high");
+  }
+
+  if (ipRate.count >= 3) {
+    riskScore += 2;
+    riskReasons.push("ip_rate_high");
+  }
+
+  const emailLocalPart = email.split("@")[0] || "";
+  const nameTokens = name
+    .replace(/[^a-zа-яё\s-]/gi, " ")
+    .split(/\s+/)
+    .filter(Boolean);
+
+  const emailLooksRelatedToName =
+    nameTokens.length > 0 &&
+    nameTokens.some(
+      (token) => token.length >= 3 && emailLocalPart.includes(token),
+    );
+
+  if (name && email && !emailLooksRelatedToName) {
+    riskScore += 2;
+    riskReasons.push("name_email_mismatch");
+  }
+
+  const suspiciousEmailPatterns = [
+    /\d{3,}/,
+    /(test|qwerty|asdf|zxczxc|temp|demo|mail|user)/i,
+  ];
+
+  if (suspiciousEmailPatterns.some((re) => re.test(emailLocalPart))) {
+    riskScore += 2;
+    riskReasons.push("suspicious_email_pattern");
+  }
+
+  cleanupRecentPayloadStore();
+  const fingerprint = buildPayloadFingerprint(body);
+  if (recentPayloadStore.has(fingerprint)) {
+    riskScore += 4;
+    riskReasons.push("duplicate_payload_recently");
+  }
+
+  recentPayloadStore.set(fingerprint, Date.now());
+
+  return {
+    riskScore,
+    riskReasons,
+    quarantined: riskScore >= 5,
+  };
 }
 
 async function sendEmail(params: {
@@ -250,7 +350,20 @@ async function sendEmail(params: {
   });
 }
 
-async function saveToDB(data: any) {
+async function saveToDB(data: {
+  full_name: string;
+  email: string;
+  phone?: string;
+  apartmentType?: string;
+  clientType?: string;
+  ip: string;
+  userAgent: string;
+  riskScore?: number;
+  riskReasons?: string[];
+  quarantined?: boolean;
+}) {
+  console.log("saveToDB ", data);
+  await connectMongo();
   return await LeadsRaw.create(data);
 }
 
@@ -268,14 +381,10 @@ export default defineEventHandler(async (event) => {
     throw internalServerError("TURNSTILE_SECRET_KEY is not configured");
   }
 
-  //const resend = new Resend(resendApiKey);
+  const resend = new Resend(resendApiKey);
   const body = await readBody<FormBody>(event);
 
-  console.log("body ", body);
-
   validateBody(body);
-
-  await connectMongo();
 
   const ip = getClientIp(event);
   const userAgent = String(event.node.req.headers["user-agent"] || "");
@@ -314,65 +423,14 @@ export default defineEventHandler(async (event) => {
     ip,
   });
 
-  const features = extractLeadFeatures({
-    full_name: body.full_name,
-    email: body.email,
-    phone: body.phone,
-    apartmentType: body.apartmentType,
-    clientType: body.clientType,
-  });
-
-  const templateFingerprint = buildTemplateFingerprint(features);
-
-  const single = getSingleLeadScore(features);
-
-  const cluster = await getClusterScore({
-    LeadsRaw,
-    templateFingerprint,
-    features,
-    windowHours: 12,
-  });
-
-  const velocity = await getVelocityScore({
-    LeadsRaw,
-    minutes: 60,
-  });
-
-  const total = buildTotalScore({
-    single,
-    cluster,
-    velocity,
-  });
-
-  const leadDoc = {
-    createdAt: new Date(),
-    source: "landing_form",
-    full_name: body.full_name!,
-    email: body.email!,
-    phone: body.phone || "",
-    apartmentType: body.apartmentType || "",
-    clientType: body.clientType || "",
+  const risk = scoreLead({
+    body,
     ip,
     userAgent,
-    templateFingerprint,
-    features,
-    scoring: {
-      singleLeadScore: single.score,
-      clusterScore: cluster.score,
-      velocityScore: velocity.score,
-      totalScore: total.totalScore,
-      reasons: total.reasons,
-      status: total.status,
-      clusterStats: cluster.stats,
-      velocityStats: velocity.stats,
-    },
-    meta: {
-      turnstileVerified: true,
-      quarantined: total.status === "quarantine",
-      forwardedToCallgear: false,
-      forwardedToCrm: false,
-    },
-  };
+    ipRate,
+    emailRate,
+    phoneRate,
+  });
 
   const messageText = buildLeadText({
     full_name: body.full_name!,
@@ -382,43 +440,39 @@ export default defineEventHandler(async (event) => {
     clientType: body.clientType,
     ip,
     userAgent,
-    riskScore: total.totalScore,
-    riskReasons: total.reasons,
-    quarantined: total.status === "quarantine",
-    templateFingerprint,
+    riskScore: risk.riskScore,
+    riskReasons: risk.riskReasons,
+    quarantined: risk.quarantined,
   });
 
-  const session = await validateFormSession({
-    sessionId: body.formSessionId,
-    body,
-  });
+  const messageObj = {
+    full_name: body.full_name!,
+    email: body.email!,
+    phone: body.phone,
+    apartmentType: body.apartmentType,
+    clientType: body.clientType,
+    ip,
+    userAgent,
+    riskScore: risk.riskScore,
+    riskReasons: risk.riskReasons,
+    quarantined: risk.quarantined,
+  };
 
   try {
-    const savedLead = await saveToDB(leadDoc);
-
-    await FormSession.updateOne(
-      { _id: session._id },
-      {
-        $set: {
-          isUsed: true,
-          usedAt: new Date(),
-        },
-      },
-    );
-
-    if (total.status === "quarantine") {
+    if (risk.quarantined) {
       // await sendEmail({
       //   resend,
       //   to: ["v.kushnir22@gmail.com"],
-      //   subject: "[QUARANTINE] Iconic New Interest",
+      //   subject: `[QUARANTINE] Iconic New Interest`,
       //   text: messageText,
       // });
+
+      const saveRes = await saveToDB(messageObj);
+      console.log("saveRes ", saveRes);
 
       return {
         success: true,
         quarantined: true,
-        score: total.totalScore,
-        leadId: savedLead._id,
       };
     }
 
@@ -429,11 +483,12 @@ export default defineEventHandler(async (event) => {
     //   text: messageText,
     // });
 
+    const saveRes = await saveToDB(messageObj);
+    console.log("saveRes ", saveRes);
+
     return {
       success: true,
       quarantined: false,
-      score: total.totalScore,
-      leadId: savedLead._id,
     };
   } catch (error) {
     console.error("Error sending email:", error);

@@ -131,8 +131,23 @@
           </div>
 
           <!-- honeypot -->
-          <input
+          <!-- <input
             v-model="form.company"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+            style="
+              position: absolute;
+              left: -9999px;
+              opacity: 0;
+              pointer-events: none;
+            "
+          /> -->
+          <input
+            v-for="hp in honeypots"
+            :key="hp"
+            v-model="form[hp]"
+            :name="hp"
             type="text"
             tabindex="-1"
             autocomplete="off"
@@ -168,7 +183,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from "vue";
+import { reactive, ref, onMounted, onBeforeUnmount, watch } from "vue";
 import { VueTelInput } from "vue-tel-input";
 import "vue-tel-input/vue-tel-input.css";
 import { useI18n } from "vue-i18n";
@@ -188,12 +203,7 @@ const { t } = useI18n();
 const { $gtmPush } = useNuxtApp();
 const config = useRuntimeConfig();
 
-const {
-  setPopupMode,
-  setFormMode,
-  setSuccessMode,
-  setResult,
-} = usePopup();
+const { setPopupMode, setFormMode, setSuccessMode, setResult } = usePopup();
 
 const modes = ["download", "default"] as const;
 type FormMode = (typeof modes)[number];
@@ -204,7 +214,7 @@ const props = withDefaults(
   }>(),
   {
     mode: "default",
-  }
+  },
 );
 
 const apartmentTypeOptions = [
@@ -221,36 +231,63 @@ const inputTelClass =
   "text-start placeholder-gray-400 focus:placeholder-gray-700 bg-white border-0 border-b border-[#999] text-gray-900 text-sm focus:outline-none shadow-none focus:border-grey-500 block w-full py-2 autofill:bg-white";
 
 const selectClass = ref(
-  "text-start w-full bg-gray-50 py-3 bg-white border-0 border-b border-[#999] focus:outline-none text-sm text-gray-400"
+  "text-start w-full bg-gray-50 py-3 bg-white border-0 border-b border-[#999] focus:outline-none text-sm text-gray-400",
 );
 
 const loading = ref(false);
 const isValidPhone = ref(false);
 const showPhoneError = ref(false);
 
+const formSessionId = ref("");
+const honeypots = ref<string[]>([]);
 const turnstileToken = ref("");
 const formStartedAt = ref(Date.now());
 const widgetId = ref<string | null>(null);
 let turnstileInterval: ReturnType<typeof setInterval> | null = null;
 
-const getDefaultForm = () => ({
+type Form = {
+  clientType: string;
+  full_name: string;
+  email: string;
+  phone: string;
+  apartmentType: string;
+} & Record<string, string>;
+
+const getDefaultForm = (): Form => ({
   clientType: "client",
   full_name: "",
   email: "",
   phone: "",
   apartmentType: "",
-  company: "",
 });
 
-const form = ref(getDefaultForm());
+const form = reactive<Form>(getDefaultForm());
+
+async function initFormSession() {
+  const res = await $fetch("/api/form-session");
+  console.log('initFormSession ', res)
+  formSessionId.value = res.sessionId;
+  honeypots.value = res.honeypots;
+
+  for (const hp of honeypots.value) {
+    form[hp] = "";
+  }
+
+  formStartedAt.value = Date.now();
+}
 
 const setIfValidPhone = (data: { valid: boolean }) => {
   isValidPhone.value = !!data.valid;
-  showPhoneError.value = !data.valid && !!form.value.phone;
+  showPhoneError.value = !data.valid && !!form.phone;
 };
 
 const resetForm = () => {
-  form.value = getDefaultForm();
+  Object.assign(form, getDefaultForm());
+
+  for (const hp of honeypots.value) {
+    form[hp] = "";
+  }
+
   isValidPhone.value = false;
   showPhoneError.value = false;
   formStartedAt.value = Date.now();
@@ -315,34 +352,33 @@ const gtmPush = () => {
   }
 };
 
-const renderTurnstile = () => {
-  turnstileInterval = setInterval(() => {
-    const el = document.getElementById("cf-turnstile");
+const renderTurnstile = async () => {
+  if (turnstileToken.value) return turnstileToken.value;
+
+  return new Promise((resolve, reject) => {
     const turnstile = (window as any).turnstile;
+    if (!turnstile) {
+      reject(new Error("Turnstile not loaded"));
+      return;
+    }
 
-    if (!el || !turnstile) return;
-
-    if (turnstileInterval) {
-      clearInterval(turnstileInterval);
-      turnstileInterval = null;
+    if (widgetId.value) {
+      resolve(turnstileToken.value || "");
+      return;
     }
 
     widgetId.value = turnstile.render("#cf-turnstile", {
       sitekey: config.public.turnstileSiteKey,
       callback: (token: string) => {
         turnstileToken.value = token;
+        resolve(token);
       },
+      "error-callback": () => reject(new Error("Turnstile error")),
       "expired-callback": () => {
         turnstileToken.value = "";
       },
-      "timeout-callback": () => {
-        turnstileToken.value = "";
-      },
-      "error-callback": () => {
-        turnstileToken.value = "";
-      },
     });
-  }, 200);
+  });
 };
 
 const onSubmit = async () => {
@@ -351,6 +387,8 @@ const onSubmit = async () => {
     alert("Enter a valid phone number!");
     return;
   }
+
+  await renderTurnstile();
 
   if (!turnstileToken.value) {
     alert("Подтвердите, что вы не бот!");
@@ -363,7 +401,8 @@ const onSubmit = async () => {
     const { error } = await useFetch("/api/form", {
       method: "POST",
       body: {
-        ...form.value,
+        ...form,
+        formSessionId: formSessionId.value,
         turnstileToken: turnstileToken.value,
         formStartedAt: formStartedAt.value,
       },
@@ -377,6 +416,7 @@ const onSubmit = async () => {
     showSuccess();
     resetTurnstile();
     resetForm();
+    await initFormSession();
   } catch (err) {
     showError();
   } finally {
@@ -385,16 +425,16 @@ const onSubmit = async () => {
 };
 
 watch(
-  () => form.value.apartmentType,
+  () => form.apartmentType,
   (value) => {
     selectClass.value = value
       ? "w-full bg-gray-50 py-3 bg-white border-0 border-b border-[#999] focus:outline-none text-sm text-gray-900"
       : "text-start w-full bg-gray-50 py-3 bg-white border-0 border-b border-[#999] focus:outline-none text-sm text-gray-400";
-  }
+  },
 );
 
 onMounted(() => {
-  renderTurnstile();
+  initFormSession();
 });
 
 onBeforeUnmount(() => {
