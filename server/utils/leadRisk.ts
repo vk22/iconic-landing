@@ -189,9 +189,9 @@ export async function getClusterScore(params: {
   const [
     totalCount,
     templateCount,
-    gmailCount,
     cyrOneWordCount,
     localPatternCount,
+    samePhoneCountryCount,
   ] = await Promise.all([
     LeadsRaw.countDocuments({
       createdAt: { $gte: since },
@@ -202,10 +202,6 @@ export async function getClusterScore(params: {
     }),
     LeadsRaw.countDocuments({
       createdAt: { $gte: since },
-      "features.emailDomain": features.emailDomain,
-    }),
-    LeadsRaw.countDocuments({
-      createdAt: { $gte: since },
       "features.nameScript": "cyrl",
       "features.nameWordCount": 1,
     }),
@@ -213,10 +209,20 @@ export async function getClusterScore(params: {
       createdAt: { $gte: since },
       "features.emailLocalPattern": features.emailLocalPattern,
     }),
+    LeadsRaw.countDocuments({
+      createdAt: { $gte: since },
+      "features.phoneCountry": features.phoneCountry,
+    }),
   ]);
 
   let score = 0;
   const reasons: string[] = [];
+
+  // 1. Самый сильный сигнал — одинаковый templateFingerprint
+  if (templateCount >= 3) {
+    score += 2;
+    reasons.push("template_cluster_3_plus");
+  }
 
   if (templateCount >= 5) {
     score += 3;
@@ -228,32 +234,32 @@ export async function getClusterScore(params: {
     reasons.push("template_cluster_10_plus");
   }
 
-  if (totalCount >= 20) {
-    score += 2;
-    reasons.push("high_total_volume");
-  }
+  // 2. Однословные кириллические имена — только вместе с ботоподобным email
+  const isBotLikeEmailPattern =
+    features.emailLocalPattern === "letters_only" ||
+    features.emailLocalPattern === "letters_digits" ||
+    features.emailLocalPattern === "nickname_like";
 
-  if (totalCount >= 50) {
-    score += 3;
-    reasons.push("very_high_total_volume");
-  }
-
-  if (features.emailDomain === "gmail.com" && gmailCount >= 10) {
-    score += 1;
-    reasons.push("gmail_cluster_high");
-  }
-
-  if (features.nameScript === "cyrl" && features.nameWordCount === 1 && cyrOneWordCount >= 10) {
+  if (
+    features.nameScript === "cyrl" &&
+    features.nameWordCount === 1 &&
+    isBotLikeEmailPattern &&
+    cyrOneWordCount >= 10
+  ) {
     score += 2;
     reasons.push("cyrillic_single_name_cluster");
   }
 
-  if (
-    ["letters_only", "letters_digits", "nickname_like"].includes(features.emailLocalPattern) &&
-    localPatternCount >= 10
-  ) {
+  // 3. Повторяемость ботоподобного email pattern
+  if (isBotLikeEmailPattern && localPatternCount >= 10) {
     score += 2;
     reasons.push("email_pattern_cluster_high");
+  }
+
+  // 4. Повторяемость phone country только для UAE-потока
+  if (features.phoneCountry === "971" && samePhoneCountryCount >= 10) {
+    score += 1;
+    reasons.push("uae_phone_country_cluster");
   }
 
   return {
@@ -262,7 +268,7 @@ export async function getClusterScore(params: {
     stats: {
       totalCount,
       templateCount,
-      gmailCount,
+      gmailCount: 0,
       cyrOneWordCount,
       localPatternCount,
     },

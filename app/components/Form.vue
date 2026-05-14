@@ -141,21 +141,7 @@
               pointer-events: none;
             "
           />
-          <input
-            v-for="hp in honeypots"
-            :key="hp"
-            v-model="form[hp]"
-            :name="hp"
-            type="text"
-            tabindex="-1"
-            autocomplete="off"
-            style="
-              position: absolute;
-              left: -9999px;
-              opacity: 0;
-              pointer-events: none;
-            "
-          />
+
 
           <div id="cf-turnstile"></div>
 
@@ -237,7 +223,7 @@ const isValidPhone = ref(false);
 const showPhoneError = ref(false);
 
 const formSessionId = ref("");
-const honeypots = ref<string[]>([]);
+// const honeypots = ref<string[]>([]);
 const turnstileToken = ref("");
 const formStartedAt = ref(Date.now());
 const widgetId = ref<string | null>(null);
@@ -265,14 +251,16 @@ const form = reactive<Form>(getDefaultForm());
 
 async function initFormSession() {
   const res = await $fetch("/api/form-session");
-  console.log('initFormSession ', res)
+
   formSessionId.value = res.sessionId;
-  honeypots.value = res.honeypots;
+  // honeypots.value = res.honeypots;
 
-  for (const hp of honeypots.value) {
-    form[hp] = "";
-  }
+  // for (const hp of honeypots.value) {
+  //   form[hp] = "";
+  // }
 
+  turnstileToken.value = "";
+  widgetId.value = null;
   formStartedAt.value = Date.now();
 }
 
@@ -284,9 +272,9 @@ const setIfValidPhone = (data: { valid: boolean }) => {
 const resetForm = () => {
   Object.assign(form, getDefaultForm());
 
-  for (const hp of honeypots.value) {
-    form[hp] = "";
-  }
+  // for (const hp of honeypots.value) {
+  //   form[hp] = "";
+  // }
 
   isValidPhone.value = false;
   showPhoneError.value = false;
@@ -323,6 +311,9 @@ const showError = () => {
     title: "Oops!",
     message: "An error has occurred. Please try again later.",
   });
+  setPopupMode(true);
+  setSuccessMode(true);
+  
 };
 
 const gtmPush = () => {
@@ -355,47 +346,67 @@ const gtmPush = () => {
 const renderTurnstile = async () => {
   if (turnstileToken.value) return turnstileToken.value;
 
-  return new Promise((resolve, reject) => {
+  return new Promise<string>((resolve, reject) => {
     const turnstile = (window as any).turnstile;
+
     if (!turnstile) {
       reject(new Error("Turnstile not loaded"));
       return;
     }
 
-    if (widgetId.value) {
-      resolve(turnstileToken.value || "");
+    if (!formSessionId.value) {
+      reject(new Error("Form session is not ready"));
       return;
+    }
+
+    if (widgetId.value) {
+      turnstile.reset(widgetId.value);
+      widgetId.value = null;
+      turnstileToken.value = "";
     }
 
     widgetId.value = turnstile.render("#cf-turnstile", {
       sitekey: config.public.turnstileSiteKey,
+      action: "lead_form",
+      cData: formSessionId.value,
+      appearance: "interaction-only",
       callback: (token: string) => {
         turnstileToken.value = token;
         resolve(token);
       },
-      "error-callback": () => reject(new Error("Turnstile error")),
+      "error-callback": () => {
+        turnstileToken.value = "";
+        reject(new Error("Turnstile error"));
+      },
       "expired-callback": () => {
         turnstileToken.value = "";
+      },
+      "timeout-callback": () => {
+        turnstileToken.value = "";
+        reject(new Error("Turnstile timeout"));
       },
     });
   });
 };
 
 const onSubmit = async () => {
+  if (loading.value) return;
+
   if (!isValidPhone.value) {
     showPhoneError.value = true;
     alert("Enter a valid phone number!");
     return;
   }
 
-  if (!turnstileToken.value) {
-    alert("Подтвердите, что вы не бот!");
-    return;
-  }
-
   loading.value = true;
 
   try {
+    await renderTurnstile();
+
+    if (!turnstileToken.value) {
+      throw new Error("Turnstile token is missing");
+    }
+
     const { error } = await useFetch("/api/form", {
       method: "POST",
       body: {
@@ -410,7 +421,7 @@ const onSubmit = async () => {
       throw error.value;
     }
 
-    gtmPush();
+    //gtmPush();
     showSuccess();
     resetTurnstile();
     resetForm();
@@ -433,7 +444,7 @@ watch(
 
 onMounted(() => {
   initFormSession();
-  renderTurnstile();
+
 });
 
 onBeforeUnmount(() => {

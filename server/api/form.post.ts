@@ -33,6 +33,9 @@ type RateEntry = {
 type TurnstileVerifyResponse = {
   success: boolean;
   "error-codes"?: string[];
+  hostname?: string;
+  action?: string;
+  cdata?: string;
 };
 
 const TURNSTILE_VERIFY_URL =
@@ -70,25 +73,6 @@ function normalizeEmail(email?: string) {
 
 function normalizePhone(phone?: string) {
   return (phone || "").replace(/[^\d+]/g, "").trim();
-}
-
-function getClientIp(event: any) {
-  const cfIp = event.node.req.headers["cf-connecting-ip"];
-  if (typeof cfIp === "string" && cfIp.trim()) {
-    return cfIp.trim();
-  }
-
-  const forwardedFor = event.node.req.headers["x-forwarded-for"];
-  if (typeof forwardedFor === "string" && forwardedFor.trim()) {
-    return forwardedFor.split(",")[0].trim();
-  }
-
-  const realIp = event.node.req.headers["x-real-ip"];
-  if (typeof realIp === "string" && realIp.trim()) {
-    return realIp.trim();
-  }
-
-  return event.node.req.socket?.remoteAddress || "unknown";
 }
 
 function checkRateLimit(
@@ -192,6 +176,9 @@ async function verifyTurnstileToken(params: {
   secret: string;
   token: string;
   ip: string;
+  expectedHostname?: string;
+  expectedAction: string;
+  expectedCdata: string;
 }) {
   const response = await $fetch<TurnstileVerifyResponse>(TURNSTILE_VERIFY_URL, {
     method: "POST",
@@ -206,48 +193,23 @@ async function verifyTurnstileToken(params: {
     console.error("Turnstile failed:", response["error-codes"]);
     throw badRequest("Turnstile verification failed");
   }
-}
 
-function buildLeadText(data: {
-  full_name: string;
-  email: string;
-  phone?: string;
-  apartmentType?: string;
-  clientType?: string;
-  ip: string;
-  userAgent: string;
-  riskScore?: number;
-  riskReasons?: string[];
-  quarantined?: boolean;
-  templateFingerprint?: string;
-}) {
-  return [
-    `Full Name: ${data.full_name}`,
-    `Email: ${data.email}`,
-    `Phone: ${data.phone || ""}`,
-    `Apartment type: ${data.apartmentType || ""}`,
-    `Client type: ${data.clientType || ""}`,
-    `IP: ${data.ip}`,
-    `User-Agent: ${data.userAgent || ""}`,
-    `Template fingerprint: ${data.templateFingerprint || ""}`,
-    `Risk score: ${data.riskScore ?? 0}`,
-    `Risk reasons: ${(data.riskReasons || []).join(", ")}`,
-    `Quarantined: ${data.quarantined ? "yes" : "no"}`,
-  ].join("\n");
-}
+  // if (
+  //   params.expectedHostname &&
+  //   response.hostname !== params.expectedHostname
+  // ) {
+  //   throw badRequest("Turnstile hostname mismatch");
+  // }
 
-async function sendEmail(params: {
-  resend: Resend;
-  to: string[];
-  subject: string;
-  text: string;
-}) {
-  await params.resend.emails.send({
-    from: "iconic@resend.dev",
-    to: params.to,
-    subject: params.subject,
-    text: params.text,
-  });
+  if (response.action !== params.expectedAction) {
+    throw badRequest("Turnstile action mismatch");
+  }
+
+  if (response.cdata !== params.expectedCdata) {
+    throw badRequest("Turnstile cdata mismatch");
+  }
+
+  return response;
 }
 
 async function saveToDB(data: any) {
@@ -277,7 +239,8 @@ export default defineEventHandler(async (event) => {
 
   await connectMongo();
 
-  const ip = getClientIp(event);
+  //const ip = getClientIp(event);
+  const ip = getRequestIP(event, { xForwardedFor: true }) || "unknown";
   const userAgent = String(event.node.req.headers["user-agent"] || "");
 
   const email = normalizeEmail(body.email);
@@ -308,11 +271,16 @@ export default defineEventHandler(async (event) => {
     );
   }
 
-  await verifyTurnstileToken({
+  const verifyToken = await verifyTurnstileToken({
     secret: turnstileSecretKey,
     token: body.turnstileToken!,
     ip,
+    expectedHostname: "iconic-residences.mered.ae",
+    expectedAction: "lead_form",
+    expectedCdata: body.formSessionId!,
   });
+
+  console.log('verifyToken ', verifyToken)
 
   const features = extractLeadFeatures({
     full_name: body.full_name,
@@ -344,6 +312,8 @@ export default defineEventHandler(async (event) => {
     velocity,
   });
 
+  console.log("buildTotalScore total ", total);
+
   const leadDoc = {
     createdAt: new Date(),
     source: "landing_form",
@@ -374,19 +344,19 @@ export default defineEventHandler(async (event) => {
     },
   };
 
-  const messageText = buildLeadText({
-    full_name: body.full_name!,
-    email: body.email!,
-    phone: body.phone,
-    apartmentType: body.apartmentType,
-    clientType: body.clientType,
-    ip,
-    userAgent,
-    riskScore: total.totalScore,
-    riskReasons: total.reasons,
-    quarantined: total.status === "quarantine",
-    templateFingerprint,
-  });
+  // const messageText = buildLeadText({
+  //   full_name: body.full_name!,
+  //   email: body.email!,
+  //   phone: body.phone,
+  //   apartmentType: body.apartmentType,
+  //   clientType: body.clientType,
+  //   ip,
+  //   userAgent,
+  //   riskScore: total.totalScore,
+  //   riskReasons: total.reasons,
+  //   quarantined: total.status === "quarantine",
+  //   templateFingerprint,
+  // });
 
   const session = await validateFormSession({
     sessionId: body.formSessionId,
