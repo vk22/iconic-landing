@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-let isConnecting = false;
+let connectPromise: Promise<typeof mongoose> | null = null;
 
 export async function connectMongo() {
   const config = useRuntimeConfig();
@@ -13,16 +13,22 @@ export async function connectMongo() {
     return mongoose.connection;
   }
 
-  if (isConnecting) {
+  if (connectPromise) {
+    await connectPromise;
     return mongoose.connection;
   }
 
-  isConnecting = true;
+  connectPromise = mongoose.connect(config.mongoUrl);
 
   try {
-    await mongoose.connect(config.mongoUrl);
+    await connectPromise;
     return mongoose.connection;
+  } catch (error) {
+    connectPromise = null;
+    throw error;
   } finally {
-    isConnecting = false;
+    if (mongoose.connection.readyState === 1) {
+      connectPromise = null;
+    }
   }
 }
