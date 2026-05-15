@@ -82,6 +82,10 @@ export default defineNuxtConfig({
     mode: process.env.MODE,
     mongoUrl: process.env.MONGO_URL,
     turnstileSecretKey: process.env.TURNSTILE_SECRET_KEY,
+    adminApiToken: process.env.ADMIN_API_TOKEN,
+    adminUsername: process.env.ADMIN_USERNAME,
+    adminPassword: process.env.ADMIN_PASSWORD,
+    adminSessionSecret: process.env.ADMIN_SESSION_SECRET,
     public: {
       turnstileSiteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY,
     },
