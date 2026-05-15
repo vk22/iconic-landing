@@ -142,6 +142,8 @@ async function verifyTurnstileToken(params: {
     }),
   });
 
+  console.log('response ', response)
+
   if (!response.success) {
     console.error("Turnstile failed:", response["error-codes"]);
     throw badRequest("Turnstile verification failed");
