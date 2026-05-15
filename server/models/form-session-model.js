@@ -15,7 +15,6 @@ const FormSessionSchema = new mongoose.Schema(
     expiresAt: {
       type: Date,
       required: true,
-      index: true,
     },
     isUsed: {
       type: Boolean,
