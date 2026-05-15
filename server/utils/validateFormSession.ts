@@ -13,6 +13,8 @@ type SessionValidationResult = {
   riskReasons: string[];
 };
 
+const MIN_FORM_FILL_TIME_MS = 2000;
+
 function badRequest(statusMessage: string) {
   return createError({
     statusCode: 400,
@@ -22,6 +24,10 @@ function badRequest(statusMessage: string) {
 
 function normalizeUa(ua?: string) {
   return (ua || "").trim();
+}
+
+function isDynamicHoneypotKey(key: string) {
+  return /^address_[a-f0-9]+$/i.test(key);
 }
 
 function isSameIp(a?: string, b?: string) {
@@ -73,7 +79,28 @@ export async function validateFormSession(params: {
     throw badRequest("Form session expired");
   }
 
-  for (const hp of session.honeypots || []) {
+  if (
+    session.createdAt &&
+    Date.now() - new Date(session.createdAt).getTime() < MIN_FORM_FILL_TIME_MS
+  ) {
+    throw badRequest("Suspicious request");
+  }
+
+  const honeypots = Array.isArray(session.honeypots) ? session.honeypots : [];
+
+  if (honeypots.length === 0) {
+    throw badRequest("Form session honeypots are missing");
+  }
+
+  const unexpectedHoneypots = Object.keys(params.body).filter((key) => {
+    return isDynamicHoneypotKey(key) && !honeypots.includes(key);
+  });
+
+  if (unexpectedHoneypots.length > 0) {
+    throw badRequest("Unexpected honeypot fields");
+  }
+
+  for (const hp of honeypots) {
     if (params.body[hp]) {
       throw badRequest("Bot detected");
     }
@@ -82,14 +109,22 @@ export async function validateFormSession(params: {
   let riskScoreDelta = 0;
   const riskReasons: string[] = [];
 
-  if (!isSameIp(session.issuedIp, params.currentIp)) {
+  const issuedIp = session.meta?.ip;
+  const issuedUserAgent = session.meta?.userAgent;
+
+  if (issuedIp && !isSameIp(issuedIp, params.currentIp)) {
     riskScoreDelta += 1;
     riskReasons.push("session_ip_mismatch");
+    throw badRequest("Form session client mismatch");
   }
 
-  if (!isSimilarUa(session.issuedUserAgent, params.currentUserAgent)) {
+  if (
+    issuedUserAgent &&
+    !isSimilarUa(issuedUserAgent, params.currentUserAgent)
+  ) {
     riskScoreDelta += 2;
     riskReasons.push("session_user_agent_mismatch");
+    throw badRequest("Form session client mismatch");
   }
 
   return {

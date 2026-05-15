@@ -223,9 +223,8 @@ const isValidPhone = ref(false);
 const showPhoneError = ref(false);
 
 const formSessionId = ref("");
-// const honeypots = ref<string[]>([]);
+const honeypots = ref<string[]>([]);
 const turnstileToken = ref("");
-const formStartedAt = ref(Date.now());
 const widgetId = ref<string | null>(null);
 let turnstileInterval: ReturnType<typeof setInterval> | null = null;
 
@@ -253,15 +252,14 @@ async function initFormSession() {
   const res = await $fetch("/api/form-session");
 
   formSessionId.value = res.sessionId;
-  // honeypots.value = res.honeypots;
+  honeypots.value = res.honeypots;
 
-  // for (const hp of honeypots.value) {
-  //   form[hp] = "";
-  // }
+  for (const hp of honeypots.value) {
+    form[hp] = "";
+  }
 
   turnstileToken.value = "";
   widgetId.value = null;
-  formStartedAt.value = Date.now();
 }
 
 const setIfValidPhone = (data: { valid: boolean }) => {
@@ -272,13 +270,12 @@ const setIfValidPhone = (data: { valid: boolean }) => {
 const resetForm = () => {
   Object.assign(form, getDefaultForm());
 
-  // for (const hp of honeypots.value) {
-  //   form[hp] = "";
-  // }
+  for (const hp of honeypots.value) {
+    form[hp] = "";
+  }
 
   isValidPhone.value = false;
   showPhoneError.value = false;
-  formStartedAt.value = Date.now();
 };
 
 const resetTurnstile = () => {
@@ -413,7 +410,6 @@ const onSubmit = async () => {
         ...form,
         formSessionId: formSessionId.value,
         turnstileToken: turnstileToken.value,
-        formStartedAt: formStartedAt.value,
       },
     });
 
@@ -421,7 +417,7 @@ const onSubmit = async () => {
       throw error.value;
     }
 
-    //gtmPush();
+    gtmPush();
     showSuccess();
     resetTurnstile();
     resetForm();

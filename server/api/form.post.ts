@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { connectMongo } from "../utils/mongodb";
 import { LeadsRaw } from "../models/leads_raw-model";
 import { FormSession } from "../models/form-session-model";
+import { validateFormSession } from "../utils/validateFormSession";
 import {
   extractLeadFeatures,
   buildTemplateFingerprint,
@@ -20,7 +21,6 @@ type FormBody = {
   clientType?: string;
   turnstileToken?: string;
   company?: string;
-  formStartedAt?: number | string;
   formSessionId?: string;
   [key: string]: any;
 };
@@ -44,7 +44,6 @@ const TURNSTILE_VERIFY_URL =
 const rateStore = new Map<string, RateEntry>();
 
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-const MIN_FORM_FILL_TIME_MS = 2000;
 
 function badRequest(statusMessage: string) {
   return createError({
@@ -117,19 +116,6 @@ function validateBody(body: FormBody) {
     throw badRequest("Bot detected");
   }
 
-  if (!body.formStartedAt) {
-    throw badRequest("Suspicious request");
-  }
-
-  const formStartedAt = Number(body.formStartedAt);
-  if (!Number.isFinite(formStartedAt)) {
-    throw badRequest("Suspicious request");
-  }
-
-  if (Date.now() - formStartedAt < MIN_FORM_FILL_TIME_MS) {
-    throw badRequest("Suspicious request");
-  }
-
   if (!body.full_name || !body.email) {
     throw badRequest("Full Name and Email address are required.");
   }
@@ -137,39 +123,6 @@ function validateBody(body: FormBody) {
   if (!body.turnstileToken) {
     throw badRequest("Turnstile token is required.");
   }
-}
-
-async function validateFormSession(params: {
-  sessionId?: string;
-  body: FormBody;
-}) {
-  if (!params.sessionId) {
-    throw badRequest("Form session is required");
-  }
-
-  const session = await FormSession.findOne({
-    sessionId: params.sessionId,
-  });
-
-  if (!session) {
-    throw badRequest("Invalid form session");
-  }
-
-  if (session.isUsed) {
-    throw badRequest("Form session already used");
-  }
-
-  if (session.expiresAt && session.expiresAt.getTime() < Date.now()) {
-    throw badRequest("Form session expired");
-  }
-
-  for (const hp of session.honeypots || []) {
-    if (params.body[hp]) {
-      throw badRequest("Bot detected");
-    }
-  }
-
-  return session;
 }
 
 async function verifyTurnstileToken(params: {
@@ -193,13 +146,15 @@ async function verifyTurnstileToken(params: {
     console.error("Turnstile failed:", response["error-codes"]);
     throw badRequest("Turnstile verification failed");
   }
+  const isDev = process.env.NODE_ENV !== "production";
 
-  // if (
-  //   params.expectedHostname &&
-  //   response.hostname !== params.expectedHostname
-  // ) {
-  //   throw badRequest("Turnstile hostname mismatch");
-  // }
+  if (
+    !isDev &&
+    params.expectedHostname &&
+    response.hostname !== params.expectedHostname
+  ) {
+    throw badRequest("Turnstile hostname mismatch");
+  }
 
   if (response.action !== params.expectedAction) {
     throw badRequest("Turnstile action mismatch");
@@ -214,6 +169,25 @@ async function verifyTurnstileToken(params: {
 
 async function saveToDB(data: any) {
   return await LeadsRaw.create(data);
+}
+
+async function consumeFormSession(sessionId: string) {
+  return await FormSession.findOneAndUpdate(
+    {
+      sessionId,
+      isUsed: false,
+      expiresAt: { $gt: new Date() },
+    },
+    {
+      $set: {
+        isUsed: true,
+        usedAt: new Date(),
+      },
+    },
+    {
+      new: true,
+    },
+  );
 }
 
 export default defineEventHandler(async (event) => {
@@ -358,23 +332,26 @@ export default defineEventHandler(async (event) => {
   //   templateFingerprint,
   // });
 
-  const session = await validateFormSession({
+  const { session } = await validateFormSession({
     sessionId: body.formSessionId,
     body,
+    currentIp: ip,
+    currentUserAgent: userAgent,
   });
 
-  try {
-    const savedLead = await saveToDB(leadDoc);
+  console.log("session ", session);
 
-    await FormSession.updateOne(
-      { _id: session._id },
-      {
-        $set: {
-          isUsed: true,
-          usedAt: new Date(),
-        },
-      },
-    );
+  let sessionConsumed = false;
+  try {
+    const consumedSession = await consumeFormSession(body.formSessionId!);
+
+    if (!consumedSession) {
+      throw badRequest("Form session already used");
+    }
+
+    sessionConsumed = true;
+
+    const savedLead = await saveToDB(leadDoc);
 
     if (total.status === "quarantine") {
       // await sendEmail({
@@ -406,7 +383,28 @@ export default defineEventHandler(async (event) => {
       leadId: savedLead._id,
     };
   } catch (error) {
+    if ((error as any)?.statusCode && !sessionConsumed) {
+      throw error;
+    }
+
+    if (sessionConsumed) {
+      await FormSession.updateOne(
+        { _id: session._id },
+        {
+          $set: {
+            isUsed: false,
+            usedAt: null,
+          },
+        },
+      );
+    }
+
     console.error("Error sending email:", error);
-    throw internalServerError("Error sending email");
+
+    if ((error as any)?.statusCode) {
+      throw error;
+    }
+
+    // throw internalServerError("Error sending email");
   }
 });
