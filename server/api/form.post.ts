@@ -129,7 +129,7 @@ async function verifyTurnstileToken(params: {
   secret: string;
   token: string;
   ip: string;
-  expectedHostname?: string;
+  expectedHostnames?: string[];
   expectedAction: string;
   expectedCdata: string;
 }) {
@@ -149,11 +149,12 @@ async function verifyTurnstileToken(params: {
     throw badRequest("Turnstile verification failed");
   }
   const isDev = process.env.NODE_ENV !== "production";
+  const allowedHostnames = (params.expectedHostnames || []).filter(Boolean);
 
   if (
     !isDev &&
-    params.expectedHostname &&
-    response.hostname !== params.expectedHostname
+    allowedHostnames.length > 0 &&
+    !allowedHostnames.includes(response.hostname || "")
   ) {
     throw badRequest("Turnstile hostname mismatch");
   }
@@ -193,6 +194,7 @@ async function consumeFormSession(sessionId: string) {
 }
 
 export default defineEventHandler(async (event) => {
+  
   const config = useRuntimeConfig(event);
 
   const resendApiKey = config.resendApiKey || process.env.RESEND_API_KEY;
@@ -206,16 +208,13 @@ export default defineEventHandler(async (event) => {
     throw internalServerError("TURNSTILE_SECRET_KEY is not configured");
   }
 
-  //const resend = new Resend(resendApiKey);
   const body = await readBody<FormBody>(event);
 
   console.log("body ", body);
-
   validateBody(body);
 
   await connectMongo();
 
-  //const ip = getClientIp(event);
   const ip = getRequestIP(event, { xForwardedFor: true }) || "unknown";
   const userAgent = String(event.node.req.headers["user-agent"] || "");
 
@@ -251,7 +250,10 @@ export default defineEventHandler(async (event) => {
     secret: turnstileSecretKey,
     token: body.turnstileToken!,
     ip,
-    expectedHostname: "iconic-residences.mered.ae",
+    expectedHostnames: [
+      "iconic-residences.mered.ae",
+      "iconic-landing.vercel.app",
+    ],
     expectedAction: "lead_form",
     expectedCdata: body.formSessionId!,
   });
@@ -320,20 +322,6 @@ export default defineEventHandler(async (event) => {
     },
   };
 
-  // const messageText = buildLeadText({
-  //   full_name: body.full_name!,
-  //   email: body.email!,
-  //   phone: body.phone,
-  //   apartmentType: body.apartmentType,
-  //   clientType: body.clientType,
-  //   ip,
-  //   userAgent,
-  //   riskScore: total.totalScore,
-  //   riskReasons: total.reasons,
-  //   quarantined: total.status === "quarantine",
-  //   templateFingerprint,
-  // });
-
   const { session } = await validateFormSession({
     sessionId: body.formSessionId,
     body,
@@ -342,6 +330,8 @@ export default defineEventHandler(async (event) => {
   });
 
   console.log("session ", session);
+
+
 
   let sessionConsumed = false;
   try {
@@ -356,13 +346,6 @@ export default defineEventHandler(async (event) => {
     const savedLead = await saveToDB(leadDoc);
 
     if (total.status === "quarantine") {
-      // await sendEmail({
-      //   resend,
-      //   to: ["v.kushnir22@gmail.com"],
-      //   subject: "[QUARANTINE] Iconic New Interest",
-      //   text: messageText,
-      // });
-
       return {
         success: true,
         quarantined: true,
@@ -370,13 +353,6 @@ export default defineEventHandler(async (event) => {
         leadId: savedLead._id,
       };
     }
-
-    // await sendEmail({
-    //   resend,
-    //   to: ["v.kushnir22@gmail.com"],
-    //   subject: "Iconic New Interest",
-    //   text: messageText,
-    // });
 
     return {
       success: true,
@@ -401,12 +377,11 @@ export default defineEventHandler(async (event) => {
       );
     }
 
-    console.error("Error sending email:", error);
+    console.error("Error ", error);
 
     if ((error as any)?.statusCode) {
       throw error;
     }
 
-    // throw internalServerError("Error sending email");
   }
 });
