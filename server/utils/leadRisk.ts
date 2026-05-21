@@ -36,6 +36,7 @@ export type ClusterScoreResult = {
     gmailCount: number;
     cyrOneWordCount: number;
     localPatternCount: number;
+    samePhonePrefixCount: number;
   };
 };
 
@@ -127,37 +128,51 @@ export function buildTemplateFingerprint(features: LeadFeatures) {
 export function getSingleLeadScore(features: LeadFeatures): SingleLeadScoreResult {
   let score = 0;
   const reasons: string[] = [];
+  const isSingleCyrillicName =
+    features.nameScript === "cyrl" && features.nameWordCount === 1;
+  const isBotLikeEmailPattern =
+    features.emailLocalPattern === "letters_only" ||
+    features.emailLocalPattern === "letters_digits" ||
+    features.emailLocalPattern === "nickname_like";
+  const isUaeMobilePattern =
+    features.phoneCountry === "971" &&
+    ["50", "54", "55", "56", "58"].includes(features.phonePrefix);
 
-  if (features.nameScript === "cyrl" && features.nameWordCount === 1) {
+  if (isSingleCyrillicName) {
     score += 1;
     reasons.push("single_cyrillic_first_name");
   }
 
   if (features.emailDomain === "gmail.com") {
-    score += 1;
     reasons.push("gmail_domain");
   }
 
-  if (
-    features.emailLocalPattern === "letters_only" ||
-    features.emailLocalPattern === "letters_digits" ||
-    features.emailLocalPattern === "nickname_like"
-  ) {
-    score += 1;
+  if (isBotLikeEmailPattern) {
+    score += 0.5;
     reasons.push("nickname_like_email");
   }
 
-  if (
-    features.phoneCountry === "971" &&
-    ["50", "54", "55", "56", "58"].includes(features.phonePrefix)
-  ) {
-    score += 1;
+  if (isUaeMobilePattern) {
     reasons.push("uae_mobile_pattern");
   }
 
-  if (features.clientType === "client") {
+  if (
+    isSingleCyrillicName &&
+    features.emailDomain === "gmail.com" &&
+    isBotLikeEmailPattern
+  ) {
+    score += 1.5;
+    reasons.push("cyrillic_gmail_pattern_combo");
+  }
+
+  if (
+    isSingleCyrillicName &&
+    features.emailDomain === "gmail.com" &&
+    isBotLikeEmailPattern &&
+    isUaeMobilePattern
+  ) {
     score += 0.5;
-    reasons.push("default_client_type");
+    reasons.push("cyrillic_gmail_uae_mobile_combo");
   }
 
   return { score, reasons };
@@ -192,6 +207,7 @@ export async function getClusterScore(params: {
     cyrOneWordCount,
     localPatternCount,
     samePhoneCountryCount,
+    samePhonePrefixCount,
   ] = await Promise.all([
     LeadsRaw.countDocuments({
       createdAt: { $gte: since },
@@ -213,12 +229,22 @@ export async function getClusterScore(params: {
       createdAt: { $gte: since },
       "features.phoneCountry": features.phoneCountry,
     }),
+    LeadsRaw.countDocuments({
+      createdAt: { $gte: since },
+      "features.phoneCountry": features.phoneCountry,
+      "features.phonePrefix": features.phonePrefix,
+    }),
   ]);
 
   let score = 0;
   const reasons: string[] = [];
 
   // 1. Самый сильный сигнал — одинаковый templateFingerprint
+  if (templateCount >= 2) {
+    score += 1.5;
+    reasons.push("template_cluster_2_plus");
+  }
+
   if (templateCount >= 3) {
     score += 2;
     reasons.push("template_cluster_3_plus");
@@ -244,22 +270,36 @@ export async function getClusterScore(params: {
     features.nameScript === "cyrl" &&
     features.nameWordCount === 1 &&
     isBotLikeEmailPattern &&
-    cyrOneWordCount >= 10
+    cyrOneWordCount >= 5
   ) {
-    score += 2;
+    score += 1.5;
     reasons.push("cyrillic_single_name_cluster");
   }
 
   // 3. Повторяемость ботоподобного email pattern
-  if (isBotLikeEmailPattern && localPatternCount >= 10) {
-    score += 2;
+  if (isBotLikeEmailPattern && localPatternCount >= 5) {
+    score += 1.5;
     reasons.push("email_pattern_cluster_high");
   }
 
   // 4. Повторяемость phone country только для UAE-потока
-  if (features.phoneCountry === "971" && samePhoneCountryCount >= 10) {
-    score += 1;
+  if (
+    features.phoneCountry === "971" &&
+    isBotLikeEmailPattern &&
+    samePhoneCountryCount >= 5
+  ) {
+    score += 0.5;
     reasons.push("uae_phone_country_cluster");
+  }
+
+  if (
+    features.phoneCountry === "971" &&
+    features.phonePrefix &&
+    isBotLikeEmailPattern &&
+    samePhonePrefixCount >= 3
+  ) {
+    score += 1.5;
+    reasons.push("uae_phone_prefix_cluster");
   }
 
   return {
@@ -271,6 +311,7 @@ export async function getClusterScore(params: {
       gmailCount: 0,
       cyrOneWordCount,
       localPatternCount,
+      samePhonePrefixCount,
     },
   };
 }
@@ -289,13 +330,18 @@ export async function getVelocityScore(params: {
   let score = 0;
   const reasons: string[] = [];
 
+  if (recentCount >= 5) {
+    score += 1.5;
+    reasons.push("velocity_5_per_hour");
+  }
+
   if (recentCount >= 10) {
-    score += 2;
+    score += 2.5;
     reasons.push("velocity_10_per_hour");
   }
 
   if (recentCount >= 25) {
-    score += 3;
+    score += 3.5;
     reasons.push("velocity_25_per_hour");
   }
 
@@ -331,7 +377,7 @@ export function buildTotalScore(params: {
 
   let status: "normal" | "suspicious" | "quarantine" = "normal";
 
-  if (totalScore >= 7) {
+  if (totalScore >= 6.5) {
     status = "quarantine";
   } else if (totalScore >= 4) {
     status = "suspicious";

@@ -348,7 +348,7 @@ export default defineEventHandler(async (event) => {
 
     if (total.status === "quarantine") {
       return {
-        success: true,
+        success: false,
         quarantined: true,
         score: total.totalScore,
         leadId: savedLead._id,
