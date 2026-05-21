@@ -253,6 +253,7 @@ export default defineEventHandler(async (event) => {
     expectedHostnames: [
       "iconic-residences.mered.ae",
       "iconic-landing.vercel.app",
+      "iconic-landing-mered.vercel.app"
     ],
     expectedAction: "lead_form",
     expectedCdata: body.formSessionId!,
