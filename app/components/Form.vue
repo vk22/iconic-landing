@@ -313,6 +313,16 @@ const showError = () => {
   
 };
 
+const showReview = () => {
+  setResult({
+    success: false,
+    title: "Thank you",
+    message: "Your request has been received and is under review.",
+  });
+  setPopupMode(true);
+  setSuccessMode(true);
+};
+
 const gtmPush = () => {
   if (props.mode === "default") {
     $gtmPush({
@@ -404,7 +414,7 @@ const onSubmit = async () => {
       throw new Error("Turnstile token is missing");
     }
 
-    const { error } = await useFetch("/api/form", {
+    const { data, error } = await useFetch("/api/form", {
       method: "POST",
       body: {
         ...form,
@@ -415,6 +425,18 @@ const onSubmit = async () => {
 
     if (error.value) {
       throw error.value;
+    }
+
+    if (data.value?.quarantined) {
+      showReview();
+      resetTurnstile();
+      resetForm();
+      await initFormSession();
+      return;
+    }
+
+    if (!data.value?.success) {
+      throw new Error("Lead submission failed");
     }
 
     gtmPush();

@@ -40,8 +40,10 @@
                 <th class="px-4 py-4">Phone</th>
                 <th class="px-4 py-4">Apartment</th>
                 <th class="px-4 py-4">Client Type</th>
+                <th class="px-4 py-4">IP</th>
                 <th class="px-4 py-4">Status</th>
                 <th class="px-4 py-4">Score</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -56,6 +58,7 @@
                 <td class="px-4 py-4">{{ lead.phone || "-" }}</td>
                 <td class="px-4 py-4">{{ lead.apartmentType || "-" }}</td>
                 <td class="px-4 py-4">{{ lead.clientType || "-" }}</td>
+                <td class="px-4 py-4">{{ lead.ip || "-" }}</td>
                 <td class="px-4 py-4">
                   <span
                     class="rounded-full px-3 py-1 text-[.6rem] uppercase tracking-[0.12em]"
@@ -65,6 +68,7 @@
                   </span>
                 </td>
                 <td class="px-4 py-4">{{ lead.scoring?.totalScore ?? "-" }}</td>
+                
               </tr>
               <tr v-if="items.length === 0">
                 <td colspan="8" class="px-4 py-10 text-center text-sm text-[#7a7468]">
@@ -98,6 +102,7 @@ type LeadItem = {
     status?: string;
     totalScore?: number;
   };
+  ip?: string;
 };
 
 type LeadsResponse = {
