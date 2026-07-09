@@ -41,7 +41,7 @@ const route = useRoute()
 const { locales } = useI18n()
 const switchLocalePath = useSwitchLocalePath()
 
-// 🔑 текущий язык ТОЛЬКО из URL
+// текущий язык ТОЛЬКО из URL
 const routeLocale = computed(() => {
   const firstSegment = route.path.split('/')[1]
   const known = locales.value.map(l => l.code)
